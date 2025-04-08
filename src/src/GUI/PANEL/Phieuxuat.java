@@ -9,7 +9,7 @@ public class Phieuxuat extends JPanel {
     public Phieuxuat() {
         setTitle("Quản Lý Phiếu Xuất");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1100, 650);
+        setSize(1200, 700);
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
