@@ -4,7 +4,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.URL;
 
-public class Nhacungcap extends JFrame {
+public class Nhacungcap extends JPanel {
 
     public Nhacungcap() {
         setTitle("Quản Lý Nhà Cung Cấp");
