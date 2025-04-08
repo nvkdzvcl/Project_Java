@@ -19,10 +19,10 @@ public class KhuVuc extends JPanel {
     private static final Color HEADER_BACKGROUND = new Color(228, 241, 254);
     private static final Color BUTTON_COLOR = new Color(245, 245, 245);
     private static final Color BORDER_COLOR = new Color(210, 220, 230);
-    private static final Font FONT_GENERAL = new Font("Arial", Font.PLAIN, 13);
-    private static final Font FONT_BOLD = new Font("Arial", Font.BOLD, 13);
-    private static final Font FONT_TITLE = new Font("Arial", Font.BOLD, 14);
-    private static final Font FONT_BUTTON = new Font("Arial", Font.BOLD, 11);
+    //private static final Font FONT_GENERAL = new Font("Arial", Font.PLAIN, 13);
+    //private static final Font FONT_BOLD = new Font("Arial", Font.BOLD, 13);
+    //private static final Font FONT_TITLE = new Font("Arial", Font.BOLD, 14);
+    //private static final Font FONT_BUTTON = new Font("Arial", Font.BOLD, 11);
 
     public KhuVuc() {
         initComponents();
@@ -76,17 +76,17 @@ public class KhuVuc extends JPanel {
         searchPanel.setOpaque(false);
 
         JComboBox<String> searchCategory = new JComboBox<>(new String[]{"Tất cả", "Mã kho", "Tên khu vực"});
-        searchCategory.setFont(FONT_GENERAL);
+        //searchCategory.setFont(FONT_GENERAL);
         searchCategory.setFocusable(false);
 
         JTextField searchField = new JTextField(20); // Độ rộng gợi ý 20 ký tự
-        searchField.setFont(FONT_GENERAL);
+        //searchField.setFont(FONT_GENERAL);
         searchField.setFocusable(false);
         // Placeholder text (cần custom hoặc dùng thư viện hỗ trợ)
         //searchField.putClientProperty("JTextField.placeholderText", "Nhập nội dung tìm kiếm...");
 
         JButton refreshButton = new JButton("Làm mới");
-        refreshButton.setFont(FONT_GENERAL);
+        //refreshButton.setFont(FONT_GENERAL);
         refreshButton.setFocusable(false);
         // refreshButton.setIcon(new ImageIcon(getClass().getResource("/path/to/refresh_icon.png"))); // Thêm icon
         refreshButton.addActionListener(e -> loadInitialData()); // Action làm mới
@@ -103,7 +103,7 @@ public class KhuVuc extends JPanel {
 
     private JButton createActionButton(String text, String iconPath) {
         JButton button = new JButton(text);
-        button.setFont(FONT_BUTTON);
+       // button.setFont(FONT_BUTTON);
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         button.setBackground(BUTTON_COLOR);
@@ -151,7 +151,7 @@ public class KhuVuc extends JPanel {
             }
         };
         warehouseTable = new JTable(tableModel);
-        warehouseTable.setFont(FONT_GENERAL);
+        //warehouseTable.setFont(FONT_GENERAL);
         warehouseTable.setRowHeight(28); // Chiều cao hàng
         warehouseTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Chỉ chọn 1 hàng
         warehouseTable.setGridColor(new Color(220, 220, 220)); // Màu đường kẻ
@@ -160,7 +160,7 @@ public class KhuVuc extends JPanel {
 
         // Tùy chỉnh Header của bảng
         JTableHeader header = warehouseTable.getTableHeader();
-        header.setFont(FONT_BOLD);
+        //header.setFont(FONT_BOLD);
         header.setBackground(HEADER_BACKGROUND);
         header.setForeground(Color.BLACK);
         header.setReorderingAllowed(false); // Không cho kéo thả cột
@@ -179,7 +179,7 @@ public class KhuVuc extends JPanel {
 
         // Tiêu đề
         productListTitle = new JLabel("Chọn một khu vực để xem sản phẩm");
-        productListTitle.setFont(FONT_TITLE);
+        //productListTitle.setFont(FONT_TITLE);
         productListTitle.setBorder(new EmptyBorder(5, 5, 5, 5));
         rightPanel.add(productListTitle, BorderLayout.NORTH);
 
@@ -245,7 +245,7 @@ public class KhuVuc extends JPanel {
 
         if (products.isEmpty()) {
             JLabel emptyLabel = new JLabel("Không có sản phẩm nào trong khu vực này.");
-            emptyLabel.setFont(FONT_GENERAL);
+            //emptyLabel.setFont(FONT_GENERAL);
             emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             productListPanel.add(emptyLabel);
         } else {
@@ -324,7 +324,7 @@ public class KhuVuc extends JPanel {
             // imageLabel.setIcon(new ImageIcon(scaledImg));
             // Placeholder:
             imageLabel.setText("IMG");
-            imageLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+            //imageLabel.setFont(new Font("Arial", Font.PLAIN, 10));
             imageLabel.setOpaque(true);
             imageLabel.setBackground(Color.LIGHT_GRAY);
         } catch (Exception e) {
@@ -339,11 +339,11 @@ public class KhuVuc extends JPanel {
         textPanel.setOpaque(false); // Nền trong suốt
 
         JLabel nameLabel = new JLabel(product.name);
-        nameLabel.setFont(FONT_BOLD);
+        //nameLabel.setFont(FONT_BOLD);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel quantityLabel = new JLabel("Số lượng: " + product.quantity);
-        quantityLabel.setFont(FONT_GENERAL);
+        //quantityLabel.setFont(FONT_GENERAL);
         quantityLabel.setForeground(Color.DARK_GRAY);
         quantityLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
