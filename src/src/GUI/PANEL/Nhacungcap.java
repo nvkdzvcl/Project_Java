@@ -9,7 +9,7 @@ public class Nhacungcap extends JPanel {
     public Nhacungcap() {
         setTitle("Quản Lý Nhà Cung Cấp");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 500);
+        setSize(1200, 700);
         setLocationRelativeTo(null);
 
         // --- Panel chính chứa toàn bộ giao diện ---
