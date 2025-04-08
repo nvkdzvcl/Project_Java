@@ -35,9 +35,9 @@ public class Nhacungcap extends JFrame {
         ImageIcon editIcon = loadIcon("/icons/sua.png");
         ImageIcon deleteIcon = loadIcon("/icons/xoa.png");
         ImageIcon detailIcon = loadIcon("/icons/chitiet.png");
-        ImageIcon importIcon = loadIcon("/icons/import.png");
-        ImageIcon exportIcon = loadIcon("/icons/export.png");
-        ImageIcon refreshIcon = loadIcon("/icons/refresh.png");
+        ImageIcon importIcon = loadIcon("/icons/nhapexcel.png");
+        ImageIcon exportIcon = loadIcon("/icons/xuatexcel.png");
+        ImageIcon refreshIcon = loadIcon("/icons/lammoi.png");
 
         // --- Tạo các nút chức năng ---
         JButton btnThem = createIconButton("THÊM", addIcon);
