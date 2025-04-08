@@ -4,7 +4,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.URL;
 
-public class Phieunhap extends JFrame {
+public class Phieunhap extends JPanel {
 
     public Phieunhap() {
         setTitle("Quản Lý Phiếu Nhập");
