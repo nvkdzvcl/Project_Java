@@ -1,17 +1,14 @@
 package GUI.PANEL;
 
-import GUI.Main;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 
 
 
-public class nhanvien extends JPanel {
-    public  nhanvien(){
+public class NhanVien extends JPanel {
+    public NhanVien(){
 
         setLayout(new BorderLayout(10, 10));
         JPanel P=new JPanel(new BorderLayout());

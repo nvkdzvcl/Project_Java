@@ -1,5 +1,7 @@
 package GUI;
 
+import GUI.PANEL.KhachHang;
+
 import javax.swing.*;
 import java.awt.*;
 

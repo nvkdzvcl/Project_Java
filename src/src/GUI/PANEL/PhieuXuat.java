@@ -1,17 +1,13 @@
 package GUI.PANEL;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.URL;
 
-public class Phieuxuat extends JPanel {
+public class PhieuXuat extends JPanel {
 
-    public Phieuxuat() {
-        setTitle("Quản Lý Phiếu Xuất");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 700);
-        setLocationRelativeTo(null);
-
+    public PhieuXuat() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -21,9 +17,8 @@ public class Phieuxuat extends JPanel {
         JPanel leftPanel = createLeftFilterPanel();
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
-        // Bỏ phần centerPanel chứa bảng dữ liệu
-
-        add(mainPanel);
+        setLayout(new BorderLayout());
+        add(mainPanel, BorderLayout.CENTER);
     }
 
     private JPanel createTopPanel() {
@@ -47,15 +42,14 @@ public class Phieuxuat extends JPanel {
 
         topPanel.add(Box.createHorizontalGlue());
 
-        String[] searchOptions = {"Tất cả", "Mã Phiếu", "Khách hàng","Nhân viên xuất"};
+        String[] searchOptions = {"Tất cả", "Mã Phiếu", "Khách hàng", "Nhân viên xuất"};
         JComboBox<String> cbSearchType = new JComboBox<>(searchOptions);
+        cbSearchType.setPreferredSize(new Dimension(150, 30));
         topPanel.add(cbSearchType);
 
         JTextField txtSearch = new JTextField("Nhập nội dung tìm kiếm .....", 20);
+        txtSearch.setPreferredSize(new Dimension(250, 30));
         topPanel.add(txtSearch);
-        cbSearchType.setPreferredSize(new Dimension(150, 30)); // ComboBox
-        txtSearch.setPreferredSize(new Dimension(250, 30));    // TextField
-
 
         JButton btnLamMoi = new JButton("Làm mới");
         if (refreshIcon != null) btnLamMoi.setIcon(refreshIcon);
@@ -83,19 +77,19 @@ public class Phieuxuat extends JPanel {
 
         gbc.gridy = 1;
         gbc.weightx = 1.0;
-        JComboBox<String> cbNhaCungCap = new JComboBox<>(new String[]{
+        JComboBox<String> cbKhachHang = new JComboBox<>(new String[]{
                 "Tất cả", "Công Ty TNHH Thế Giới Di Động", "Công Ty Samsung Việt Nam"
         });
-        leftPanel.add(cbNhaCungCap, gbc);
+        leftPanel.add(cbKhachHang, gbc);
         gbc.weightx = 0;
 
         gbc.gridy = 2;
-        leftPanel.add(new JLabel("Nhân viên xuất: "), gbc);
+        leftPanel.add(new JLabel("Nhân viên xuất:"), gbc);
 
         gbc.gridy = 3;
         gbc.weightx = 1.0;
         JComboBox<String> cbNhanVien = new JComboBox<>(new String[]{
-                "Tất cả", "Vũ Hồng Vĩnh Khang", "Nguyễn Văn Khanh","Hàn Gia Hào"
+                "Tất cả", "Vũ Hồng Vĩnh Khang", "Nguyễn Văn Khanh", "Hàn Gia Hào"
         });
         leftPanel.add(cbNhanVien, gbc);
         gbc.weightx = 0;
@@ -142,19 +136,8 @@ public class Phieuxuat extends JPanel {
         leftPanel.add(new JLabel(), gbc);
 
         leftPanel.setPreferredSize(new Dimension(220, leftPanel.getPreferredSize().height));
-
         return leftPanel;
     }
-
-    // private ImageIcon loadIcon(String path) {
-    //     URL imgURL = getClass().getResource(path);
-    //     if (imgURL != null) {
-    //         return new ImageIcon(imgURL);
-    //     } else {
-    //         System.err.println("Không thể tải icon: " + path);
-    //         return null;
-    //     }
-    // }
 
     private JButton createIconButton(String text, ImageIcon icon) {
         JButton button = new JButton(text);
@@ -172,23 +155,19 @@ public class Phieuxuat extends JPanel {
         button.setFocusPainted(false);
         button.setOpaque(false);
     }
+
     private ImageIcon loadIcon(String path) {
         URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
             Image image = icon.getImage();
-    
-            // Resize ảnh với chất lượng cao
-            Image scaledImage = image.getScaledInstance(24, 24, Image.SCALE_SMOOTH); // hoặc 24x24 tùy UI
-    
+            Image scaledImage = image.getScaledInstance(24, 24, Image.SCALE_SMOOTH);
             return new ImageIcon(scaledImage);
         } else {
             System.err.println("Không thể tải icon: " + path);
             return null;
         }
     }
-    
-    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -198,8 +177,11 @@ public class Phieuxuat extends JPanel {
                 System.err.println("Không thể đặt Look and Feel của hệ thống.");
             }
 
-            Phieuxuat frame = new Phieuxuat();
-            SwingUtilities.updateComponentTreeUI(frame);
+            JFrame frame = new JFrame("Quản Lý Phiếu Xuất");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(1200, 700);
+            frame.setLocationRelativeTo(null);
+            frame.setContentPane(new PhieuXuat());
             frame.setVisible(true);
         });
     }

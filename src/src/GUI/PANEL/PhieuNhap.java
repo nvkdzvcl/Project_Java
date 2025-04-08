@@ -1,17 +1,13 @@
 package GUI.PANEL;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.URL;
 
-public class Phieunhap extends JPanel {
+public class PhieuNhap extends JPanel {
 
-    public Phieunhap() {
-        setTitle("Quản Lý Phiếu Nhập");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 700);
-        setLocationRelativeTo(null);
-
+    public PhieuNhap() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -21,9 +17,8 @@ public class Phieunhap extends JPanel {
         JPanel leftPanel = createLeftFilterPanel();
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
-        // Bỏ phần centerPanel chứa bảng dữ liệu
-
-        add(mainPanel);
+        setLayout(new BorderLayout());
+        add(mainPanel, BorderLayout.CENTER);
     }
 
     private JPanel createTopPanel() {
@@ -47,15 +42,14 @@ public class Phieunhap extends JPanel {
 
         topPanel.add(Box.createHorizontalGlue());
 
-        String[] searchOptions = {"Tất cả", "Mã phiếu nhập", "Nhà cung cấp","Nhân viên nhập"};
+        String[] searchOptions = {"Tất cả", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập"};
         JComboBox<String> cbSearchType = new JComboBox<>(searchOptions);
+        cbSearchType.setPreferredSize(new Dimension(150, 30));
         topPanel.add(cbSearchType);
 
         JTextField txtSearch = new JTextField("Nhập nội dung tìm kiếm .....", 20);
+        txtSearch.setPreferredSize(new Dimension(250, 30));
         topPanel.add(txtSearch);
-        cbSearchType.setPreferredSize(new Dimension(150, 30)); // ComboBox
-        txtSearch.setPreferredSize(new Dimension(250, 30));    // TextField
-
 
         JButton btnLamMoi = new JButton("Làm mới");
         if (refreshIcon != null) btnLamMoi.setIcon(refreshIcon);
@@ -95,7 +89,7 @@ public class Phieunhap extends JPanel {
         gbc.gridy = 3;
         gbc.weightx = 1.0;
         JComboBox<String> cbNhanVien = new JComboBox<>(new String[]{
-                "Tất cả", "Vũ Hồng Vĩnh Khang", "Nguyễn Văn Khanh","Hàn Gia Hào"
+                "Tất cả", "Vũ Hồng Vĩnh Khang", "Nguyễn Văn Khanh", "Hàn Gia Hào"
         });
         leftPanel.add(cbNhanVien, gbc);
         gbc.weightx = 0;
@@ -146,8 +140,6 @@ public class Phieunhap extends JPanel {
         return leftPanel;
     }
 
-   
-
     private JButton createIconButton(String text, ImageIcon icon) {
         JButton button = new JButton(text);
         if (icon != null) {
@@ -164,23 +156,19 @@ public class Phieunhap extends JPanel {
         button.setFocusPainted(false);
         button.setOpaque(false);
     }
+
     private ImageIcon loadIcon(String path) {
         URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
             Image image = icon.getImage();
-    
-            // Resize ảnh với chất lượng cao
-            Image scaledImage = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH); // hoặc 24x24 tùy UI
-    
+            Image scaledImage = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
             return new ImageIcon(scaledImage);
         } else {
             System.err.println("Không thể tải icon: " + path);
             return null;
         }
     }
-    
-    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -190,8 +178,12 @@ public class Phieunhap extends JPanel {
                 System.err.println("Không thể đặt Look and Feel của hệ thống.");
             }
 
-            Phieunhap frame = new Phieunhap();
-            SwingUtilities.updateComponentTreeUI(frame);
+            // Hiển thị JPanel trong JFrame
+            JFrame frame = new JFrame("Quản Lý Phiếu Nhập");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(1200, 700);
+            frame.setLocationRelativeTo(null);
+            frame.setContentPane(new PhieuNhap());
             frame.setVisible(true);
         });
     }

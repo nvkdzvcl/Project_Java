@@ -1,17 +1,13 @@
 package GUI.PANEL;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.net.URL;
 
-public class Nhacungcap extends JPanel {
+public class NhaCungCap extends JPanel {
 
-    public Nhacungcap() {
-        setTitle("Quản Lý Nhà Cung Cấp");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 700);
-        setLocationRelativeTo(null);
-
+    public NhaCungCap() {
         // --- Panel chính chứa toàn bộ giao diện ---
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -24,8 +20,9 @@ public class Nhacungcap extends JPanel {
         JPanel centerPanel = new JPanel(new BorderLayout());
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
-        // Thêm panel chính vào Frame
-        add(mainPanel);
+        // Thêm panel chính vào JPanel này
+        setLayout(new BorderLayout());
+        add(mainPanel, BorderLayout.CENTER);
     }
 
     private JPanel createTopPanel() {
@@ -58,7 +55,7 @@ public class Nhacungcap extends JPanel {
 
         topPanel.add(Box.createHorizontalGlue());
 
-        String[] searchOptions = {"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ","Email","Số điện thoại"};
+        String[] searchOptions = {"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
         JComboBox<String> cbSearchType = new JComboBox<>(searchOptions);
         topPanel.add(cbSearchType);
 
@@ -72,30 +69,19 @@ public class Nhacungcap extends JPanel {
         return topPanel;
     }
 
-    // private ImageIcon loadIcon(String path) {
-    //     URL imgURL = getClass().getResource(path);
-    //     if (imgURL != null) {
-    //         return new ImageIcon(imgURL);
-    //     } else {
-    //         System.err.println("Không thể tải icon: " + path);
-    //         return null;
-    //     }
-    // }
     private ImageIcon loadIcon(String path) {
         URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
             Image image = icon.getImage();
-    
-            // Resize ảnh với chất lượng cao
-            Image scaledImage = image.getScaledInstance(24, 24, Image.SCALE_SMOOTH); // hoặc 24x24 tùy UI
-    
+            Image scaledImage = image.getScaledInstance(24, 24, Image.SCALE_SMOOTH);
             return new ImageIcon(scaledImage);
         } else {
             System.err.println("Không thể tải icon: " + path);
             return null;
         }
     }
+
     private JButton createIconButton(String text, ImageIcon icon) {
         JButton button = new JButton(text);
         if (icon != null) {
@@ -121,8 +107,12 @@ public class Nhacungcap extends JPanel {
                 System.err.println("Không thể đặt Look and Feel của hệ thống.");
             }
 
-            Nhacungcap frame = new Nhacungcap();
-            SwingUtilities.updateComponentTreeUI(frame);
+            // Tạo JFrame và thêm JPanel vào
+            JFrame frame = new JFrame("Quản Lý Nhà Cung Cấp");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(1200, 700);
+            frame.setLocationRelativeTo(null);
+            frame.setContentPane(new NhaCungCap());
             frame.setVisible(true);
         });
     }
