@@ -16,7 +16,7 @@ public class DacTrung extends JPanel {
     private static final Color PANEL_BORDER_COLOR = new Color(225, 235, 245); // Màu viền nhạt hơn
     private static final Color PANEL_HOVER_BACKGROUND = new Color(210, 230, 250); // Màu nền khi di chuột qua
     private static final Color TEXT_COLOR = new Color(60, 60, 60); // Màu chữ xám đậm
-    private static final Font LABEL_FONT = new Font("Arial", Font.PLAIN, 18);
+    //private static final Font LABEL_FONT = new Font("Arial", Font.PLAIN, 18);
     private static final Dimension ICON_SIZE = new Dimension(50, 50); // Kích thước mong muốn cho icon
 
     public DacTrung() {
@@ -75,7 +75,7 @@ public class DacTrung extends JPanel {
 
         // --- Label chứa Text ---
         JLabel textLabel = new JLabel(labelText);
-        textLabel.setFont(LABEL_FONT);
+        //textLabel.setFont(LABEL_FONT);
         textLabel.setForeground(TEXT_COLOR);
         textLabel.setHorizontalAlignment(SwingConstants.LEFT); // Căn trái text
         textLabel.setVerticalAlignment(SwingConstants.CENTER);
