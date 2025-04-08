@@ -1,3 +1,4 @@
+package GUI.PANEL;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -31,13 +32,13 @@ public class Nhacungcap extends JFrame {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
         // --- Tải Icons ---
-        ImageIcon addIcon = loadIcon("/icons/them.png");
-        ImageIcon editIcon = loadIcon("/icons/sua.png");
-        ImageIcon deleteIcon = loadIcon("/icons/xoa.png");
-        ImageIcon detailIcon = loadIcon("/icons/chitiet.png");
-        ImageIcon importIcon = loadIcon("/icons/nhapexcel.png");
-        ImageIcon exportIcon = loadIcon("/icons/xuatexcel.png");
-        ImageIcon refreshIcon = loadIcon("/icons/lammoi.png");
+        ImageIcon addIcon = loadIcon("/icon/them.png");
+        ImageIcon editIcon = loadIcon("/icon/sua.png");
+        ImageIcon deleteIcon = loadIcon("/icon/xoa.png");
+        ImageIcon detailIcon = loadIcon("/icon/chitiet.png");
+        ImageIcon importIcon = loadIcon("/icon/nhapexcel.png");
+        ImageIcon exportIcon = loadIcon("/icon/xuatexcel.png");
+        ImageIcon refreshIcon = loadIcon("/icon/lammoi.png");
 
         // --- Tạo các nút chức năng ---
         JButton btnThem = createIconButton("THÊM", addIcon);

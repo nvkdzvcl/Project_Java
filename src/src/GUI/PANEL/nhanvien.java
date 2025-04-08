@@ -1,4 +1,4 @@
-package GUI.Component;
+package GUI.PANEL;
 
 import GUI.Main;
 

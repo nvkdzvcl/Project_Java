@@ -1,3 +1,4 @@
+package GUI.PANEL;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -28,11 +29,11 @@ public class Phieunhap extends JFrame {
     private JPanel createTopPanel() {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
-        ImageIcon addIcon = loadIcon("/icons/them.png");
-        ImageIcon detailIcon = loadIcon("/icons/chitiet.png");
-        ImageIcon cancelIcon = loadIcon("/icons/huyphieu.png");
-        ImageIcon exportIcon = loadIcon("/icons/xuatexcel.png");
-        ImageIcon refreshIcon = loadIcon("/icons/lammoi.png");
+        ImageIcon addIcon = loadIcon("/icon/them.png");
+        ImageIcon detailIcon = loadIcon("/icon/chitiet.png");
+        ImageIcon cancelIcon = loadIcon("/icon/huyphieu.png");
+        ImageIcon exportIcon = loadIcon("/icon/xuatexcel.png");
+        ImageIcon refreshIcon = loadIcon("/icon/lammoi.png");
 
         JButton btnThem = createIconButton("THÊM", addIcon);
         JButton btnChiTiet = createIconButton("CHI TIẾT", detailIcon);
