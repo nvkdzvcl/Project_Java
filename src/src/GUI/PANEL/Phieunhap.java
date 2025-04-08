@@ -9,7 +9,7 @@ public class Phieunhap extends JPanel {
     public Phieunhap() {
         setTitle("Quản Lý Phiếu Nhập");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1100, 650);
+        setSize(1200, 700);
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
