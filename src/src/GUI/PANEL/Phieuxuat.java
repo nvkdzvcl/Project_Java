@@ -30,9 +30,9 @@ public class Phieuxuat extends JFrame {
 
         ImageIcon addIcon = loadIcon("/icons/them.png");
         ImageIcon detailIcon = loadIcon("/icons/chitiet.png");
-        ImageIcon cancelIcon = loadIcon("/icons/huy.png");
-        ImageIcon exportIcon = loadIcon("/icons/export.png");
-        ImageIcon refreshIcon = loadIcon("/icons/refresh.png");
+        ImageIcon cancelIcon = loadIcon("/icons/huyphieu.png");
+        ImageIcon exportIcon = loadIcon("/icons/xuatexcel.png");
+        ImageIcon refreshIcon = loadIcon("/icons/lammoi.png");
 
         JButton btnThem = createIconButton("THÊM", addIcon);
         JButton btnChiTiet = createIconButton("CHI TIẾT", detailIcon);
