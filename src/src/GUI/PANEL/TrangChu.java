@@ -38,19 +38,19 @@ public class TrangChu extends JPanel {
 
         // Tiêu đề chính
         JLabel mainTitle = new JLabel("HỆ THỐNG QUẢN LÝ KHO ĐIỆN THOẠI THEO MÃ IMEI");
-        mainTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        //mainTitle.setFont(new Font("Arial", Font.BOLD, 24));
         mainTitle.setAlignmentX(Component.CENTER_ALIGNMENT); // Căn giữa
         mainTitle.setForeground(new Color(0, 102, 204)); // Màu xanh dương
 
         // Dòng chữ nhỏ dưới tiêu đề
         JLabel subTitle = new JLabel("- Hãy hướng về phía mặt trời , nơi mà bóng tối luôn ở phía sau lưng bạn . Điều mà hoa hướng dương vẫn làm mỗi ngày.-");
-        subTitle.setFont(new Font("Arial", Font.ITALIC, 12));
+        //subTitle.setFont(new Font("Arial", Font.ITALIC, 12));
         subTitle.setAlignmentX(Component.CENTER_ALIGNMENT); // Căn giữa
         subTitle.setForeground(Color.DARK_GRAY);
 
         // Tên tập đoàn
         JLabel companyLabel = new JLabel("Tập đoàn AnBachSi");
-        companyLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        //companyLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         companyLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Căn giữa
         companyLabel.setForeground(Color.GRAY);
 
@@ -114,7 +114,7 @@ public class TrangChu extends JPanel {
             // Ví dụ: ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
             // Nếu không có icon, dùng placeholder:
             iconLabel.setText("[ICON]"); // Placeholder nếu không tải được icon
-            iconLabel.setFont(new Font("Arial", Font.BOLD, 48));
+            //iconLabel.setFont(new Font("Arial", Font.BOLD, 48));
             iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
             // Đặt kích thước ưa thích cho icon placeholder
             iconLabel.setPreferredSize(new Dimension(80, 80));
@@ -130,7 +130,7 @@ public class TrangChu extends JPanel {
 
         // --- Tiêu đề của hộp ---
         JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        //titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Căn giữa
         titleLabel.setForeground(new Color(52, 58, 64)); // Màu xám đậm
 
@@ -138,7 +138,7 @@ public class TrangChu extends JPanel {
         // --- Nội dung mô tả ---
         // Sử dụng JTextArea để tự động xuống dòng
         JTextArea descriptionArea = new JTextArea(description);
-        descriptionArea.setFont(new Font("Arial", Font.PLAIN, 16));
+        //descriptionArea.setFont(new Font("Arial", Font.PLAIN, 16));
         descriptionArea.setLineWrap(true);       // Tự động xuống dòng
         descriptionArea.setWrapStyleWord(true);  // Ngắt dòng theo từ
         descriptionArea.setEditable(false);      // Không cho phép chỉnh sửa
