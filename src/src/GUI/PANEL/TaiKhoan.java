@@ -14,7 +14,7 @@ public class TaiKhoan extends JPanel {
         JPanel P=new JPanel(new BorderLayout());
         JPanel P1=new JPanel();
         ImageIcon addIcon = resizeimg(new ImageIcon((getClass().getResource("/icon/them.png"))));
-        JButton btnthem= createIconButton("THÊM", addIcon);
+        JButton btnthem= createIconButton("Thêm", addIcon);
 
         btnthem.setOpaque(false);
         btnthem.setFocusPainted(false);
