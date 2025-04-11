@@ -16,7 +16,7 @@ public class NhanVien extends JPanel {
 
 
         ImageIcon addIcon = resizeimg(new ImageIcon((getClass().getResource("/icon/them.png"))));
-        JButton btnthem= createIconButton("THÊM", addIcon);
+        JButton btnthem= createIconButton("Thêm", addIcon);
 //        btnthem.setContentAreaFilled(false);
         btnthem.setOpaque(false);
         btnthem.setFocusPainted(false);
@@ -97,8 +97,8 @@ public class NhanVien extends JPanel {
 
 
        bangnv.setShowGrid(false);
-       JButton them=new JButton("Thêm");
-         add(them);
+//       JButton them=new JButton("Thêm");
+//         add(them);
         add(scrollPane,BorderLayout.CENTER);
 
         setVisible(true);

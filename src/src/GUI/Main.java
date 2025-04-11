@@ -3,6 +3,10 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
+import GUI.PANEL.*;
+import GUI.PANEL.ThongKe.*;
+
+
 public class Main extends JFrame {
     private CardLayout cardLayout;
     private JPanel contentPanel;
@@ -22,13 +26,13 @@ public class Main extends JFrame {
         cardLayout = new CardLayout();
         contentPanel.setLayout(cardLayout);
 
-        contentPanel.add(new JLabel("Trang chủ ở đây"), "trangchu");
-        contentPanel.add(new JLabel("Sản phẩm"), "sanpham");
-        contentPanel.add(new JLabel("Phiếu nhập"), "phieunhap");
-        contentPanel.add(new JLabel("Hóa đơn"), "hoadon");
-        contentPanel.add(new JLabel("Khách hàng"), "khachhang");
-        contentPanel.add(new JLabel("Nhân viên"), "nhanvien");
-        contentPanel.add(new JLabel("Tài khoản"), "taikhoan");
+        contentPanel.add(new TrangChu(), "trangchu");
+        contentPanel.add(new SanPham(), "sanpham");
+        contentPanel.add(new PhieuNhap(), "phieunhap");
+        contentPanel.add(new HoaDon(), "hoadon");
+        contentPanel.add(new KhachHang(), "khachhang");
+        contentPanel.add(new NhanVien(), "nhanvien");
+        contentPanel.add(new TaiKhoan(), "taikhoan");
         contentPanel.add(new JLabel("Thống kê"), "thongke");
         contentPanel.add(new JLabel("Đăng xuất"), "dangxuat");
 
@@ -53,7 +57,7 @@ public class Main extends JFrame {
         panel.add(createMenuButton("Trang chủ", "trangchu", "/icon/trangchu.png"));
         panel.add(createMenuButton("Sản phẩm", "sanpham", "/icon/sanpham.png"));
         panel.add(createMenuButton("Phiếu nhập", "phieunhap", "/icon/phieunhap.png"));
-        panel.add(createMenuButton("Phiếu xuất", "phieuxuat", "/icon/hoadon.png"));
+        panel.add(createMenuButton("Hóa đơn", "hoadon", "/icon/hoadon.png"));
         panel.add(createMenuButton("Khách hàng", "khachhang", "/icon/khachhang.png"));
         panel.add(createMenuButton("Nhân viên", "nhanvien", "/icon/nhanvien.png"));
         panel.add(createMenuButton("Tài khoản", "taikhoan", "/icon/taikhoan.png"));
