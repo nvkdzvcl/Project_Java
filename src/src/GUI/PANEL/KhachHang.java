@@ -14,7 +14,7 @@ public class KhachHang extends JPanel {
         JPanel P=new JPanel(new BorderLayout());
         JPanel P1=new JPanel();
         ImageIcon addIcon = resizeimg(new ImageIcon((getClass().getResource("/icon/them.png"))));
-        JButton btnthem= createIconButton("THÊM", addIcon);
+        JButton btnthem= createIconButton("Thêm", addIcon);
 
         btnthem.setOpaque(false);
         btnthem.setFocusPainted(false);
@@ -44,7 +44,7 @@ public class KhachHang extends JPanel {
         btnnhap.setBorderPainted(false);
 
         ImageIcon xuaticon=resizeimg(new ImageIcon((getClass().getResource("/icon/xuatexcel.png"))));
-        JButton btnxuat=createIconButton("Xuat", xuaticon);
+        JButton btnxuat=createIconButton("Xuất", xuaticon);
         btnxuat.setOpaque(false);
         btnxuat.setFocusPainted(false);
         btnxuat.setBorderPainted(false);
@@ -79,7 +79,7 @@ public class KhachHang extends JPanel {
         P.add(P1, BorderLayout.WEST);
         P.add(P2,BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
-        String[] collum={"Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Ngày tham gxia"};
+        String[] collum={"Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Ngày tham gia"};
         JTable bangkh=new JTable();
         DefaultTableModel model=new DefaultTableModel(collum,0);
         bangkh.setModel(model);
