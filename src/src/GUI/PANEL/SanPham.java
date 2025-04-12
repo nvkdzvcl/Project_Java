@@ -14,7 +14,7 @@ public class SanPham extends JPanel {
 
 
         ImageIcon addIcon = resizeimg(new ImageIcon((getClass().getResource("/icon/them.png"))));
-        JButton btnthem= createIconButton("THÊM", addIcon);
+        JButton btnthem= createIconButton("Thêm", addIcon);
 //        btnthem.setContentAreaFilled(false);
         btnthem.setOpaque(false);
         btnthem.setFocusPainted(false);
