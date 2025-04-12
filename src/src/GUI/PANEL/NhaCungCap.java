@@ -25,57 +25,60 @@ public class NhaCungCap extends JPanel {
         add(mainPanel, BorderLayout.CENTER);
     }
 
-    private JPanel createTopPanel() {
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
-        // --- Tải Icons ---
-        ImageIcon addIcon = loadIcon("/icon/them.png");
-        ImageIcon editIcon = loadIcon("/icon/sua.png");
-        ImageIcon deleteIcon = loadIcon("/icon/xoa.png");
-        ImageIcon detailIcon = loadIcon("/icon/chitiet.png");
-        ImageIcon importIcon = loadIcon("/icon/nhapexcel.png");
-        ImageIcon exportIcon = loadIcon("/icon/xuatexcel.png");
-        ImageIcon refreshIcon = loadIcon("/icon/lammoi.png");
+        private JPanel createTopPanel() {
+            JPanel P = new JPanel(new BorderLayout());
 
-        // --- Tạo các nút chức năng ---
-        JButton btnThem = createIconButton("THÊM", addIcon);
-        JButton btnSua = createIconButton("SỬA", editIcon);
-        JButton btnXoa = createIconButton("XÓA", deleteIcon);
-        JButton btnChiTiet = createIconButton("CHI TIẾT", detailIcon);
-        JButton btnNhapExcel = createIconButton("NHẬP EXCEL", importIcon);
-        JButton btnXuatExcel = createIconButton("XUẤT EXCEL", exportIcon);
+            // --- Panel nút bên trái ---
+            JPanel P1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        // Thêm các nút vào panel
-        topPanel.add(btnThem);
-        topPanel.add(btnSua);
-        topPanel.add(btnXoa);
-        topPanel.add(btnChiTiet);
-        topPanel.add(btnNhapExcel);
-        topPanel.add(btnXuatExcel);
+            JButton btnthem = createIconButton("THÊM", resizeimg(loadIcon("/icon/them.png")));
+            JButton btnsua = createIconButton("SỬA", resizeimg(loadIcon("/icon/sua.png")));
+            JButton btnxoa = createIconButton("XÓA", resizeimg(loadIcon("/icon/xoa.png")));
+            JButton btnct = createIconButton("CHI TIẾT", resizeimg(loadIcon("/icon/chitiet.png")));
+            JButton btnnhap = createIconButton("NHẬP EXCEL", resizeimg(loadIcon("/icon/nhapexcel.png")));
+            JButton btnxuat = createIconButton("XUẤT EXCEL", resizeimg(loadIcon("/icon/xuatexcel.png")));
 
-        topPanel.add(Box.createHorizontalGlue());
+            for (JButton btn : new JButton[]{btnthem, btnsua, btnxoa, btnct, btnnhap, btnxuat}) {
+                P1.add(btn);
+            }
 
-        String[] searchOptions = {"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
-        JComboBox<String> cbSearchType = new JComboBox<>(searchOptions);
-        topPanel.add(cbSearchType);
+            // --- Panel tìm kiếm bên phải ---
+            JPanel P2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            String[] cb = {"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"};
+            JComboBox<String> pl = new JComboBox<>(cb);
+            pl.setPreferredSize(new Dimension(100, 40));
+            JTextField tf = new JTextField(20);
+            tf.setPreferredSize(new Dimension(100, 40));
+            JButton btnlm = createIconButton("LÀM MỚI", resizeimg(loadIcon("/icon/lammoi.png")));
+            btnlm.setVerticalTextPosition(SwingConstants.CENTER);
+            btnlm.setHorizontalTextPosition(SwingConstants.RIGHT);
 
-        JTextField txtSearch = new JTextField("Nhập nội dung tìm kiếm .....", 20);
-        topPanel.add(txtSearch);
+            P2.add(pl);
+            P2.add(tf);
+            P2.add(btnlm);
 
-        JButton btnLamMoi = new JButton("Làm mới");
-        if (refreshIcon != null) btnLamMoi.setIcon(refreshIcon);
-        topPanel.add(btnLamMoi);
+            P.add(P1, BorderLayout.WEST);
+            P.add(P2, BorderLayout.EAST);
+            return P;
+        }
 
-        return topPanel;
+
+
+
+    public ImageIcon resizeimg(ImageIcon img) {
+        if (img == null) return null;
+        Image tmp = img.getImage();
+        Image tmp2 = tmp.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        return new ImageIcon(tmp2);
     }
+
+
 
     private ImageIcon loadIcon(String path) {
         URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
-            ImageIcon icon = new ImageIcon(imgURL);
-            Image image = icon.getImage();
-            Image scaledImage = image.getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImage);
+            return new ImageIcon(imgURL);
         } else {
             System.err.println("Không thể tải icon: " + path);
             return null;
@@ -92,12 +95,7 @@ public class NhaCungCap extends JPanel {
         return button;
     }
 
-    private void setButtonFlat(JButton button) {
-        button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
-        button.setFocusPainted(false);
-        button.setOpaque(false);
-    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -108,7 +106,7 @@ public class NhaCungCap extends JPanel {
             }
 
             // Tạo JFrame và thêm JPanel vào
-            JFrame frame = new JFrame("Quản Lý Nhà Cung Cấp");
+            JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1200, 700);
             frame.setLocationRelativeTo(null);

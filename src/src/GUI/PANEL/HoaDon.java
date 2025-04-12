@@ -22,40 +22,38 @@ public class HoaDon extends JPanel {
     }
 
     private JPanel createTopPanel() {
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        JPanel panel = new JPanel(new BorderLayout());
 
-        ImageIcon addIcon = loadIcon("/icon/them.png");
-        ImageIcon detailIcon = loadIcon("/icon/chitiet.png");
-        ImageIcon cancelIcon = loadIcon("/icon/huyphieu.png");
-        ImageIcon exportIcon = loadIcon("/icon/xuatexcel.png");
-        ImageIcon refreshIcon = loadIcon("/icon/lammoi.png");
+        // --- Panel trái chứa các nút chức năng ---
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        JButton btnThem = createIconButton("THÊM", addIcon);
-        JButton btnChiTiet = createIconButton("CHI TIẾT", detailIcon);
-        JButton btnHuyPhieu = createIconButton("HUỶ PHIẾU", cancelIcon);
-        JButton btnXuatExcel = createIconButton("XUẤT EXCEL", exportIcon);
+        JButton btnThem = createIconButton("THÊM", resizeIcon(loadIcon("/icon/them.png")));
+        JButton btnChiTiet = createIconButton("CHI TIẾT", resizeIcon(loadIcon("/icon/chitiet.png")));
+        JButton btnHuyPhieu = createIconButton("HUỶ PHIẾU", resizeIcon(loadIcon("/icon/huyphieu.png")));
+        JButton btnXuatExcel = createIconButton("XUẤT EXCEL", resizeIcon(loadIcon("/icon/xuatexcel.png")));
 
-        topPanel.add(btnThem);
-        topPanel.add(btnChiTiet);
-        topPanel.add(btnHuyPhieu);
-        topPanel.add(btnXuatExcel);
+        for (JButton btn : new JButton[]{btnThem, btnChiTiet, btnHuyPhieu, btnXuatExcel}) {
+            leftPanel.add(btn);
+        }
 
-        topPanel.add(Box.createHorizontalGlue());
+        // --- Panel phải chứa tìm kiếm ---
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         String[] searchOptions = {"Tất cả", "Mã Phiếu", "Khách hàng", "Nhân viên xuất"};
         JComboBox<String> cbSearchType = new JComboBox<>(searchOptions);
-        cbSearchType.setPreferredSize(new Dimension(150, 30));
-        topPanel.add(cbSearchType);
+        cbSearchType.setPreferredSize(new Dimension(150, 40));
+        JTextField txtSearch = new JTextField(20);
+        txtSearch.setPreferredSize(new Dimension(200, 40));
 
-        JTextField txtSearch = new JTextField("Nhập nội dung tìm kiếm .....", 20);
-        txtSearch.setPreferredSize(new Dimension(250, 30));
-        topPanel.add(txtSearch);
+        JButton btnLamMoi = createIconButton("LÀM MỚI", resizeIcon(loadIcon("/icon/lammoi.png")));
 
-        JButton btnLamMoi = new JButton("Làm mới");
-        if (refreshIcon != null) btnLamMoi.setIcon(refreshIcon);
-        topPanel.add(btnLamMoi);
+        rightPanel.add(cbSearchType);
+        rightPanel.add(txtSearch);
+        rightPanel.add(btnLamMoi);
 
-        return topPanel;
+        panel.add(leftPanel, BorderLayout.WEST);
+        panel.add(rightPanel, BorderLayout.EAST);
+        return panel;
     }
 
     private JPanel createLeftFilterPanel() {
@@ -75,68 +73,80 @@ public class HoaDon extends JPanel {
         gbc.gridy = 0;
         leftPanel.add(new JLabel("Khách hàng:"), gbc);
 
-        gbc.gridy = 1;
+        gbc.gridy++;
         gbc.weightx = 1.0;
-        JComboBox<String> cbKhachHang = new JComboBox<>(new String[]{
+        leftPanel.add(new JComboBox<>(new String[]{
                 "Tất cả", "Công Ty TNHH Thế Giới Di Động", "Công Ty Samsung Việt Nam"
-        });
-        leftPanel.add(cbKhachHang, gbc);
+        }), gbc);
         gbc.weightx = 0;
 
-        gbc.gridy = 2;
+        gbc.gridy++;
         leftPanel.add(new JLabel("Nhân viên xuất:"), gbc);
 
-        gbc.gridy = 3;
+        gbc.gridy++;
         gbc.weightx = 1.0;
-        JComboBox<String> cbNhanVien = new JComboBox<>(new String[]{
+        leftPanel.add(new JComboBox<>(new String[]{
                 "Tất cả", "Vũ Hồng Vĩnh Khang", "Nguyễn Văn Khanh", "Hàn Gia Hào"
-        });
-        leftPanel.add(cbNhanVien, gbc);
+        }), gbc);
         gbc.weightx = 0;
 
-        gbc.gridy = 4;
+        gbc.gridy++;
         leftPanel.add(new JLabel("Từ ngày:"), gbc);
 
-        gbc.gridy = 5;
+        gbc.gridy++;
         gbc.weightx = 1.0;
-        JPanel datePanelTu = new JPanel(new BorderLayout(5, 0));
-        datePanelTu.add(new JTextField(), BorderLayout.CENTER);
-        leftPanel.add(datePanelTu, gbc);
+        leftPanel.add(new JTextField(), gbc);
         gbc.weightx = 0;
 
-        gbc.gridy = 6;
+        gbc.gridy++;
         leftPanel.add(new JLabel("Đến ngày:"), gbc);
 
-        gbc.gridy = 7;
+        gbc.gridy++;
         gbc.weightx = 1.0;
-        JPanel datePanelDen = new JPanel(new BorderLayout(5, 0));
-        datePanelDen.add(new JTextField(), BorderLayout.CENTER);
-        leftPanel.add(datePanelDen, gbc);
+        leftPanel.add(new JTextField(), gbc);
         gbc.weightx = 0;
 
-        gbc.gridy = 8;
+        gbc.gridy++;
         leftPanel.add(new JLabel("Từ số tiền (VND):"), gbc);
 
-        gbc.gridy = 9;
+        gbc.gridy++;
         gbc.weightx = 1.0;
         leftPanel.add(new JTextField(), gbc);
         gbc.weightx = 0;
 
-        gbc.gridy = 10;
+        gbc.gridy++;
         leftPanel.add(new JLabel("Đến số tiền (VND):"), gbc);
 
-        gbc.gridy = 11;
+        gbc.gridy++;
         gbc.weightx = 1.0;
         leftPanel.add(new JTextField(), gbc);
-        gbc.weightx = 0;
 
-        gbc.gridy = 12;
+        gbc.weightx = 0;
+        gbc.gridy++;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.VERTICAL;
         leftPanel.add(new JLabel(), gbc);
 
-        leftPanel.setPreferredSize(new Dimension(220, leftPanel.getPreferredSize().height));
+//        leftPanel.setPreferredSize(new Dimension(220, leftPanel.getPreferredSize().height));
+        leftPanel.setPreferredSize(new Dimension(220, 0)); // hoặc có thể bỏ luôn
+
         return leftPanel;
+    }
+
+    private ImageIcon loadIcon(String path) {
+        URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            System.err.println("Không thể tải icon: " + path);
+            return null;
+        }
+    }
+
+    private ImageIcon resizeIcon(ImageIcon icon) {
+        if (icon == null) return null;
+        Image image = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
     }
 
     private JButton createIconButton(String text, ImageIcon icon) {
@@ -149,26 +159,6 @@ public class HoaDon extends JPanel {
         return button;
     }
 
-    private void setButtonFlat(JButton button) {
-        button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
-        button.setFocusPainted(false);
-        button.setOpaque(false);
-    }
-
-    private ImageIcon loadIcon(String path) {
-        URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            ImageIcon icon = new ImageIcon(imgURL);
-            Image image = icon.getImage();
-            Image scaledImage = image.getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImage);
-        } else {
-            System.err.println("Không thể tải icon: " + path);
-            return null;
-        }
-    }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
@@ -177,7 +167,7 @@ public class HoaDon extends JPanel {
                 System.err.println("Không thể đặt Look and Feel của hệ thống.");
             }
 
-            JFrame frame = new JFrame("Quản Lý Phiếu Xuất");
+            JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1200, 700);
             frame.setLocationRelativeTo(null);
