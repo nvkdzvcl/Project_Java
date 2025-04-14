@@ -9,8 +9,6 @@ public class JDBCUtil {
     public static Connection startConnection(){
         Connection conn = null;
         try{
-            //DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-
             String url = "jdbc:mysql://localhost:3306/java";
             String username = "root";
             String password = "";
@@ -18,7 +16,7 @@ public class JDBCUtil {
             conn = DriverManager.getConnection(url, username, password);
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Khong the ket noi voi database");
+            JOptionPane.showMessageDialog(null, "Không thể kết nối với Database");
         }
 
         return conn;
@@ -31,7 +29,7 @@ public class JDBCUtil {
             }
         }
         catch(Exception e){
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 }
