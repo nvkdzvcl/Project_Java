@@ -1,11 +1,15 @@
 package GUI.PANEL;
 
+import GUI.DIALOG.ChitietKhachHangDialog;
+import GUI.DIALOG.KhachHangDialog;
+import GUI.DIALOG.SuaKhachHangDiaLog;
+
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.net.URL;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class KhachHang extends JPanel {
     public KhachHang() {
@@ -67,7 +71,7 @@ public class KhachHang extends JPanel {
         P1.add(btnxuat);
 
 
-        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Ngày tham gia"};
+        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Email"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -79,7 +83,7 @@ public class KhachHang extends JPanel {
         P.add(P1, BorderLayout.WEST);
         P.add(P2,BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
-        String[] collum={"Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Ngày tham gia"};
+        String[] collum={"Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Email"};
         JTable bangkh=new JTable();
         DefaultTableModel model=new DefaultTableModel(collum,0);
         bangkh.setModel(model);
@@ -87,9 +91,28 @@ public class KhachHang extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         JTableHeader header = bangkh.getTableHeader();
         add(scrollPane,BorderLayout.CENTER);
-
+        btnthem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new KhachHangDialog();
+            }
+        });
+        btnsua.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SuaKhachHangDiaLog();
+            }
+        });
+        btnct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ChitietKhachHangDialog();
+            }
+        });
         setVisible(true);
     }
+
+
     public ImageIcon resizeimg(ImageIcon img)
     {
         Image tmp=img.getImage();
