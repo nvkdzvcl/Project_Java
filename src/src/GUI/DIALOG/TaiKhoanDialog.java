@@ -22,11 +22,13 @@ public class TaiKhoanDialog extends JFrame {
         JLabel ChucVu = new JLabel("Chức Vụ");
         JLabel TrangThai = new JLabel("Trạng Thái");
         JTextField tfTenDangNhap = new JTextField(47);
-        JTextField tfChucVu = new JTextField(47);
-        JTextField tfTrangThai = new JTextField(47);
+        String [] chucVuOptions = {"Quản lý", "Nhân viên"};
+        JComboBox<String> cbChucVu = new JComboBox<>(chucVuOptions);
+        String [] trangThaiOptions = {"Hoạt động", "Ngưng hoạt động"};
+        JComboBox<String> cbTrangThai = new JComboBox<>(trangThaiOptions);
         tfTenDangNhap.setPreferredSize(new Dimension(200,50));
-        tfChucVu.setPreferredSize(new Dimension(200,50));
-        tfTrangThai.setPreferredSize(new Dimension(200,50));
+        cbChucVu.setPreferredSize(new Dimension(200,50));
+        cbTrangThai.setPreferredSize(new Dimension(200,50));
 
         JButton btnThem = new JButton("Thêm Tài Khoản");
         btnThem.setPreferredSize(new Dimension(200,38));
@@ -41,8 +43,8 @@ public class TaiKhoanDialog extends JFrame {
         btnHuy.setForeground(Color.WHITE);
 
         JPanel P = new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-        JPanel P1 = new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-        JPanel P2 = new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
+        JPanel P1 = new JPanel(new GridLayout(2, 1, 5, 5));
+        JPanel P2 = new JPanel(new GridLayout(2, 1, 5, 5));
         JPanel P3 = new JPanel(new FlowLayout(FlowLayout.CENTER,5,0));
         JPanel P4 = new JPanel(new BorderLayout());
         JPanel P5 = new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
@@ -54,9 +56,9 @@ public class TaiKhoanDialog extends JFrame {
         P.add(TenDangNhap);
         P.add(tfTenDangNhap);
         P1.add(ChucVu);
-        P1.add(tfChucVu);
+        P1.add(cbChucVu);
         P2.add(TrangThai);
-        P2.add(tfTrangThai);
+        P2.add(cbTrangThai);
         P4.add(lbThemTaiKhoan, BorderLayout.CENTER);
         P3.add(btnThem);
         P3.add(btnHuy);

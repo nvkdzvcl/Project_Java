@@ -7,6 +7,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.net.URL;
 import GUI.DIALOG.TaiKhoanDialog;
+import GUI.DIALOG.SuaTaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,22 +18,22 @@ public class TaiKhoan extends JPanel {
         JPanel P = new JPanel(new BorderLayout());
         JPanel P1 = new JPanel();
         ImageIcon addIcon = resizeimg(new ImageIcon((getClass().getResource("/icon/them.png"))));
-        JButton btnthem = createIconButton("Thêm", addIcon);
+        JButton btnThem = createIconButton("Thêm", addIcon);
 
-        btnthem.setOpaque(false);
-        btnthem.setFocusPainted(false);
-        btnthem.setBorderPainted(false);
+        btnThem.setOpaque(false);
+        btnThem.setFocusPainted(false);
+        btnThem.setBorderPainted(false);
         ImageIcon suaicon = resizeimg(new ImageIcon((getClass().getResource("/icon/sua.png"))));
-        JButton btnsua = createIconButton("Sửa", suaicon);
+        JButton btnSua = createIconButton("Sửa", suaicon);
 
-        btnsua.setOpaque(false);
-        btnsua.setFocusPainted(false);
-        btnthem.setBorderPainted(false);
+        btnSua.setOpaque(false);
+        btnSua.setFocusPainted(false);
+        btnThem.setBorderPainted(false);
         ImageIcon xoaicon = resizeimg(new ImageIcon((getClass().getResource("/icon/xoa.png"))));
-        JButton btnxoa = createIconButton("Xóa", xoaicon);
-        btnxoa.setOpaque(false);
-        btnxoa.setFocusPainted(false);
-        btnxoa.setBorderPainted(false);
+        JButton btnXoa = createIconButton("Xóa", xoaicon);
+        btnXoa.setOpaque(false);
+        btnXoa.setFocusPainted(false);
+        btnXoa.setBorderPainted(false);
 
 //        ImageIcon chitieticon = resizeimg(new ImageIcon((getClass().getResource("/icon/chitiet.png"))));
 //        JButton btnct = createIconButton("Chi Tiết", chitieticon);
@@ -55,16 +56,16 @@ public class TaiKhoan extends JPanel {
 
 
         ImageIcon lmcon = resizeimg(new ImageIcon((getClass().getResource("/icon/lammoi.png"))));
-        JButton btnlm = createIconButton("Làm Mới", lmcon);
-        btnlm.setOpaque(false);
-        btnlm.setFocusPainted(false);
-        btnlm.setVerticalTextPosition(SwingConstants.CENTER);
-        btnlm.setHorizontalTextPosition(SwingConstants.RIGHT);
+        JButton btnLamMoi = createIconButton("Làm Mới", lmcon);
+        btnLamMoi.setOpaque(false);
+        btnLamMoi.setFocusPainted(false);
+        btnLamMoi.setVerticalTextPosition(SwingConstants.CENTER);
+        btnLamMoi.setHorizontalTextPosition(SwingConstants.RIGHT);
 
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
-        P1.add(btnthem);
-        P1.add(btnsua);
-        P1.add(btnxoa);
+        P1.add(btnThem);
+        P1.add(btnSua);
+        P1.add(btnXoa);
 //        P1.add(btnct);
 //        P1.add(btnnhap);
 //        P1.add(btnxuat);
@@ -78,7 +79,7 @@ public class TaiKhoan extends JPanel {
         JPanel P2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         P2.add(pl);
         P2.add(tf);
-        P2.add(btnlm);
+        P2.add(btnLamMoi);
         P.add(P1, BorderLayout.WEST);
         P.add(P2, BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
@@ -91,10 +92,17 @@ public class TaiKhoan extends JPanel {
         JTableHeader header = bangkh.getTableHeader();
         add(scrollPane, BorderLayout.CENTER);
 
-        btnthem.addActionListener(new ActionListener() {
+        btnThem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TaiKhoanDialog();
+            }
+        });
+        
+        btnSua.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SuaTaiKhoanDialog();
             }
         });
 
