@@ -6,6 +6,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.net.URL;
+import GUI.DIALOG.TaiKhoanDialog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TaiKhoan extends JPanel {
     public TaiKhoan() {
@@ -31,23 +34,23 @@ public class TaiKhoan extends JPanel {
         btnxoa.setFocusPainted(false);
         btnxoa.setBorderPainted(false);
 
-        ImageIcon chitieticon = resizeimg(new ImageIcon((getClass().getResource("/icon/chitiet.png"))));
-        JButton btnct = createIconButton("Chi Tiết", chitieticon);
-        btnct.setOpaque(false);
-        btnct.setFocusPainted(false);
-        btnct.setBorderPainted(false);
+//        ImageIcon chitieticon = resizeimg(new ImageIcon((getClass().getResource("/icon/chitiet.png"))));
+//        JButton btnct = createIconButton("Chi Tiết", chitieticon);
+//        btnct.setOpaque(false);
+//        btnct.setFocusPainted(false);
+//        btnct.setBorderPainted(false);
 
-        ImageIcon nhapicon = resizeimg(new ImageIcon((getClass().getResource("/icon/nhapexcel.png"))));
-        JButton btnnhap = createIconButton("Nhập Excel",nhapicon);
-        btnnhap.setOpaque(false);
-        btnnhap.setFocusPainted(false);
-        btnnhap.setBorderPainted(false);
-
-        ImageIcon xuaticon = resizeimg(new ImageIcon((getClass().getResource("/icon/xuatexcel.png"))));
-        JButton btnxuat = createIconButton("Xuất", xuaticon);
-        btnxuat.setOpaque(false);
-        btnxuat.setFocusPainted(false);
-        btnxuat.setBorderPainted(false);
+//        ImageIcon nhapicon = resizeimg(new ImageIcon((getClass().getResource("/icon/nhapexcel.png"))));
+//        JButton btnnhap = createIconButton("Nhập Excel",nhapicon);
+//        btnnhap.setOpaque(false);
+//        btnnhap.setFocusPainted(false);
+//        btnnhap.setBorderPainted(false);
+//
+//        ImageIcon xuaticon = resizeimg(new ImageIcon((getClass().getResource("/icon/xuatexcel.png"))));
+//        JButton btnxuat = createIconButton("Xuất Excel", xuaticon);
+//        btnxuat.setOpaque(false);
+//        btnxuat.setFocusPainted(false);
+//        btnxuat.setBorderPainted(false);
 
 
 
@@ -62,12 +65,12 @@ public class TaiKhoan extends JPanel {
         P1.add(btnthem);
         P1.add(btnsua);
         P1.add(btnxoa);
-        P1.add(btnct);
-        P1.add(btnnhap);
-        P1.add(btnxuat);
+//        P1.add(btnct);
+//        P1.add(btnnhap);
+//        P1.add(btnxuat);
 
 
-        String[] cb={"Tất Cả","Mã nhân viên","Username"};
+        String[] cb={"Tất Cả","Mã NV","Tên Đăng Nhập","Chức Vụ","Trạng Thái"};
         JComboBox pl = new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf = new JTextField(20);
@@ -77,23 +80,30 @@ public class TaiKhoan extends JPanel {
         P2.add(tf);
         P2.add(btnlm);
         P.add(P1, BorderLayout.WEST);
-        P.add(P2,BorderLayout.EAST);
+        P.add(P2, BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
-        String[] collum = {"Mã nhân viên","Tên đăng nhập","Chức vụ","Trạng thái"};
+        String[] collum = {"Mã NV","Tên Đăng Nhập","Chức vụ","Trạng Thái"};
         JTable bangkh = new JTable();
         DefaultTableModel model = new DefaultTableModel(collum,0);
         bangkh.setModel(model);
         JScrollPane scrollPane = new JScrollPane(bangkh);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         JTableHeader header = bangkh.getTableHeader();
-        add(scrollPane,BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
+
+        btnthem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TaiKhoanDialog();
+            }
+        });
 
         setVisible(true);
     }
     public ImageIcon resizeimg(ImageIcon img)
     {
         Image tmp = img.getImage();
-        Image tmp2 = tmp.getScaledInstance(30,30,Image.SCALE_SMOOTH);
+        Image tmp2 = tmp.getScaledInstance(30,30, Image.SCALE_SMOOTH);
         img = new ImageIcon(tmp2);
         return img;
     }

@@ -9,7 +9,7 @@ public class ChitietKhachHangDialog extends JDialog {
     public ChitietKhachHangDialog() {
 
         setTitle("Xem Khách Hàng");
-        setSize(520,750);
+        setSize(568,750);
         setLayout( new GridLayout(0, 1, 10, 10));
         JLabel Tenkh=new JLabel("Tên Khách Hàng");
         JLabel sdt=new JLabel("Số Điện Thoại");

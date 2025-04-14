@@ -55,7 +55,7 @@ public class NhanVien extends JPanel {
         btnnhap.setBorderPainted(false);
 
         ImageIcon xuaticon=resizeimg(new ImageIcon((getClass().getResource("/icon/xuatexcel.png"))));
-        JButton btnxuat=createIconButton("Xuat", xuaticon);
+        JButton btnxuat=createIconButton("Xuất Excel", xuaticon);
         btnxuat.setOpaque(false);
         btnxuat.setFocusPainted(false);
         btnxuat.setBorderPainted(false);
@@ -69,7 +69,7 @@ public class NhanVien extends JPanel {
         P1.add(btnnhap);
         P1.add(btnxuat);
 
-        String[] cb={"Tất Cả","Top"};
+        String[] cb={"Tất Cả","Họ Tên","Giới Tính","Ngày Sinh","SĐT","Email"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -85,9 +85,9 @@ public class NhanVien extends JPanel {
 
 
 
-        String[] collum={"MNV","Họ Tên","Giới Tính","Ngày Sinh","SDT","Email"};
-        JTable bangnv=new JTable();
-        DefaultTableModel model=new DefaultTableModel(collum,0);
+        String[] collum={"MNV","Họ Tên","Giới Tính","Ngày Sinh","SĐT","Email"};
+        JTable bangnv = new JTable();
+        DefaultTableModel model = new DefaultTableModel(collum,0);
         bangnv.setModel(model);
 
 
@@ -105,9 +105,9 @@ public class NhanVien extends JPanel {
     }
 public ImageIcon resizeimg(ImageIcon img)
 {
-    Image tmp=img.getImage();
-    Image tmp2=tmp.getScaledInstance(30,30,Image.SCALE_SMOOTH);
-     img=new ImageIcon(tmp2);
+    Image tmp = img.getImage();
+    Image tmp2 = tmp.getScaledInstance(30,30,Image.SCALE_SMOOTH);
+    img = new ImageIcon(tmp2);
      return img;
 }
     private JButton createIconButton (String text, ImageIcon icon){
