@@ -5,6 +5,7 @@ import java.awt.*;
 
 import GUI.PANEL.*;
 import GUI.PANEL.ThongKe.*;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 
 public class Main extends JFrame {
@@ -103,6 +104,7 @@ public class Main extends JFrame {
 
 
     public static void main(String[] args) {
+        FlatIntelliJLaf.setup();
         new Main();
     }
 }
