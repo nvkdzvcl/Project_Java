@@ -1,9 +1,14 @@
 package GUI.PANEL;
 
+import GUI.DIALOG.ChitietPhieuNhapDialog;
+import GUI.DIALOG.PhieuNhapDialog;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class PhieuNhap extends JPanel {
@@ -41,12 +46,12 @@ public class PhieuNhap extends JPanel {
         P1.add(btnhuyphieu);
 
         // Nút Xuất Excel
-        ImageIcon xuatexcelicon = resizeimg(new ImageIcon(getClass().getResource("/icon/xuatexcel.png")));
-        JButton btnxuatexcel = createIconButton("Xuất Excel", xuatexcelicon);
-        btnxuatexcel.setOpaque(false);
-        btnxuatexcel.setFocusPainted(false);
-        btnxuatexcel.setBorderPainted(false);
-        P1.add(btnxuatexcel);
+//        ImageIcon xuatexcelicon = resizeimg(new ImageIcon(getClass().getResource("/icon/xuatexcel.png")));
+//        JButton btnxuatexcel = createIconButton("Xuất Excel", xuatexcelicon);
+//        btnxuatexcel.setOpaque(false);
+//        btnxuatexcel.setFocusPainted(false);
+//        btnxuatexcel.setBorderPainted(false);
+//        P1.add(btnxuatexcel);
 
         // Nút Làm mới
         ImageIcon lmcon = resizeimg(new ImageIcon(getClass().getResource("/icon/lammoi.png")));
@@ -100,6 +105,54 @@ public class PhieuNhap extends JPanel {
 
         // Thêm centerPanel vào phần CENTER của giao diện chính
         add(centerPanel, BorderLayout.CENTER);
+        btnthem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new PhieuNhapDialog();
+            }
+        });
+        btnchitiet.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ChitietPhieuNhapDialog();
+            }
+        });
+        btnhuyphieu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    // Không có dòng nào được chọn
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Vui lòng chọn phiếu cần hủy trước!",
+                            "Lỗi",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                    return;
+                }
+
+                String maPhieu = table.getValueAt(selectedRow, 0).toString(); // Giả sử mã phiếu nằm ở cột đầu tiên
+
+                int result = JOptionPane.showConfirmDialog(
+                        null,
+                        "Bạn có chắc chắn muốn hủy phiếu \"" + maPhieu + "\"?\nThao tác này không thể hoàn tác nên hãy suy nghĩ kĩ!",
+                        "Hủy phiếu",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                if (result == JOptionPane.OK_OPTION) {
+                    // TODO: Gọi controller/xử lý logic hủy phiếu
+                    JOptionPane.showMessageDialog(null, "Đã hủy phiếu: " + maPhieu);
+                } else {
+                    System.out.println("Người dùng đã hủy thao tác.");
+                }
+            }
+        });
+
+
+
 
         setVisible(true);
     }
