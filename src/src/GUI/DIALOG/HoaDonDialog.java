@@ -9,7 +9,7 @@ public class HoaDonDialog extends JDialog {
     public HoaDonDialog() {
 
         setTitle("Thêm Hóa đơn");
-        setSize(520,750);
+        setSize(568,750);
         setLayout( new GridLayout(0, 1, 10, 10));
         JLabel mahd=new JLabel("Mã hóa đơn");
         JLabel nvban=new JLabel("Nhân viên bán");

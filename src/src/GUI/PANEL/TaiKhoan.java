@@ -1,12 +1,11 @@
 package GUI.PANEL;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.net.URL;
-import GUI.DIALOG.TaiKhoanDialog;
+
+import GUI.DIALOG.ThemTaiKhoanDialog;
 import GUI.DIALOG.SuaTaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -95,7 +94,7 @@ public class TaiKhoan extends JPanel {
         btnThem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TaiKhoanDialog();
+                new ThemTaiKhoanDialog();
             }
         });
         

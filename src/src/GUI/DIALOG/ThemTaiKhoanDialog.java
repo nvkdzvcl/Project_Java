@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class TaiKhoanDialog extends JFrame {
-    public TaiKhoanDialog() {
+public class ThemTaiKhoanDialog extends JFrame {
+    public ThemTaiKhoanDialog() {
         setSize(568,750);
         setTitle("Thêm Tài Khoản");
         setLayout(new GridLayout(0,1,10,10));

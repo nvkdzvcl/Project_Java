@@ -9,7 +9,7 @@ public class PhieuNhapDialog extends JDialog {
     public PhieuNhapDialog() {
 
         setTitle("Thêm Phiếu nhập");
-        setSize(520,750);
+        setSize(568,750);
         setLayout( new GridLayout(0, 1, 10, 10));
         JLabel maphieu=new JLabel("Mã phiếu");
         JLabel nvnhap=new JLabel("Nhân viên nhập");

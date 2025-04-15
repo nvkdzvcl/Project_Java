@@ -9,7 +9,7 @@ public class ChitietPhieuNhapDialog extends JDialog {
     public ChitietPhieuNhapDialog() {
 
         setTitle("Xem Phiếu nhập");
-        setSize(520,750);
+        setSize(568,750);
         setLayout( new GridLayout(0, 1, 10, 10));
         JLabel Nhacungcap = new JLabel("Mã phiếu");
         JLabel nvnhap= new JLabel("Nhân viên nhập");
