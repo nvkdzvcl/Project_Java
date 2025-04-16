@@ -38,4 +38,13 @@ public class TaiKhoanDTO {
     public void setMatKhau(String matKhau) {
         this.matKhau = matKhau;
     }
+
+    @Override
+    public String toString() {
+        return "TaiKhoanDTO{" +
+                "maNV=" + maNV +
+                ", tenNguoiDung='" + tenNguoiDung + '\'' +
+                ", matKhau='" + matKhau + '\'' +
+                '}';
+    }
 }
