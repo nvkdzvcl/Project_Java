@@ -113,6 +113,5 @@ public class ThemNhanVienDialog extends JDialog {
         });
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new ThemNhanVienDialog();}
+
 }
