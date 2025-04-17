@@ -138,13 +138,6 @@ public class KhachHang extends JPanel {
             button.setOpaque(false);
         }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200,700);
-        frame.add(new KhachHang());
-        frame.setVisible(true);
-    }
     }
 
 
