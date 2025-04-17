@@ -83,6 +83,5 @@ public class ChitietHoaDonDialog extends JDialog {
         });
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new ChitietHoaDonDialog();}
+
 }

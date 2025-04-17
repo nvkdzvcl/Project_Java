@@ -85,6 +85,4 @@ public class PhieuNhapDialog extends JDialog {
         });
         setVisible(true);
 }
-public static void main(String[] args) {
-    new PhieuNhapDialog();}
 }
