@@ -81,6 +81,5 @@ public class SuaKhachHangDiaLog extends JDialog {
         });
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new SuaKhachHangDiaLog();}
+
 }

@@ -83,6 +83,5 @@ public class ChitietPhieuNhapDialog extends JDialog {
         });
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new ChitietPhieuNhapDialog();}
+
 }

@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SanPham extends JPanel {
     public SanPham() {
@@ -78,6 +80,18 @@ public class SanPham extends JPanel {
         add(them);
         add(scrollPane,BorderLayout.CENTER);
 
+        btnthem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ThemSanPhamDialog();
+            }
+        });
+        btnsua.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SuaSanPhamDialog();
+            }
+        });
         setVisible(true);
     }
     public ImageIcon resizeimg(ImageIcon img)

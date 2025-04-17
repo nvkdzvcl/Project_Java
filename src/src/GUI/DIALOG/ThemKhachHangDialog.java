@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class KhachHangDialog extends JDialog {
-    public KhachHangDialog() {
+public class ThemKhachHangDialog extends JDialog {
+    public ThemKhachHangDialog() {
 
         setTitle("Thêm Khách Hàng");
         setSize(568,750);
@@ -85,6 +85,5 @@ public class KhachHangDialog extends JDialog {
         });
         setVisible(true);
 }
-public static void main(String[] args) {
-    new KhachHangDialog();}
+
 }

@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PhieuNhapDialog extends JDialog {
-    public PhieuNhapDialog() {
+public class ThemPhieuNhapDialog extends JDialog {
+    public ThemPhieuNhapDialog() {
 
         setTitle("Thêm Phiếu nhập");
         setSize(568,750);
@@ -85,6 +85,4 @@ public class PhieuNhapDialog extends JDialog {
         });
         setVisible(true);
 }
-public static void main(String[] args) {
-    new PhieuNhapDialog();}
 }

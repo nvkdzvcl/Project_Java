@@ -4,7 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class NhanVien extends JPanel {
@@ -101,6 +102,18 @@ public class NhanVien extends JPanel {
 //         add(them);
         add(scrollPane,BorderLayout.CENTER);
 
+        btnthem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ThemNhanVienDialog();
+            }
+        });
+        btnsua.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SuaNhanVienDialog();
+            }
+        });
         setVisible(true);
     }
 public ImageIcon resizeimg(ImageIcon img)

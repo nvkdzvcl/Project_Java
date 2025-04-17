@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HoaDonDialog extends JDialog {
-    public HoaDonDialog() {
+public class ThemHoaDonDialog extends JDialog {
+    public ThemHoaDonDialog() {
 
         setTitle("Thêm Hóa đơn");
         setSize(568,750);
@@ -85,7 +85,5 @@ public class HoaDonDialog extends JDialog {
         });
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new HoaDonDialog();}
 }
 
