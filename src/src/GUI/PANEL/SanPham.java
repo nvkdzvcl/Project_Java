@@ -6,6 +6,8 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import GUI.DIALOG.ThemSanPhamDialog;
+import GUI.DIALOG.SuaSanPhamDialog;
 
 public class SanPham extends JPanel {
     public SanPham() {

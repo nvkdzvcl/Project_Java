@@ -6,6 +6,8 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import GUI.DIALOG.ThemNhanVienDialog;
+import GUI.DIALOG.SuaNhanVienDialog;
 
 
 public class NhanVien extends JPanel {
