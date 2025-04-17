@@ -59,17 +59,17 @@ public class TrangChu extends JPanel {
         panel.add(createInfoBox(
                 "/icon/tutin.png",
                 "Thanh lịch – Tự tin – Nổi bật mỗi ngày",
-                "Bộ sưu tập thời trang công sở mới nhất từ [Tên Thương Hiệu]..."
+                "Bộ sưu tập thời trang công sở mới nhất từ [Tên Thương Hiệu] mang đến những thiết kế hiện đại, tinh tế, phù hợp cho môi trường làm việc chuyên nghiệp. Với chất liệu cao cấp, form dáng chuẩn, bạn sẽ luôn cảm thấy thoải mái và tự tin khi diện trang phục từ chúng tôi. Hãy để mỗi ngày đi làm của bạn là một ngày tỏa sáng."
         ));
         panel.add(createInfoBox(
                 "/icon/catinh.png",
                 "Phá cách – Cá tính – Không giới hạn",
-                "Thể hiện cá tính riêng qua từng outfit với dòng sản phẩm thời trang đường phố..."
+                "Thể hiện cá tính riêng qua từng outfit với dòng sản phẩm thời trang đường phố của [Tên Thương Hiệu]. Áo thun oversize, hoodie chất lừ và những chiếc quần cargo đậm chất streetwear – tất cả đều sẵn sàng giúp bạn tạo dấu ấn riêng giữa đám đông. Chất liệu bền, màu sắc độc đáo, phù hợp cho cả nam và nữ."
         ));
         panel.add(createInfoBox(
                 "/icon/matme.png",
                 "Mùa hè rực rỡ cùng phong cách thời trang mát mẻ",
-                "Đón nắng cùng BST hè cực chất từ [Tên Thương Hiệu]..."
+                "Đón nắng cùng BST hè cực chất từ [Tên Thương Hiệu] – nơi bạn tìm thấy những mẫu áo crop top, đầm maxi, quần short năng động, phù hợp cho cả đi chơi, đi biển hay dạo phố. Chất vải nhẹ, thoáng mát, giúp bạn tự tin tỏa sáng trong mọi khoảnh khắc."
         ));
 
         return panel;
