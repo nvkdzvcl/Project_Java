@@ -5,15 +5,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HoaDonDialog extends JDialog {
-    public HoaDonDialog() {
+public class ThemPhieuNhapDialog extends JDialog {
+    public ThemPhieuNhapDialog() {
 
-        setTitle("Thêm Hóa đơn");
+        setTitle("Thêm Phiếu nhập");
         setSize(568,750);
         setLayout( new GridLayout(0, 1, 10, 10));
-        JLabel mahd=new JLabel("Mã hóa đơn");
-        JLabel nvban=new JLabel("Nhân viên bán");
-        JLabel kh=new JLabel("Khách hàng");
+        JLabel maphieu=new JLabel("Mã phiếu");
+        JLabel nvnhap=new JLabel("Nhân viên nhập");
+        JLabel nhacungcap=new JLabel("Nhà cung cấp");
         JLabel thoigian =new JLabel("Thời gian tạo");
         JTextField tf1=new JTextField(47);
         tf1.setPreferredSize(new Dimension(200,50));
@@ -31,25 +31,25 @@ public class HoaDonDialog extends JDialog {
         JPanel P4=new JPanel(new BorderLayout());
         JPanel P5=new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
 
-        JLabel lb1=new JLabel("THÊM HÓA ĐƠN");
+        JLabel lb1=new JLabel("THÊM PHIẾU NHẬP");
         lb1.setPreferredSize(new Dimension(200,50));
         Font largerFont = new Font("Arial", Font.BOLD, 25);
         lb1.setFont(largerFont);
         Color customBlue = new Color(30, 129, 206);
         P4.setBackground(customBlue);
         P4.setForeground(Color.white);
-        P.add(mahd);
+        P.add(maphieu);
         P.add(tf1);
-        P1.add(nvban);
+        P1.add(nvnhap);
         P1.add(tf2);
-        P2.add(kh);
+        P2.add(nhacungcap);
         P2.add(tf3);
         P5.add(thoigian);
         P5.add(tf4);
         P4.add(lb1,BorderLayout.CENTER);
         lb1.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton btnthem=new JButton("Thêm hóa đơn");
+        JButton btnthem=new JButton("Thêm Phiếu Nhập");
         btnthem.setPreferredSize(new Dimension(150,38));
         Color themKhachHangColor = new Color(56, 168, 223);
 
@@ -84,6 +84,5 @@ public class HoaDonDialog extends JDialog {
             }
         });
         setVisible(true);
-    }
 }
-
+}

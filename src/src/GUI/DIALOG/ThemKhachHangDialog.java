@@ -5,16 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PhieuNhapDialog extends JDialog {
-    public PhieuNhapDialog() {
+public class ThemKhachHangDialog extends JDialog {
+    public ThemKhachHangDialog() {
 
-        setTitle("Thêm Phiếu nhập");
+        setTitle("Thêm Khách Hàng");
         setSize(568,750);
         setLayout( new GridLayout(0, 1, 10, 10));
-        JLabel maphieu=new JLabel("Mã phiếu");
-        JLabel nvnhap=new JLabel("Nhân viên nhập");
-        JLabel nhacungcap=new JLabel("Nhà cung cấp");
-        JLabel thoigian =new JLabel("Thời gian tạo");
+        JLabel Tenkh=new JLabel("Tên Khách Hàng");
+        JLabel sdt=new JLabel("Số Điện Thoại");
+        JLabel dc=new JLabel("Địa Chỉ");
+        JLabel em=new JLabel("Email");
         JTextField tf1=new JTextField(47);
         tf1.setPreferredSize(new Dimension(200,50));
         JTextField tf2=new JTextField(47);
@@ -31,25 +31,25 @@ public class PhieuNhapDialog extends JDialog {
         JPanel P4=new JPanel(new BorderLayout());
         JPanel P5=new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
 
-        JLabel lb1=new JLabel("THÊM PHIẾU NHẬP");
+        JLabel lb1=new JLabel("THÊM KHÁCH HÀNG");
         lb1.setPreferredSize(new Dimension(200,50));
         Font largerFont = new Font("Arial", Font.BOLD, 25);
         lb1.setFont(largerFont);
         Color customBlue = new Color(30, 129, 206);
         P4.setBackground(customBlue);
         P4.setForeground(Color.white);
-        P.add(maphieu);
+        P.add(Tenkh);
         P.add(tf1);
-        P1.add(nvnhap);
+        P1.add(sdt);
         P1.add(tf2);
-        P2.add(nhacungcap);
+        P2.add(dc);
         P2.add(tf3);
-        P5.add(thoigian);
+        P5.add(em);
         P5.add(tf4);
         P4.add(lb1,BorderLayout.CENTER);
         lb1.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton btnthem=new JButton("Thêm Phiếu Nhập");
+        JButton btnthem=new JButton("Thêm Khách Hàng");
         btnthem.setPreferredSize(new Dimension(150,38));
         Color themKhachHangColor = new Color(56, 168, 223);
 
@@ -85,4 +85,5 @@ public class PhieuNhapDialog extends JDialog {
         });
         setVisible(true);
 }
+
 }

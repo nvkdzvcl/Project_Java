@@ -5,16 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class KhachHangDialog extends JDialog {
-    public KhachHangDialog() {
+public class ThemHoaDonDialog extends JDialog {
+    public ThemHoaDonDialog() {
 
-        setTitle("Thêm Khách Hàng");
+        setTitle("Thêm Hóa đơn");
         setSize(568,750);
         setLayout( new GridLayout(0, 1, 10, 10));
-        JLabel Tenkh=new JLabel("Tên Khách Hàng");
-        JLabel sdt=new JLabel("Số Điện Thoại");
-        JLabel dc=new JLabel("Địa Chỉ");
-        JLabel em=new JLabel("Email");
+        JLabel mahd=new JLabel("Mã hóa đơn");
+        JLabel nvban=new JLabel("Nhân viên bán");
+        JLabel kh=new JLabel("Khách hàng");
+        JLabel thoigian =new JLabel("Thời gian tạo");
         JTextField tf1=new JTextField(47);
         tf1.setPreferredSize(new Dimension(200,50));
         JTextField tf2=new JTextField(47);
@@ -31,25 +31,25 @@ public class KhachHangDialog extends JDialog {
         JPanel P4=new JPanel(new BorderLayout());
         JPanel P5=new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
 
-        JLabel lb1=new JLabel("THÊM KHÁCH HÀNG");
+        JLabel lb1=new JLabel("THÊM HÓA ĐƠN");
         lb1.setPreferredSize(new Dimension(200,50));
         Font largerFont = new Font("Arial", Font.BOLD, 25);
         lb1.setFont(largerFont);
         Color customBlue = new Color(30, 129, 206);
         P4.setBackground(customBlue);
         P4.setForeground(Color.white);
-        P.add(Tenkh);
+        P.add(mahd);
         P.add(tf1);
-        P1.add(sdt);
+        P1.add(nvban);
         P1.add(tf2);
-        P2.add(dc);
+        P2.add(kh);
         P2.add(tf3);
-        P5.add(em);
+        P5.add(thoigian);
         P5.add(tf4);
         P4.add(lb1,BorderLayout.CENTER);
         lb1.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton btnthem=new JButton("Thêm Khách Hàng");
+        JButton btnthem=new JButton("Thêm hóa đơn");
         btnthem.setPreferredSize(new Dimension(150,38));
         Color themKhachHangColor = new Color(56, 168, 223);
 
@@ -84,6 +84,6 @@ public class KhachHangDialog extends JDialog {
             }
         });
         setVisible(true);
+    }
 }
 
-}

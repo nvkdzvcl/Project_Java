@@ -1,7 +1,5 @@
 package GUI.PANEL;
 
-import GUI.DIALOG.KhachHangDialog;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;

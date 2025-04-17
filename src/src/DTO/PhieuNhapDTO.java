@@ -46,5 +46,15 @@ public class PhieuNhapDTO {
     public void setNgay(Date ngay) {
         this.ngay = ngay;
     }
+
+    @Override
+    public String toString() {
+        return "PhieuNhapDTO{" +
+                "maPhieuNhap=" + maPhieuNhap +
+                ", nhaCungCap='" + nhaCungCap + '\'' +
+                ", nhanVienNhap='" + nhanVienNhap + '\'' +
+                ", ngay=" + ngay +
+                '}';
+    }
 }
 

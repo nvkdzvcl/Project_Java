@@ -1,7 +1,7 @@
 package GUI.PANEL;
 
 import GUI.DIALOG.ChitietPhieuNhapDialog;
-import GUI.DIALOG.PhieuNhapDialog;
+import GUI.DIALOG.ThemPhieuNhapDialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -108,7 +108,7 @@ public class PhieuNhap extends JPanel {
         btnthem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PhieuNhapDialog();
+                new ThemPhieuNhapDialog();
             }
         });
         btnchitiet.addActionListener(new ActionListener() {

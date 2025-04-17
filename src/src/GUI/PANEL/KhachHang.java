@@ -1,7 +1,7 @@
 package GUI.PANEL;
 
 import GUI.DIALOG.ChitietKhachHangDialog;
-import GUI.DIALOG.KhachHangDialog;
+import GUI.DIALOG.ThemKhachHangDialog;
 import GUI.DIALOG.SuaKhachHangDiaLog;
 
 import javax.swing.*;
@@ -94,7 +94,7 @@ public class KhachHang extends JPanel {
         btnthem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new KhachHangDialog();
+                new ThemKhachHangDialog();
             }
         });
         btnsua.addActionListener(new ActionListener() {

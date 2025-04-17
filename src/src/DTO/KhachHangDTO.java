@@ -45,4 +45,14 @@ public class KhachHangDTO {
     public void setEmail(String email) {
         this.Email = email;
     }
+
+    @Override
+    public String toString() {
+        return "KhachHangDTO{" +
+                "maKhachHang=" + maKhachHang +
+                ", tenKhachHang='" + tenKhachHang + '\'' +
+                ", soDienThoai='" + soDienThoai + '\'' +
+                ", Email='" + Email + '\'' +
+                '}';
+    }
 }

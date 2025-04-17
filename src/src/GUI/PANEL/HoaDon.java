@@ -1,7 +1,7 @@
 package GUI.PANEL;
 
 import GUI.DIALOG.ChitietHoaDonDialog;
-import GUI.DIALOG.HoaDonDialog;
+import GUI.DIALOG.ThemHoaDonDialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -108,7 +108,7 @@ public class HoaDon extends JPanel {
         btnthem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new HoaDonDialog();
+                new ThemHoaDonDialog();
             }
         });
 

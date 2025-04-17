@@ -47,4 +47,14 @@ public class HoaDonDTO {
     public void setThoigian(Date thoigian) {
         this.thoigian = thoigian;
     }
+
+    @Override
+    public String toString() {
+        return "HoaDonDTO{" +
+                "maHoaDon=" + maHoaDon +
+                ", khachhang='" + khachhang + '\'' +
+                ", nhanVienBan='" + nhanVienBan + '\'' +
+                ", thoigian=" + thoigian +
+                '}';
+    }
 }
