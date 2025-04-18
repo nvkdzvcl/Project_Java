@@ -70,11 +70,11 @@ public class Login extends JFrame {
         });
         panel.add(lblShowHide);
 
-        JLabel lblForgot = new JLabel("Quên mật khẩu");
-        lblForgot.setBounds(270, 215, 120, 25);
-        lblForgot.setFont(new Font("SansSerif", Font.ITALIC, 13));
-        lblForgot.setForeground(Color.BLACK);
-        panel.add(lblForgot);
+//        JLabel lblForgot = new JLabel("Quên mật khẩu");
+//        lblForgot.setBounds(270, 215, 120, 25);
+//        lblForgot.setFont(new Font("SansSerif", Font.ITALIC, 13));
+//        lblForgot.setForeground(Color.BLACK);
+//        panel.add(lblForgot);
 
         JButton btnLogin = new JButton("ĐĂNG NHẬP");
         btnLogin.setBounds(70, 260, 300, 40);
