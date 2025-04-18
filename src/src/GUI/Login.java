@@ -3,6 +3,8 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
+import config.JDBCUtil;
 
 public class Login extends JFrame {
     private JTextField txtUsername;
@@ -82,6 +84,44 @@ public class Login extends JFrame {
         btnLogin.setFont(new Font("SansSerif", Font.BOLD, 15));
         btnLogin.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+
+        btnLogin.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String username = txtUsername.getText().trim();
+                String password = new String(txtPassword.getPassword()).trim();
+
+                if (username.isEmpty() || password.isEmpty()) {
+                    JOptionPane.showMessageDialog(Login.this, "Vui lòng nhập đầy đủ thông tin đăng nhập");
+                    return;
+                }
+
+                try (Connection conn = JDBCUtil.startConnection()) {
+                    String sql = "SELECT * FROM TAIKHOAN WHERE TENNGUOIDUNG = ? AND MATKHAU = ? AND TRANGTHAI = 1";
+                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    stmt.setString(1, username);
+                    stmt.setString(2, password);
+
+                    System.out.println("Login attempt → user: ["+ username +"], pass: ["+ password +"]");
+                    System.out.println("Prepared SQL: " + stmt);
+
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        // Đóng trang login và mở Main
+                        dispose();
+                        new Main(username); // Truyền username nếu cần
+                    } else {
+                        JOptionPane.showMessageDialog(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng!");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(Login.this, "Lỗi khi kết nối hoặc truy vấn cơ sở dữ liệu!");
+                }
+            }
+        });
+
+
         panel.add(btnLogin);
 
         return panel;

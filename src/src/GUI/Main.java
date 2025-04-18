@@ -11,6 +11,12 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 public class Main extends JFrame {
     private CardLayout cardLayout;
     private JPanel contentPanel;
+    private String currentUser;
+
+    public Main(String username) {
+        this.currentUser = username;
+    }
+
 
     public Main() {
         setTitle("Hệ thống quản lý cửa hàng");
@@ -49,7 +55,7 @@ public class Main extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(new Color(240, 248, 255));
 
-        JLabel userLabel = new JLabel("👤 Nguyễn Văn Khanh");
+        JLabel userLabel = new JLabel("👤 " + currentUser);
         userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         userLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         panel.add(userLabel);
@@ -102,9 +108,4 @@ public class Main extends JFrame {
     }
 
 
-
-    public static void main(String[] args) {
-        FlatIntelliJLaf.setup();
-        new Main();
-    }
 }

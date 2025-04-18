@@ -16,6 +16,7 @@ public class JDBCUtil {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             conn = DriverManager.getConnection(url, username, password);
+            System.out.println("Connected to DB: " + conn.getCatalog());
         }
         catch(Exception e){
             e.printStackTrace();
@@ -33,17 +34,6 @@ public class JDBCUtil {
         }
         catch(Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) {
-        Connection conn = startConnection();
-
-        if (conn != null) {
-            JOptionPane.showMessageDialog(null, "Kết nối database thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-            closeConnection(conn);
-        } else {
-            JOptionPane.showMessageDialog(null, "Kết nối database thất bại!", "Thất bại", JOptionPane.ERROR_MESSAGE);
         }
     }
 
