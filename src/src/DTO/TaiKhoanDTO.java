@@ -2,24 +2,20 @@ package DTO;
 
 public class TaiKhoanDTO {
 
-    private int maNV;
     private String tenNguoiDung;
     private String matKhau;
+    private String chucVu;
+    private int trangThai;
+    private int maNV;
 
     public TaiKhoanDTO(){
 
     }
-    public TaiKhoanDTO(int maNV, String tenNguoiDung, String matKhau) {
-        this.maNV = maNV;
+    public TaiKhoanDTO(String tenNguoiDung, String matKhau, String chucVu, int trangThai, int maNV) {
         this.tenNguoiDung = tenNguoiDung;
         this.matKhau = matKhau;
-    }
-
-    public int getMaNV() {
-        return maNV;
-    }
-
-    public void setMaNV(int maNV) {
+        this.chucVu = chucVu;
+        this.trangThai = trangThai;
         this.maNV = maNV;
     }
 
@@ -39,12 +35,38 @@ public class TaiKhoanDTO {
         this.matKhau = matKhau;
     }
 
+    public String getChucVu() {
+        return chucVu;
+    }
+
+    public void setChucVu(String chucVu) {
+        this.chucVu = chucVu;
+    }
+
+    public int getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public int getMaNV() {
+        return maNV;
+    }
+
+    public void setMaNV(int maNV) {
+        this.maNV = maNV;
+    }
+
     @Override
     public String toString() {
         return "TaiKhoanDTO{" +
-                "maNV=" + maNV +
-                ", tenNguoiDung='" + tenNguoiDung + '\'' +
+                "tenNguoiDung='" + tenNguoiDung + '\'' +
                 ", matKhau='" + matKhau + '\'' +
+                ", chucVu='" + chucVu + '\'' +
+                ", trangThai=" + trangThai +
+                ", maNV=" + maNV +
                 '}';
     }
 }
