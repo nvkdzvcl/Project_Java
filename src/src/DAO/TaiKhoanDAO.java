@@ -16,10 +16,11 @@ public class TaiKhoanDAO {
         int kq = 0;
         try{
             Connection conn = JDBCUtil.startConnection();
-            String insertQuery = "INSERT INTO `taikhoan` (`tennguoidung`, `matkhau`, `manv`) VALUES (?, ?, ?)";
+            String insertQuery = "INSERT INTO `taikhoan` (`TENNGUOIDUNG`, `MATKHAU`, `CHUCVU`, `MANV`) VALUES (?, ?, ?, ?)";
             PreparedStatement prst = conn.prepareStatement(insertQuery);
             prst.setString(1, taiKhoan.getTenNguoiDung());
             prst.setString(2, taiKhoan.getMatKhau());
+            prst.setString(3, taiKhoan.getChucVu());
             prst.setInt(3, taiKhoan.getMaNV());
             kq = prst.executeUpdate();
             JDBCUtil.closeConnection(conn);
@@ -35,7 +36,7 @@ public class TaiKhoanDAO {
         int kq = 0;
         try{
             Connection conn = JDBCUtil.startConnection();
-            String deleteQuery = "DELETE FROM `taikhoan` WHERE TENNGUOIDUNG = ?";
+            String deleteQuery = "UPDATE `taikhoan` SET `TRANGTHAI` = 0 WHERE `TENNGUOIDUNG` = ?";
             PreparedStatement prst = conn.prepareStatement(deleteQuery);
             prst.setString(1, taiKhoan.getTenNguoiDung());
             kq = prst.executeUpdate();
@@ -52,11 +53,12 @@ public class TaiKhoanDAO {
         int kq = 0;
         try{
             Connection conn = JDBCUtil.startConnection();
-            String updateQuery = "UPDATE `taikhoan` SET `MATKHAU` = ?, `MANV` = ? WHERE `TENNGUOIDUNG` =?";
+            String updateQuery = "UPDATE `taikhoan` SET `MATKHAU` = ?, `MANV` = ?, `CHUCVU` = ? WHERE `TENNGUOIDUNG` =?";
             PreparedStatement prst = conn.prepareStatement(updateQuery);
             prst.setString(1, taiKhoan.getMatKhau());
             prst.setInt(2, taiKhoan.getMaNV());
-            prst.setString(3, taiKhoan.getTenNguoiDung());
+            prst.setString(3, taiKhoan.getChucVu());
+            prst.setString(4, taiKhoan.getTenNguoiDung());
             JDBCUtil.closeConnection(conn);
         }
         catch (SQLException sqlException){
@@ -75,10 +77,12 @@ public class TaiKhoanDAO {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(selectQuery);
             while(rs.next()){
-                String tenNguoiDung = rs.getString("tennguoidung");
-                String matKhau = rs.getString("matkhau");
-                int maNV = rs.getInt("manv");
-                TaiKhoanDTO taiKhoan = new TaiKhoanDTO(maNV, tenNguoiDung, matKhau);
+                String tenNguoiDung = rs.getString("TENNGUOIDUNG");
+                String matKhau = rs.getString("MATKHAU");
+                String chucVu = rs.getString("CHUCVU");
+                int trangThai = rs.getInt("TRANGTHAI");
+                int maNV = rs.getInt("MANV");
+                TaiKhoanDTO taiKhoan = new TaiKhoanDTO(tenNguoiDung, matKhau, chucVu, trangThai, maNV);
                 danhSachTaiKhoan.add(taiKhoan);
             }
             JDBCUtil.closeConnection(conn);
@@ -99,10 +103,12 @@ public class TaiKhoanDAO {
             prst.setString(1, maNV);
             ResultSet rs = prst.executeQuery();
             while(rs.next()){
-                String tenNguoiDung = rs.getString("tennguoidung");
-                String matKhau = rs.getString("matkhau");
-                int manv = rs.getInt("manv");
-                taiKhoan = new TaiKhoanDTO(manv, tenNguoiDung, matKhau);
+                String tenNguoiDung = rs.getString("TENNGUOIDUNG");
+                String matKhau = rs.getString("MATKHAU");
+                String chucVu = rs.getString("CHUCVU");
+                int trangThai = rs.getInt("TRANGTHAI");
+                int manv = rs.getInt("MANV");
+                taiKhoan = new TaiKhoanDTO(tenNguoiDung, matKhau, chucVu, trangThai, manv);
                 return taiKhoan;
             }
             JDBCUtil.closeConnection(conn);
@@ -123,10 +129,12 @@ public class TaiKhoanDAO {
             prst.setString(1, tenNguoiDung);
             ResultSet rs = prst.executeQuery();
             while(rs.next()){
-                String tennguoidung = rs.getString("tennguoidung");
-                String matKhau = rs.getString("matkhau");
-                int manv = rs.getInt("manv");
-                taiKhoan = new TaiKhoanDTO(manv, tennguoidung, matKhau);
+                String tennguoidung = rs.getString("TENNGUOIDUNG");
+                String matKhau = rs.getString("MATKHAU");
+                String chucVu = rs.getString("CHUCVU");
+                int trangThai = rs.getInt("TRANGTHAI");
+                int maNV = rs.getInt("MANV");
+                taiKhoan = new TaiKhoanDTO(tennguoidung, matKhau, chucVu, trangThai, maNV);
                 return taiKhoan;
             }
             JDBCUtil.closeConnection(conn);
