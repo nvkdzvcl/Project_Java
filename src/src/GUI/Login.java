@@ -108,10 +108,10 @@ public class Login extends JFrame {
                     ResultSet rs = stmt.executeQuery();
 
                     if (rs.next()) {
-                        // Đóng trang login và mở Main
                         dispose();
-                        new Main(username); // Truyền username nếu cần
-                    } else {
+                        new Main(username);
+                    }
+                    else {
                         JOptionPane.showMessageDialog(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng!");
                     }
                 } catch (Exception ex) {
