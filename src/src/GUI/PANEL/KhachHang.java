@@ -28,7 +28,7 @@ public class KhachHang extends JPanel {
 
         btnsua.setOpaque(false);
         btnsua.setFocusPainted(false);
-        btnthem.setBorderPainted(false);
+        btnsua.setBorderPainted(false);
         ImageIcon xoaicon= resizeimg(new ImageIcon((getClass().getResource("/icon/xoa.png"))));
         JButton btnxoa= createIconButton("Xóa", xoaicon);
         btnxoa.setOpaque(false);

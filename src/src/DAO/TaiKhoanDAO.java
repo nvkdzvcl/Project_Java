@@ -8,64 +8,55 @@ import java.util.ArrayList;
 
 public class TaiKhoanDAO {
 
-    public static TaiKhoanDAO getInstance(){
+    public static TaiKhoanDAO getInstance() {
         return new TaiKhoanDAO();
     }
 
-    public int insert(TaiKhoanDTO taiKhoan){
-        int kq = 0;
-        try{
-            Connection conn = JDBCUtil.startConnection();
-            String insertQuery = "INSERT INTO `taikhoan` (`TENNGUOIDUNG`, `MATKHAU`, `CHUCVU`, `MANV`) VALUES (?, ?, ?, ?)";
-            PreparedStatement prst = conn.prepareStatement(insertQuery);
+    public int insert(TaiKhoanDTO taiKhoan) {
+        String sql = "INSERT INTO taikhoan (TENNGUOIDUNG, MATKHAU, CHUCVU, MANV) VALUES (?,?,?,?)";
+        try (Connection conn = JDBCUtil.startConnection();
+            PreparedStatement prst = conn.prepareStatement(sql)) {
             prst.setString(1, taiKhoan.getTenNguoiDung());
             prst.setString(2, taiKhoan.getMatKhau());
             prst.setString(3, taiKhoan.getChucVu());
-            prst.setInt(3, taiKhoan.getMaNV());
-            kq = prst.executeUpdate();
-            JDBCUtil.closeConnection(conn);
+            prst.setInt(4, taiKhoan.getMaNV());
+            return prst.executeUpdate();
         }
         catch (SQLException sqlException){
-            System.out.println("Lỗi thêm tài khoản");
+            System.out.println("Lỗi thêm tài khoản" + sqlException.getMessage());
+            return 0;
         }
-
-        return kq;
     }
 
-    public int delete(TaiKhoanDTO taiKhoan){
+    public int delete(TaiKhoanDTO taiKhoan) {
         int kq = 0;
-        try{
-            Connection conn = JDBCUtil.startConnection();
-            String deleteQuery = "UPDATE `taikhoan` SET `TRANGTHAI` = 0 WHERE `TENNGUOIDUNG` = ?";
-            PreparedStatement prst = conn.prepareStatement(deleteQuery);
+        String sql = "UPDATE taikhoan SET TRANGTHAI = 0 WHERE TENNGUOIDUNG = ?";
+        try (Connection conn = JDBCUtil.startConnection();
+            PreparedStatement prst = conn.prepareStatement(sql)) {
             prst.setString(1, taiKhoan.getTenNguoiDung());
-            kq = prst.executeUpdate();
-            JDBCUtil.closeConnection(conn);
+            return prst.executeUpdate();
         }
         catch (SQLException sqlException){
-            System.out.println("Lỗi xoá tài khoản");
+            System.out.println("Lỗi xoá tài khoản" + sqlException.getMessage());
+            return 0;
         }
-
-        return kq;
     }
 
     public int update(TaiKhoanDTO taiKhoan){
         int kq = 0;
-        try{
-            Connection conn = JDBCUtil.startConnection();
-            String updateQuery = "UPDATE `taikhoan` SET `MATKHAU` = ?, `MANV` = ?, `CHUCVU` = ? WHERE `TENNGUOIDUNG` =?";
-            PreparedStatement prst = conn.prepareStatement(updateQuery);
+        String sql = "UPDATE `taikhoan` SET `MATKHAU` = ?, `MANV` = ?, `CHUCVU` = ? WHERE `TENNGUOIDUNG` =?";
+        try (Connection conn = JDBCUtil.startConnection();
+            PreparedStatement prst = conn.prepareStatement(sql)) {
             prst.setString(1, taiKhoan.getMatKhau());
             prst.setInt(2, taiKhoan.getMaNV());
             prst.setString(3, taiKhoan.getChucVu());
             prst.setString(4, taiKhoan.getTenNguoiDung());
-            JDBCUtil.closeConnection(conn);
+            return prst.executeUpdate();
         }
         catch (SQLException sqlException){
-            System.out.println("Lỗi cập nhật tài khoản");
+            System.out.println("Lỗi cập nhật tài khoản" + sqlException.getMessage());
+            return 0;
         }
-
-        return kq;
     }
 
     public ArrayList<TaiKhoanDTO> selectAll(){
@@ -88,7 +79,7 @@ public class TaiKhoanDAO {
             JDBCUtil.closeConnection(conn);
         }
         catch(SQLException sqlException){
-            System.out.println("Lỗi hiển thị danh sách tài khoản");
+            System.out.println("Lỗi hiển thị danh sách tài khoản" + sqlException.getMessage());
         }
 
         return danhSachTaiKhoan;
@@ -114,7 +105,7 @@ public class TaiKhoanDAO {
             JDBCUtil.closeConnection(conn);
         }
         catch (SQLException sqlException){
-            System.out.println("Lỗi tìm tài khoản dựa trên mã nhân viên");
+            System.out.println("Lỗi tìm tài khoản dựa trên mã nhân viên" + sqlException.getMessage());
         }
 
         return taiKhoan;
@@ -140,7 +131,7 @@ public class TaiKhoanDAO {
             JDBCUtil.closeConnection(conn);
         }
         catch (SQLException sqlException){
-            System.out.println("Lỗi tìm tài khoản dựa trên tên người dùng");
+            System.out.println("Lỗi tìm tài khoản dựa trên tên người dùng" + sqlException.getMessage());
         }
 
         return taiKhoan;

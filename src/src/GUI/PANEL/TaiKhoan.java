@@ -27,7 +27,7 @@ public class TaiKhoan extends JPanel {
 
         btnSua.setOpaque(false);
         btnSua.setFocusPainted(false);
-        btnThem.setBorderPainted(false);
+        btnSua.setBorderPainted(false);
         ImageIcon xoaicon = resizeimg(new ImageIcon((getClass().getResource("/icon/xoa.png"))));
         JButton btnXoa = createIconButton("Xóa", xoaicon);
         btnXoa.setOpaque(false);
@@ -54,12 +54,15 @@ public class TaiKhoan extends JPanel {
 
 
 
+
+
         ImageIcon lmcon = resizeimg(new ImageIcon((getClass().getResource("/icon/lammoi.png"))));
         JButton btnLamMoi = createIconButton("Làm Mới", lmcon);
         btnLamMoi.setOpaque(false);
         btnLamMoi.setFocusPainted(false);
         btnLamMoi.setVerticalTextPosition(SwingConstants.CENTER);
         btnLamMoi.setHorizontalTextPosition(SwingConstants.RIGHT);
+
 
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
         P1.add(btnThem);

@@ -29,7 +29,7 @@ public class SanPham extends JPanel {
 //        btnsua.setContentAreaFilled(false);
         btnsua.setOpaque(false);
         btnsua.setFocusPainted(false);
-        btnthem.setBorderPainted(false);
+        btnsua.setBorderPainted(false);
         ImageIcon xoaicon= resizeimg(new ImageIcon((getClass().getResource("/icon/xoa.png"))));
         JButton btnxoa= createIconButton("Xóa", xoaicon);
 //        btnxoa.setContentAreaFilled(false);
