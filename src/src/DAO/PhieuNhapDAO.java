@@ -10,10 +10,7 @@ public class PhieuNhapDAO {
     private static PhieuNhapDAO instance;
 
     public static PhieuNhapDAO getInstance() {
-        if (instance == null) {
-            instance = new PhieuNhapDAO();
-        }
-        return instance;
+        return new PhieuNhapDAO();
     }
 
     public int insert(PhieuNhapDTO phieuNhap) {

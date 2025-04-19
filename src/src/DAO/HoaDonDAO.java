@@ -10,10 +10,7 @@ public class HoaDonDAO {
     private static HoaDonDAO instance;
 
     public static HoaDonDAO getInstance() {
-        if (instance == null) {
-            instance = new HoaDonDAO();
-        }
-        return instance;
+       return new HoaDonDAO();
     }
 
     public int insert(HoaDonDTO hoaDon) {
