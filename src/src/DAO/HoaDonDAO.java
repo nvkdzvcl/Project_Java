@@ -97,7 +97,7 @@ public class HoaDonDAO {
                 );
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi tìm hóa đơn theo ID: " + e.getMessage());
+            System.out.println("Lỗi tìm hóa đơn theo mã hóa đơn: " + e.getMessage());
         }
 
         return hd;
