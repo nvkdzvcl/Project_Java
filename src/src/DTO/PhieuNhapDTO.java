@@ -7,14 +7,16 @@ public class PhieuNhapDTO {
     private String nhaCungCap;
     private String nhanVienNhap;
     private Date ngay;
+    private int tongTien;
     public PhieuNhapDTO(){
 
     }
-    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,String nhanVienNhap,Date ngay){
+    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,String nhanVienNhap,Date ngay,int tongTien){
         this.maPhieuNhap = maPhieuNhap;
         this.nhaCungCap = nhaCungCap;
         this.nhanVienNhap = nhanVienNhap;
         this.ngay = ngay;
+        this.tongTien = tongTien;
     }
     public int getMaPhieuNhap(){
         return maPhieuNhap;
@@ -47,6 +49,14 @@ public class PhieuNhapDTO {
         this.ngay = ngay;
     }
 
+    public int getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(int tongTien) {
+        this.tongTien = tongTien;
+    }
+
     @Override
     public String toString() {
         return "PhieuNhapDTO{" +
@@ -54,7 +64,9 @@ public class PhieuNhapDTO {
                 ", nhaCungCap='" + nhaCungCap + '\'' +
                 ", nhanVienNhap='" + nhanVienNhap + '\'' +
                 ", ngay=" + ngay +
+                ", tongTien=" + tongTien +
                 '}';
     }
+
 }
 
