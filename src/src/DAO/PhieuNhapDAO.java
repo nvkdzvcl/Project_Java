@@ -98,7 +98,7 @@ public class PhieuNhapDAO {
                 );
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi tìm phiếu nhập theo ID: " + e.getMessage());
+            System.out.println("Lỗi tìm phiếu nhập theo mã phiếu nhập: " + e.getMessage());
         }
 
         return pn;
