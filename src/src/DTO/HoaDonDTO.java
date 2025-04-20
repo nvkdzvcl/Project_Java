@@ -7,13 +7,15 @@ public class HoaDonDTO {
     private String khachhang;
     private String nhanVienBan;
     private Date thoigian;
+    private int tongTien;
     public HoaDonDTO(){
     }
-    public HoaDonDTO(int maHoaDon,String khachhang,String nhanVienBan,Date thoigian){
+    public HoaDonDTO(int maHoaDon,String khachhang,String nhanVienBan,Date thoigian,int tongTien){
         this.maHoaDon = maHoaDon;
         this.khachhang = khachhang;
         this.nhanVienBan = nhanVienBan;
         this.thoigian = thoigian;
+        this.tongTien = tongTien;
     }
 
     public int getMaHoaDon() {
@@ -48,6 +50,14 @@ public class HoaDonDTO {
         this.thoigian = thoigian;
     }
 
+    public int getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(int tongTien) {
+        this.tongTien = tongTien;
+    }
+
     @Override
     public String toString() {
         return "HoaDonDTO{" +
@@ -55,6 +65,7 @@ public class HoaDonDTO {
                 ", khachhang='" + khachhang + '\'' +
                 ", nhanVienBan='" + nhanVienBan + '\'' +
                 ", thoigian=" + thoigian +
+                ", tongTien=" + tongTien +
                 '}';
     }
 }
