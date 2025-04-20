@@ -85,7 +85,7 @@ public class TaiKhoan extends JPanel {
         P.add(P1, BorderLayout.WEST);
         P.add(P2, BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
-        String[] collum = {"Mã NV","Tên Đăng Nhập","Chức vụ","Trạng Thái"};
+        String[] collum = {"Mã NV","Tên Đăng Nhập","Chức Vụ","Trạng Thái"};
         JTable bangkh = new JTable();
         DefaultTableModel model = new DefaultTableModel(collum,0);
         bangkh.setModel(model);

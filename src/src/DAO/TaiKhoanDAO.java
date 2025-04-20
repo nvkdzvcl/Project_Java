@@ -5,7 +5,6 @@ import config.JDBCUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TaiKhoanDAO {
 
@@ -60,8 +59,8 @@ public class TaiKhoanDAO {
         }
     }
 
-    public List<TaiKhoanDTO> selectAll(){
-        List<TaiKhoanDTO> danhSachTaiKhoan = new ArrayList<TaiKhoanDTO>();
+    public ArrayList<TaiKhoanDTO> selectAll(){
+        ArrayList<TaiKhoanDTO> danhSachTaiKhoan = new ArrayList<TaiKhoanDTO>();
         String sql = "SELECT TENNGUOIDUNG, MATKHAU, CHUCVU, TRANGTHAI, MANV FROM taikhoan";
         try (Connection conn = JDBCUtil.startConnection();
             Statement stmt = conn.createStatement();
@@ -127,7 +126,7 @@ public class TaiKhoanDAO {
                             rs.getString("MATKHAU"),
                             rs.getString("CHUCVU"),
                             rs.getInt("TRANGTHAI"),
-                            rs.getInt("MAVN")
+                            rs.getInt("MANV")
                     );
                 }
             }
