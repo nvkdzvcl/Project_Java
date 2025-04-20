@@ -142,4 +142,49 @@ public class HoaDonDAO {
 
         return danhSach;
     }
+    // Khôi phục hóa đơn đã bị xóa mềm (TRANGTHAI = 0)
+    public int restore(int maHoaDon) {
+        String sql = "UPDATE hoadon SET TRANGTHAI = 1 WHERE MAHOADON = ?";
+        try (Connection conn = JDBCUtil.startConnection();
+             PreparedStatement prst = conn.prepareStatement(sql)) {
+
+            prst.setInt(1, maHoaDon);
+            return prst.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Lỗi khôi phục hóa đơn: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    // Lấy danh sách hóa đơn trong khoảng thời gian
+    public ArrayList<HoaDonDTO> getByDateRange(Date from, Date to) {
+        ArrayList<HoaDonDTO> danhSach = new ArrayList<>();
+        String sql = "SELECT * FROM hoadon WHERE THOIGIAN BETWEEN ? AND ? AND TRANGTHAI = 1";
+
+        try (Connection conn = JDBCUtil.startConnection();
+             PreparedStatement prst = conn.prepareStatement(sql)) {
+
+            prst.setDate(1, new java.sql.Date(from.getTime()));
+            prst.setDate(2, new java.sql.Date(to.getTime()));
+            ResultSet rs = prst.executeQuery();
+
+            while (rs.next()) {
+                HoaDonDTO hd = new HoaDonDTO(
+                        rs.getInt("MAHOADON"),
+                        rs.getString("KHACHHANG"),
+                        rs.getString("NHANVIENBAN"),
+                        rs.getDate("THOIGIAN"),
+                        rs.getInt("TONGTIEN")
+                );
+                danhSach.add(hd);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Lỗi tìm hóa đơn theo khoảng thời gian: " + e.getMessage());
+        }
+
+        return danhSach;
+    }
+
 }

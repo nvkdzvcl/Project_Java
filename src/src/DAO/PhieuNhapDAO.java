@@ -156,4 +156,49 @@ public class PhieuNhapDAO {
 
         return danhSach;
     }
+    // Khôi phục phiếu nhập đã bị ẩn (TRANGTHAI = 0)
+    public int restore(int maPhieuNhap) {
+        String sql = "UPDATE phieunhap SET TRANGTHAI = 1 WHERE MAPHIEUNHAP = ?";
+        try (Connection conn = JDBCUtil.startConnection();
+             PreparedStatement prst = conn.prepareStatement(sql)) {
+
+            prst.setInt(1, maPhieuNhap);
+            return prst.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Lỗi khôi phục phiếu nhập: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    // Tìm phiếu nhập theo khoảng ngày
+    public ArrayList<PhieuNhapDTO> getByDateRange(Date from, Date to) {
+        ArrayList<PhieuNhapDTO> danhSach = new ArrayList<>();
+        String sql = "SELECT * FROM phieunhap WHERE NGAY BETWEEN ? AND ? AND TRANGTHAI = 1";
+
+        try (Connection conn = JDBCUtil.startConnection();
+             PreparedStatement prst = conn.prepareStatement(sql)) {
+
+            prst.setDate(1, new java.sql.Date(from.getTime()));
+            prst.setDate(2, new java.sql.Date(to.getTime()));
+            ResultSet rs = prst.executeQuery();
+
+            while (rs.next()) {
+                PhieuNhapDTO pn = new PhieuNhapDTO(
+                        rs.getInt("MAPHIEUNHAP"),
+                        rs.getString("NHACUNGCAP"),
+                        rs.getString("NHANVIENNHAP"),
+                        rs.getDate("NGAY"),
+                        rs.getInt("TONGTIEN")
+                );
+                danhSach.add(pn);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Lỗi tìm phiếu nhập theo khoảng ngày: " + e.getMessage());
+        }
+
+        return danhSach;
+    }
+
 }
