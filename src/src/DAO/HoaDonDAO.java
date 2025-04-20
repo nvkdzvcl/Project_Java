@@ -63,7 +63,7 @@ public class HoaDonDAO {
     }
 
     public ArrayList<HoaDonDTO> selectAll() {
-        ArrayList<HoaDonDTO> danhSach = new ArrayList<>();
+        ArrayList<HoaDonDTO> danhSachHoaDon = new ArrayList<>();
         String sql = "SELECT * FROM hoadon WHERE TRANGTHAI = 1";
 
         try (Connection conn = JDBCUtil.startConnection();
@@ -78,14 +78,14 @@ public class HoaDonDAO {
                         rs.getDate("THOIGIAN"),
                         rs.getInt("TONGTIEN")
                 );
-                danhSach.add(hd);
+                danhSachHoaDon.add(hd);
             }
 
         } catch (SQLException e) {
             System.out.println("Lỗi hiển thị danh sách hóa đơn: " + e.getMessage());
         }
 
-        return danhSach;
+        return danhSachHoaDon;
     }
 
     public HoaDonDTO selectById(int maHoaDon) {
@@ -116,7 +116,7 @@ public class HoaDonDAO {
     }
 
     public ArrayList<HoaDonDTO> getByKhachHang(String tenKH) {
-        ArrayList<HoaDonDTO> danhSach = new ArrayList<>();
+        ArrayList<HoaDonDTO> danhSachKhachHang = new ArrayList<>();
         String sql = "SELECT * FROM hoadon WHERE KHACHHANG LIKE ? AND TRANGTHAI = 1";
 
         try (Connection conn = JDBCUtil.startConnection();
@@ -133,14 +133,14 @@ public class HoaDonDAO {
                         rs.getDate("THOIGIAN"),
                         rs.getInt("TONGTIEN")
                 );
-                danhSach.add(hd);
+                danhSachKhachHang.add(hd);
             }
 
         } catch (SQLException e) {
             System.out.println("Lỗi tìm hóa đơn theo khách hàng: " + e.getMessage());
         }
 
-        return danhSach;
+        return danhSachKhachHang;
     }
     // Khôi phục hóa đơn đã bị xóa mềm (TRANGTHAI = 0)
     public int restore(int maHoaDon) {
@@ -159,7 +159,7 @@ public class HoaDonDAO {
 
     // Lấy danh sách hóa đơn trong khoảng thời gian
     public ArrayList<HoaDonDTO> getByDateRange(Date from, Date to) {
-        ArrayList<HoaDonDTO> danhSach = new ArrayList<>();
+        ArrayList<HoaDonDTO> danhSachHoaDon = new ArrayList<>();
         String sql = "SELECT * FROM hoadon WHERE THOIGIAN BETWEEN ? AND ? AND TRANGTHAI = 1";
 
         try (Connection conn = JDBCUtil.startConnection();
@@ -177,14 +177,14 @@ public class HoaDonDAO {
                         rs.getDate("THOIGIAN"),
                         rs.getInt("TONGTIEN")
                 );
-                danhSach.add(hd);
+                danhSachHoaDon.add(hd);
             }
 
         } catch (SQLException e) {
             System.out.println("Lỗi tìm hóa đơn theo khoảng thời gian: " + e.getMessage());
         }
 
-        return danhSach;
+        return danhSachHoaDon;
     }
 
 }
