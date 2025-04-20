@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS `NHANVIEN` (
 ) ENGINE=InnoDB;
 
 INSERT INTO `NHANVIEN` (`HOTENNV`, `GIOITINH`, `NGAYSINH`, `SDT`, `EMAIL`) VALUES
-('Nguyễn Văn Khanh', 'NAM', '1990-05-20', '0123456789', 'nguyenvankhanh@gmail.com'),
-('Hàn Gia Hào',     'NAM', '1992-08-15', '0987654321', 'hangiahao@gmail.com');
+('Nguyễn Văn Khanh', 'NAM', '2005-01-30', '0968937705', 'nvkhanh301@gmail.com'),
+('Hàn Gia Hào',     'NAM', '2005-09-10', '0987654321', 'hangiahao@gmail.com');
 
 -- 2. BẢNG KHÁCH HÀNG
 CREATE TABLE IF NOT EXISTS `KHACHHANG` (

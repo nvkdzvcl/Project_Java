@@ -93,6 +93,7 @@ public class PhieuNhap extends JPanel {
         model.addColumn("Nhà cung cấp");
         model.addColumn("Nhân viên nhập");
         model.addColumn("Ngày");
+        model.addColumn("Trạng thái");
         model.addColumn("Tổng tiền");
 
         // Thêm một số dòng mẫu (các dòng này chỉ để minh họa)

@@ -23,6 +23,8 @@ public class Login extends JFrame {
         add(initLeftPanel());
         add(initRightPanel());
 
+        loadDefaultAccount();
+
         setVisible(true);
     }
 
@@ -134,6 +136,25 @@ public class Login extends JFrame {
             txtPassword.setEchoChar((char) 0);
         }
         isPasswordVisible = !isPasswordVisible;
+    }
+
+    private void loadDefaultAccount() {
+        String sql = """
+                SELECT TENNGUOIDUNG, MATKHAU
+                FROM TAIKHOAN
+                WHERE TRANGTHAI = 1
+                ORDER BY TENNGUOIDUNG LIMIT 1
+                """;
+        try (Connection conn = JDBCUtil.startConnection();
+            PreparedStatement prst = conn.prepareStatement(sql);
+            ResultSet rs = prst.executeQuery()) {
+            if (rs.next()) {
+                txtUsername.setText(rs.getString("TENNGUOIDUNG"));
+                txtPassword.setText(rs.getString("MATKHAU"));
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Không thể load tài khoản mặc định: " + sqlException.getMessage());
+        }
     }
 
     public static void main(String[] args) {
