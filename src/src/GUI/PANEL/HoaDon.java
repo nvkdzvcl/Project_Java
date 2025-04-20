@@ -93,11 +93,13 @@ public class HoaDon extends JPanel {
         model.addColumn("Khách hàng");
         model.addColumn("Nhân viên bán");
         model.addColumn("Thời gian");
+        model.addColumn("Trạng thái");
         model.addColumn("Tổng tiền");
 
-        // Thêm một số dòng mẫu (các dòng này chỉ để minh họa)
-        model.addRow(new Object[]{"HD001", "Anh Khanh đẹp trai", "Nguyễn Văn A", "01/01/2025", "1,000,000"});
-        model.addRow(new Object[]{"HD002", "Anh Khang đẹp trai", "Trần Thị B", "02/01/2025", "2,000,000"});
+        //Demo
+        model.addRow(new Object[]{"1", "Anh Khanh đẹp trai", "Nguyễn Văn A", "01/01/2025","Đã nhận", "1,000,000"});
+        model.addRow(new Object[]{"2", "Anh Khang đẹp trai", "Trần Thị B", "02/01/2025","Chưa nhận", "2,000,000"});
+        model.addRow(new Object[]{"3", "Anh Kiệt đẹp trai", "Nguyễn Văn C", "02/01/2025","Đã hủy", "2,000,000"});
 
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);

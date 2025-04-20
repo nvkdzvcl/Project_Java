@@ -96,15 +96,16 @@ public class PhieuNhap extends JPanel {
         model.addColumn("Trạng thái");
         model.addColumn("Tổng tiền");
 
-        // Thêm một số dòng mẫu (các dòng này chỉ để minh họa)
-        model.addRow(new Object[]{"PN001", "Công Ty A", "Nguyễn Văn A", "01/01/2025", "1,000,000"});
-        model.addRow(new Object[]{"PN002", "Công Ty B", "Trần Thị B", "02/01/2025", "2,000,000"});
+        //Demo
+        model.addRow(new Object[]{"1", "Công Ty A", "Nguyễn Văn A", "01/01/2025","Hoàn thành", "1,000,000"});
+        model.addRow(new Object[]{"2", "Công Ty B", "Trần Thị B", "02/01/2025","Chưa hoàn thành", "2,000,000"});
+        model.addRow(new Object[]{"3", "Công Ty C", "Lê Văn C", "02/01/2025","Đã hủy", "2,000,000"});
 
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         centerPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Thêm centerPanel vào phần CENTER của giao diện chính
+
         add(centerPanel, BorderLayout.CENTER);
         btnthem.addActionListener(new ActionListener() {
             @Override
@@ -158,14 +159,13 @@ public class PhieuNhap extends JPanel {
         setVisible(true);
     }
 
-    // Phương thức thay đổi kích thước icon
+
     public ImageIcon resizeimg(ImageIcon img) {
         Image tmp = img.getImage();
         Image tmp2 = tmp.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         return new ImageIcon(tmp2);
     }
 
-    // Tạo nút có icon và text
     private JButton createIconButton(String text, ImageIcon icon) {
         JButton button = new JButton(text);
         if (icon != null) {
@@ -176,7 +176,6 @@ public class PhieuNhap extends JPanel {
         return button;
     }
 
-    // Phương thức tạo bộ lọc tìm kiếm ở bên trái giao diện
     private JPanel createLeftFilterPanel() {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
