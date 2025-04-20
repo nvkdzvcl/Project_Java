@@ -10,17 +10,20 @@ public class HoaDonDAO {
     private static HoaDonDAO instance;
 
     public static HoaDonDAO getInstance() {
-       return new HoaDonDAO();
+        return new HoaDonDAO();
     }
 
     public int insert(HoaDonDTO hoaDon) {
-        String sql = "INSERT INTO hoadon (MAHOADON, KHACHHANG, NHANVIENBAN, THOIGIAN, TRANGTHAI) VALUES (?, ?, ?, ?, 1)";
+        String sql = "INSERT INTO hoadon (MAHOADON, KHACHHANG, NHANVIENBAN, THOIGIAN, TONGTIEN, TRANGTHAI) VALUES (?, ?, ?, ?, ?, 1)";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setInt(1, hoaDon.getMaHoaDon());
             prst.setString(2, hoaDon.getKhachhang());
             prst.setString(3, hoaDon.getNhanVienBan());
             prst.setDate(4, new java.sql.Date(hoaDon.getThoigian().getTime()));
+            prst.setInt(5, hoaDon.getTongTien());
+
             return prst.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Lỗi thêm hóa đơn: " + e.getMessage());
@@ -29,13 +32,16 @@ public class HoaDonDAO {
     }
 
     public int update(HoaDonDTO hoaDon) {
-        String sql = "UPDATE hoadon SET KHACHHANG = ?, NHANVIENBAN = ?, THOIGIAN = ? WHERE MAHOADON = ?";
+        String sql = "UPDATE hoadon SET KHACHHANG = ?, NHANVIENBAN = ?, THOIGIAN = ?, TONGTIEN = ? WHERE MAHOADON = ?";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setString(1, hoaDon.getKhachhang());
             prst.setString(2, hoaDon.getNhanVienBan());
             prst.setDate(3, new java.sql.Date(hoaDon.getThoigian().getTime()));
-            prst.setInt(4, hoaDon.getMaHoaDon());
+            prst.setInt(4, hoaDon.getTongTien());
+            prst.setInt(5, hoaDon.getMaHoaDon());
+
             return prst.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Lỗi cập nhật hóa đơn: " + e.getMessage());
@@ -47,6 +53,7 @@ public class HoaDonDAO {
         String sql = "UPDATE hoadon SET TRANGTHAI = 0 WHERE MAHOADON = ?";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setInt(1, hoaDon.getMaHoaDon());
             return prst.executeUpdate();
         } catch (SQLException e) {
@@ -68,7 +75,8 @@ public class HoaDonDAO {
                         rs.getInt("MAHOADON"),
                         rs.getString("KHACHHANG"),
                         rs.getString("NHANVIENBAN"),
-                        rs.getDate("THOIGIAN")
+                        rs.getDate("THOIGIAN"),
+                        rs.getInt("TONGTIEN")
                 );
                 danhSach.add(hd);
             }
@@ -86,16 +94,20 @@ public class HoaDonDAO {
 
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setInt(1, maHoaDon);
             ResultSet rs = prst.executeQuery();
+
             if (rs.next()) {
                 hd = new HoaDonDTO(
                         rs.getInt("MAHOADON"),
                         rs.getString("KHACHHANG"),
                         rs.getString("NHANVIENBAN"),
-                        rs.getDate("THOIGIAN")
+                        rs.getDate("THOIGIAN"),
+                        rs.getInt("TONGTIEN")
                 );
             }
+
         } catch (SQLException e) {
             System.out.println("Lỗi tìm hóa đơn theo mã hóa đơn: " + e.getMessage());
         }
@@ -109,17 +121,21 @@ public class HoaDonDAO {
 
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setString(1, "%" + tenKH + "%");
             ResultSet rs = prst.executeQuery();
+
             while (rs.next()) {
                 HoaDonDTO hd = new HoaDonDTO(
                         rs.getInt("MAHOADON"),
                         rs.getString("KHACHHANG"),
                         rs.getString("NHANVIENBAN"),
-                        rs.getDate("THOIGIAN")
+                        rs.getDate("THOIGIAN"),
+                        rs.getInt("TONGTIEN")
                 );
                 danhSach.add(hd);
             }
+
         } catch (SQLException e) {
             System.out.println("Lỗi tìm hóa đơn theo khách hàng: " + e.getMessage());
         }
@@ -127,4 +143,3 @@ public class HoaDonDAO {
         return danhSach;
     }
 }
-

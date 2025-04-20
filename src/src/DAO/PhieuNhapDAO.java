@@ -14,13 +14,16 @@ public class PhieuNhapDAO {
     }
 
     public int insert(PhieuNhapDTO phieuNhap) {
-        String sql = "INSERT INTO phieunhap (MAPHIEUNHAP, NHACUNGCAP, NHANVIENNHAP, NGAY, TRANGTHAI) VALUES (?, ?, ?, ?, 1)";
+        String sql = "INSERT INTO phieunhap (MAPHIEUNHAP, NHACUNGCAP, NHANVIENNHAP, NGAY, TONGTIEN, TRANGTHAI) VALUES (?, ?, ?, ?, ?, 1)";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setInt(1, phieuNhap.getMaPhieuNhap());
             prst.setString(2, phieuNhap.getNhaCungCap());
             prst.setString(3, phieuNhap.getNhanVienNhap());
             prst.setDate(4, new java.sql.Date(phieuNhap.getNgay().getTime()));
+            prst.setInt(5, phieuNhap.getTongTien());
+
             return prst.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Lỗi thêm phiếu nhập: " + e.getMessage());
@@ -29,13 +32,16 @@ public class PhieuNhapDAO {
     }
 
     public int update(PhieuNhapDTO phieuNhap) {
-        String sql = "UPDATE phieunhap SET NHACUNGCAP = ?, NHANVIENNHAP = ?, NGAY = ? WHERE MAPHIEUNHAP = ?";
+        String sql = "UPDATE phieunhap SET NHACUNGCAP = ?, NHANVIENNHAP = ?, NGAY = ?, TONGTIEN = ? WHERE MAPHIEUNHAP = ?";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setString(1, phieuNhap.getNhaCungCap());
             prst.setString(2, phieuNhap.getNhanVienNhap());
             prst.setDate(3, new java.sql.Date(phieuNhap.getNgay().getTime()));
-            prst.setInt(4, phieuNhap.getMaPhieuNhap());
+            prst.setInt(4, phieuNhap.getTongTien());
+            prst.setInt(5, phieuNhap.getMaPhieuNhap());
+
             return prst.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Lỗi cập nhật phiếu nhập: " + e.getMessage());
@@ -44,10 +50,10 @@ public class PhieuNhapDAO {
     }
 
     public int delete(PhieuNhapDTO phieuNhap) {
-        // Xóa mềm bằng cách set TRANGTHAI = 0
         String sql = "UPDATE phieunhap SET TRANGTHAI = 0 WHERE MAPHIEUNHAP = ?";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setInt(1, phieuNhap.getMaPhieuNhap());
             return prst.executeUpdate();
         } catch (SQLException e) {
@@ -65,12 +71,13 @@ public class PhieuNhapDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                int ma = rs.getInt("MAPHIEUNHAP");
-                String ncc = rs.getString("NHACUNGCAP");
-                String nv = rs.getString("NHANVIENNHAP");
-                Date ngay = rs.getDate("NGAY");
-
-                PhieuNhapDTO pn = new PhieuNhapDTO(ma, ncc, nv, ngay);
+                PhieuNhapDTO pn = new PhieuNhapDTO(
+                        rs.getInt("MAPHIEUNHAP"),
+                        rs.getString("NHACUNGCAP"),
+                        rs.getString("NHANVIENNHAP"),
+                        rs.getDate("NGAY"),
+                        rs.getInt("TONGTIEN")
+                );
                 danhSach.add(pn);
             }
 
@@ -87,18 +94,21 @@ public class PhieuNhapDAO {
 
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setInt(1, maPhieuNhap);
             ResultSet rs = prst.executeQuery();
+
             if (rs.next()) {
                 pn = new PhieuNhapDTO(
                         rs.getInt("MAPHIEUNHAP"),
                         rs.getString("NHACUNGCAP"),
                         rs.getString("NHANVIENNHAP"),
-                        rs.getDate("NGAY")
+                        rs.getDate("NGAY"),
+                        rs.getInt("TONGTIEN")
                 );
             }
         } catch (SQLException e) {
-            System.out.println("Lỗi tìm phiếu nhập theo mã phiếu nhập: " + e.getMessage());
+            System.out.println("Lỗi tìm phiếu nhập theo mã: " + e.getMessage());
         }
 
         return pn;
@@ -110,14 +120,17 @@ public class PhieuNhapDAO {
 
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
+
             prst.setString(1, "%" + nhaCungCap + "%");
             ResultSet rs = prst.executeQuery();
+
             while (rs.next()) {
                 PhieuNhapDTO pn = new PhieuNhapDTO(
                         rs.getInt("MAPHIEUNHAP"),
                         rs.getString("NHACUNGCAP"),
                         rs.getString("NHANVIENNHAP"),
-                        rs.getDate("NGAY")
+                        rs.getDate("NGAY"),
+                        rs.getInt("TONGTIEN")
                 );
                 danhSach.add(pn);
             }
