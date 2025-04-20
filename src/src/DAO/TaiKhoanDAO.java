@@ -84,31 +84,32 @@ public class TaiKhoanDAO {
         return danhSachTaiKhoan;
     }
 
-    public TaiKhoanDTO selectByMANV(String maNV){
+    public TaiKhoanDTO selectByMANV(int maNV) {
         String sql = """
                 SELECT TENNGUOIDUNG, MATKHAU, CHUCVU, TRANGTHAI, MANV
                 FROM taikhoan
-                WHERE MATKHAU = ?
-                """;
+                WHERE MANV = ?
+        """;
         try (Connection conn = JDBCUtil.startConnection();
-            PreparedStatement prst = conn.prepareStatement(sql)) {
-            prst.setString(1, maNV);
+             PreparedStatement prst = conn.prepareStatement(sql)) {
+            prst.setInt(1, maNV);
             try (ResultSet rs = prst.executeQuery()) {
                 if (rs.next()) {
                     return new TaiKhoanDTO(
                             rs.getString("TENNGUOIDUNG"),
                             rs.getString("MATKHAU"),
                             rs.getString("CHUCVU"),
-                            rs.getInt("TRANGCHUC"),
+                            rs.getInt("TRANGTHAI"),
                             rs.getInt("MANV")
                     );
                 }
             }
-        } catch (SQLException sqlException){
-            System.out.println("Lỗi tìm tài khoản theo MANV: " + sqlException.getMessage());
+        } catch (SQLException sqlException) {
+            System.err.println("Lỗi tìm tài khoản theo MANV: " + sqlException.getMessage());
         }
         return null;
     }
+
 
     public TaiKhoanDTO selectByTENNGUOIDUNG(String tenNguoiDung){
         String sql = """
