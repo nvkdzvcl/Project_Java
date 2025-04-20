@@ -124,10 +124,4 @@ public class Main extends JFrame {
 
         return btn;
     }
-
-    // Main method để test
-    public static void main(String[] args) {
-        // Nếu chạy trực tiếp, bạ có thể coi user đã login
-        new Main("nguyenvankhanh");
-    }
 }

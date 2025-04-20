@@ -48,7 +48,7 @@ public class KhachHang extends JPanel {
         btnnhap.setBorderPainted(false);
 
         ImageIcon xuaticon=resizeimg(new ImageIcon((getClass().getResource("/icon/xuatexcel.png"))));
-        JButton btnxuat=createIconButton("Xuất", xuaticon);
+        JButton btnxuat=createIconButton("Xuất Excel", xuaticon);
         btnxuat.setOpaque(false);
         btnxuat.setFocusPainted(false);
         btnxuat.setBorderPainted(false);
