@@ -5,6 +5,7 @@ import config.JDBCUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaiKhoanDAO {
 
@@ -59,24 +60,22 @@ public class TaiKhoanDAO {
         }
     }
 
-    public ArrayList<TaiKhoanDTO> selectAll(){
-        ArrayList<TaiKhoanDTO> danhSachTaiKhoan = new ArrayList<TaiKhoanDTO>();
-
-        try{
-            Connection conn = JDBCUtil.startConnection();
-            String selectQuery = "SELECT * FROM taikhoan";
+    public List<TaiKhoanDTO> selectAll(){
+        List<TaiKhoanDTO> danhSachTaiKhoan = new ArrayList<TaiKhoanDTO>();
+        String sql = "SELECT TENNGUOIDUNG, MATKHAU, CHUCVU, TRANGTHAI, MANV FROM taikhoan";
+        try (Connection conn = JDBCUtil.startConnection();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(selectQuery);
-            while(rs.next()){
-                String tenNguoiDung = rs.getString("TENNGUOIDUNG");
-                String matKhau = rs.getString("MATKHAU");
-                String chucVu = rs.getString("CHUCVU");
-                int trangThai = rs.getInt("TRANGTHAI");
-                int maNV = rs.getInt("MANV");
-                TaiKhoanDTO taiKhoan = new TaiKhoanDTO(tenNguoiDung, matKhau, chucVu, trangThai, maNV);
-                danhSachTaiKhoan.add(taiKhoan);
+            ResultSet rs = stmt.executeQuery(sql)) {
+            while(rs.next()) {
+                TaiKhoanDTO tk = new TaiKhoanDTO(
+                        rs.getString("TENNGUOIDUNG"),
+                        rs.getString("MATKHAU"),
+                        rs.getString("CHUCVU"),
+                        rs.getInt("TRANGTHAI"),
+                        rs.getInt("MANV")
+                );
+                danhSachTaiKhoan.add(tk);
             }
-            JDBCUtil.closeConnection(conn);
         }
         catch(SQLException sqlException){
             System.out.println("Lỗi hiển thị danh sách tài khoản" + sqlException.getMessage());
@@ -86,55 +85,55 @@ public class TaiKhoanDAO {
     }
 
     public TaiKhoanDTO selectByMANV(String maNV){
-        TaiKhoanDTO taiKhoan = null;
-        try{
-            Connection conn = JDBCUtil.startConnection();
-            String selectByIDQuery = "SELECT * FROM taikhoan WHERE MANV = ?";
-            PreparedStatement prst = conn.prepareStatement(selectByIDQuery);
+        String sql = """
+                SELECT TENNGUOIDUNG, MATKHAU, CHUCVU, TRANGTHAI, MANV
+                FROM taikhoan
+                WHERE MATKHAU = ?
+                """;
+        try (Connection conn = JDBCUtil.startConnection();
+            PreparedStatement prst = conn.prepareStatement(sql)) {
             prst.setString(1, maNV);
-            ResultSet rs = prst.executeQuery();
-            while(rs.next()){
-                String tenNguoiDung = rs.getString("TENNGUOIDUNG");
-                String matKhau = rs.getString("MATKHAU");
-                String chucVu = rs.getString("CHUCVU");
-                int trangThai = rs.getInt("TRANGTHAI");
-                int manv = rs.getInt("MANV");
-                taiKhoan = new TaiKhoanDTO(tenNguoiDung, matKhau, chucVu, trangThai, manv);
-                return taiKhoan;
+            try (ResultSet rs = prst.executeQuery()) {
+                if (rs.next()) {
+                    return new TaiKhoanDTO(
+                            rs.getString("TENNGUOIDUNG"),
+                            rs.getString("MATKHAU"),
+                            rs.getString("CHUCVU"),
+                            rs.getInt("TRANGCHUC"),
+                            rs.getInt("MANV")
+                    );
+                }
             }
-            JDBCUtil.closeConnection(conn);
+        } catch (SQLException sqlException){
+            System.out.println("Lỗi tìm tài khoản theo MANV: " + sqlException.getMessage());
         }
-        catch (SQLException sqlException){
-            System.out.println("Lỗi tìm tài khoản dựa trên mã nhân viên" + sqlException.getMessage());
-        }
-
-        return taiKhoan;
+        return null;
     }
 
     public TaiKhoanDTO selectByTENNGUOIDUNG(String tenNguoiDung){
-        TaiKhoanDTO taiKhoan = null;
-        try{
-            Connection conn = JDBCUtil.startConnection();
-            String selectByIDQuery = "SELECT * FROM taikhoan WHERE TENNGUOIDUNG = ?";
-            PreparedStatement prst = conn.prepareStatement(selectByIDQuery);
+        String sql = """
+                SELECT TENNGUOIDUNG, MATKHAU, CHUCVU, TRANGTHAI, MANV
+                FROM taikhoan
+                WHERE TENNGUOIDUNG = ?
+                """;
+        try (Connection conn = JDBCUtil.startConnection();
+            PreparedStatement prst = conn.prepareStatement(sql)) {
             prst.setString(1, tenNguoiDung);
-            ResultSet rs = prst.executeQuery();
-            while(rs.next()){
-                String tennguoidung = rs.getString("TENNGUOIDUNG");
-                String matKhau = rs.getString("MATKHAU");
-                String chucVu = rs.getString("CHUCVU");
-                int trangThai = rs.getInt("TRANGTHAI");
-                int maNV = rs.getInt("MANV");
-                taiKhoan = new TaiKhoanDTO(tennguoidung, matKhau, chucVu, trangThai, maNV);
-                return taiKhoan;
+            try (ResultSet rs = prst.executeQuery()) {
+                if (rs.next()) {
+                    return new TaiKhoanDTO(
+                            rs.getString("TENNGUOIDUNG"),
+                            rs.getString("MATKHAU"),
+                            rs.getString("CHUCVU"),
+                            rs.getInt("TRANGTHAI"),
+                            rs.getInt("MAVN")
+                    );
+                }
             }
-            JDBCUtil.closeConnection(conn);
+        } catch (SQLException sqlException) {
+            System.out.println("Lỗi tìm tài khoản theo TENNGUOIDUNG: " + sqlException.getMessage());
         }
-        catch (SQLException sqlException){
-            System.out.println("Lỗi tìm tài khoản dựa trên tên người dùng" + sqlException.getMessage());
-        }
-
-        return taiKhoan;
+        return null;
     }
 
 }

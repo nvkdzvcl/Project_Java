@@ -14,22 +14,37 @@ public class PhieuNhapDAO {
     }
 
     public int insert(PhieuNhapDTO phieuNhap) {
-        String sql = "INSERT INTO phieunhap (MAPHIEUNHAP, NHACUNGCAP, NHANVIENNHAP, NGAY, TONGTIEN, TRANGTHAI) VALUES (?, ?, ?, ?, ?, 1)";
+        String sql = "INSERT INTO phieunhap "
+                + "(NHACUNGCAP, NHANVIENNHAP, NGAY, TONGTIEN, TRANGTHAI) "
+                + "VALUES (?, ?, ?, ?, 1)";
         try (Connection conn = JDBCUtil.startConnection();
-             PreparedStatement prst = conn.prepareStatement(sql)) {
+             PreparedStatement prst = conn.prepareStatement(
+                     sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            prst.setInt(1, phieuNhap.getMaPhieuNhap());
-            prst.setString(2, phieuNhap.getNhaCungCap());
-            prst.setString(3, phieuNhap.getNhanVienNhap());
-            prst.setDate(4, new java.sql.Date(phieuNhap.getNgay().getTime()));
-            prst.setInt(5, phieuNhap.getTongTien());
+            prst.setString(1, phieuNhap.getNhaCungCap());
+            prst.setString(2, phieuNhap.getNhanVienNhap());
+            prst.setDate(3, new java.sql.Date(phieuNhap.getNgay().getTime()));
+            prst.setInt(4, phieuNhap.getTongTien());
 
-            return prst.executeUpdate();
+            int affectedRows = prst.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Tạo phiếu nhập thất bại, không có dòng nào bị ảnh hưởng.");
+            }
+
+            // Lấy về khóa chính do DB sinh
+            try (ResultSet rs = prst.getGeneratedKeys()) {
+                if (rs.next()) {
+                    phieuNhap.setMaPhieuNhap(rs.getInt(1));
+                }
+            }
+
+            return affectedRows;
         } catch (SQLException e) {
-            System.out.println("Lỗi thêm phiếu nhập: " + e.getMessage());
+            System.err.println("Lỗi thêm phiếu nhập: " + e.getMessage());
             return 0;
         }
     }
+
 
     public int update(PhieuNhapDTO phieuNhap) {
         String sql = "UPDATE phieunhap SET NHACUNGCAP = ?, NHANVIENNHAP = ?, NGAY = ?, TONGTIEN = ? WHERE MAPHIEUNHAP = ?";

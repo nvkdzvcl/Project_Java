@@ -53,8 +53,6 @@ public class KhachHang extends JPanel {
         btnxuat.setFocusPainted(false);
         btnxuat.setBorderPainted(false);
 
-
-
         ImageIcon lmcon= resizeimg(new ImageIcon((getClass().getResource("/icon/lammoi.png"))));
         JButton btnlm= createIconButton("Làm Mới", lmcon);
         btnlm.setOpaque(false);
