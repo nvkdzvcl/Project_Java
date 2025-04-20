@@ -29,7 +29,6 @@ public class TaiKhoanDAO {
     }
 
     public int delete(TaiKhoanDTO taiKhoan) {
-        int kq = 0;
         String sql = "UPDATE taikhoan SET TRANGTHAI = 0 WHERE TENNGUOIDUNG = ?";
         try (Connection conn = JDBCUtil.startConnection();
             PreparedStatement prst = conn.prepareStatement(sql)) {

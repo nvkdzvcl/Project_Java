@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 public class PhieuNhapDAO {
 
-    private static PhieuNhapDAO instance;
-
     public static PhieuNhapDAO getInstance() {
         return new PhieuNhapDAO();
     }
@@ -78,7 +76,7 @@ public class PhieuNhapDAO {
     }
 
     public ArrayList<PhieuNhapDTO> selectAll() {
-        ArrayList<PhieuNhapDTO> danhSach = new ArrayList<>();
+        ArrayList<PhieuNhapDTO> danhSachPhieuNhap = new ArrayList<>();
         String sql = "SELECT * FROM phieunhap WHERE TRANGTHAI = 1";
 
         try (Connection conn = JDBCUtil.startConnection();
@@ -93,14 +91,14 @@ public class PhieuNhapDAO {
                         rs.getDate("NGAY"),
                         rs.getInt("TONGTIEN")
                 );
-                danhSach.add(pn);
+                danhSachPhieuNhap.add(pn);
             }
 
         } catch (SQLException e) {
             System.out.println("Lỗi lấy danh sách phiếu nhập: " + e.getMessage());
         }
 
-        return danhSach;
+        return danhSachPhieuNhap;
     }
 
     public PhieuNhapDTO selectById(int maPhieuNhap) {
@@ -130,7 +128,7 @@ public class PhieuNhapDAO {
     }
 
     public ArrayList<PhieuNhapDTO> getByNhaCungCap(String nhaCungCap) {
-        ArrayList<PhieuNhapDTO> danhSach = new ArrayList<>();
+        ArrayList<PhieuNhapDTO> danhSachNhaCungCap = new ArrayList<>();
         String sql = "SELECT * FROM phieunhap WHERE NHACUNGCAP LIKE ? AND TRANGTHAI = 1";
 
         try (Connection conn = JDBCUtil.startConnection();
@@ -147,14 +145,14 @@ public class PhieuNhapDAO {
                         rs.getDate("NGAY"),
                         rs.getInt("TONGTIEN")
                 );
-                danhSach.add(pn);
+                danhSachNhaCungCap.add(pn);
             }
 
         } catch (SQLException e) {
             System.out.println("Lỗi tìm phiếu nhập theo nhà cung cấp: " + e.getMessage());
         }
 
-        return danhSach;
+        return danhSachNhaCungCap;
     }
     // Khôi phục phiếu nhập đã bị ẩn (TRANGTHAI = 0)
     public int restore(int maPhieuNhap) {
