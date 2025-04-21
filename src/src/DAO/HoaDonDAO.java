@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 public class HoaDonDAO {
 
-    private static HoaDonDAO instance;
-
     public static HoaDonDAO getInstance() {
         return new HoaDonDAO();
     }

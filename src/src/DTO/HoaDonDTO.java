@@ -9,9 +9,17 @@ public class HoaDonDTO {
     private Date thoigian;
     private int tongTien;
     private int trangthai;
+
     public HoaDonDTO(){
     }
-    public HoaDonDTO(int maHoaDon,String khachhang,String nhanVienBan,Date thoigian,int tongTien,int trangthai){
+    public HoaDonDTO(int maHoaDon, String khachhang, String nhanVienBan, Date thoigian, int tongTien) {
+        this.maHoaDon = maHoaDon;
+        this.khachhang = khachhang;
+        this.nhanVienBan = nhanVienBan;
+        this.thoigian = thoigian;
+        this.tongTien = tongTien;
+    }
+    public HoaDonDTO(int maHoaDon, String khachhang, String nhanVienBan, Date thoigian, int tongTien, int trangthai){
         this.maHoaDon = maHoaDon;
         this.khachhang = khachhang;
         this.nhanVienBan = nhanVienBan;
