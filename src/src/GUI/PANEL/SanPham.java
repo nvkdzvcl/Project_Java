@@ -18,11 +18,11 @@ public class SanPham extends JPanel {
 
 
         ImageIcon addIcon = resizeimg(new ImageIcon((getClass().getResource("/icon/them.png"))));
-        JButton btnthem= createIconButton("Thêm", addIcon);
-//        btnthem.setContentAreaFilled(false);
-        btnthem.setOpaque(false);
-        btnthem.setFocusPainted(false);
-        btnthem.setBorderPainted(false);
+        JButton btnThem= createIconButton("Thêm", addIcon);
+//        btnThem.setContentAreaFilled(false);
+        btnThem.setOpaque(false);
+        btnThem.setFocusPainted(false);
+        btnThem.setBorderPainted(false);
 
         ImageIcon suaicon= resizeimg(new ImageIcon((getClass().getResource("/icon/sua.png"))));
         JButton btnsua= createIconButton("Sửa", suaicon);
@@ -46,7 +46,7 @@ public class SanPham extends JPanel {
 
 
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
-        P1.add(btnthem);
+        P1.add(btnThem);
         P1.add(btnsua);
         P1.add(btnxoa);
 
@@ -82,7 +82,7 @@ public class SanPham extends JPanel {
         add(them);
         add(scrollPane,BorderLayout.CENTER);
 
-        btnthem.addActionListener(new ActionListener() {
+        btnThem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ThemSanPhamDialog();
