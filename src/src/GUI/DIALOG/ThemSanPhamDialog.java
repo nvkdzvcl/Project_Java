@@ -97,11 +97,11 @@ public class ThemSanPhamDialog extends JFrame {
         btnHuy.setBounds(450,400,200,40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
-
+        btnHuy.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new ThemSanPhamDialog();
     }
 }
