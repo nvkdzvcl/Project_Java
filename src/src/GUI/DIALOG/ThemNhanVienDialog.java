@@ -72,7 +72,7 @@ public class ThemNhanVienDialog extends JDialog {
         P4.add(lb1,BorderLayout.CENTER);
         lb1.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton btnthem=new JButton("Thêm Khách Hàng");
+        JButton btnthem=new JButton("Thêm Nhân Viên");
         btnthem.setPreferredSize(new Dimension(150,38));
         Color themKhachHangColor = new Color(56, 168, 223);
 
