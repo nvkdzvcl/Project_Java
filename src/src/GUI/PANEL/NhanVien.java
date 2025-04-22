@@ -118,7 +118,9 @@ public class NhanVien extends JPanel {
             dlgSuaNhanVien.setVisible(true);
         });
         btnct.addActionListener(e -> {
-            new ChitietNhanVienDialog();
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            ChitietNhanVienDialog dlgChitietNhanVien = new ChitietNhanVienDialog(parent);
+            dlgChitietNhanVien.setVisible(true);
         });
 
     }
