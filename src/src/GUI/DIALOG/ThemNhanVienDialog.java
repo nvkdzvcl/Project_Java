@@ -74,6 +74,7 @@ public class ThemNhanVienDialog extends JDialog {
         btnThem.addActionListener(e -> {
             String hoVaTen = txtHoVaTen.getText().trim();
             String email = txtEmail.getText().trim();
+            String sdt = txtSDT.getText().trim();
             if (hoVaTen.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập Họ và tên!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtHoVaTen.requestFocusInWindow();
@@ -89,6 +90,18 @@ public class ThemNhanVienDialog extends JDialog {
             if (!email.matches(emailRegex)) {
                 JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtEmail.requestFocusInWindow();
+                return;
+            }
+
+            if (sdt.isEmpty()) {
+                JOptionPane.showMessageDialog(this,"Vui lòng Số điện thoại!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtSDT.requestFocusInWindow();
+                return;
+            }
+            String sdtRegex = "^0[0-9]{9}$";
+            if (!sdt.matches(sdtRegex)) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtSDT.requestFocusInWindow();
                 return;
             }
 
