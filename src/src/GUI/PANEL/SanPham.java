@@ -50,7 +50,7 @@ public class SanPham extends JPanel {
         P1.add(btnsua);
         P1.add(btnxoa);
 
-        String[] cb={"Tất Cả","Top"};
+        String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc","Trạng Thái"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -65,7 +65,7 @@ public class SanPham extends JPanel {
         add(P, BorderLayout.NORTH);
 
 
-        String[] collum={"Mã Sp","Tên Sản Phẩm","Số Lượng Tồn","Thương Hiệu","Hệ Điều Hành","Kích Thước Màn","Chip Xử Lý","Dung Lượng Pin","Xuất Xứ","Khu Vực Kho"};
+        String[] collum={"Mã SP","Tên SP","Thương Hiệu","Xuất Xứ","Màu Sắc","Kích Thước","Số Lượng","Trạng Thái"};
         JTable bangsp=new JTable();
         DefaultTableModel model=new DefaultTableModel(collum,0);
         bangsp.setModel(model);
