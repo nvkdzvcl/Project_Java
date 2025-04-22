@@ -2,21 +2,20 @@ package GUI.DIALOG;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ThemSanPhamDialog extends JFrame {
+public class ThemSanPhamDialog extends JDialog {
     private JTextField txtTenSP, txtThuongHieu, txtXuatXu, txtSoLuong;
     private JComboBox<String> cbMauSac, cbKichThuoc, cbTrangThai;
     private JLabel lbImage;
     private JButton btnThem, btnHuy;
 
-    public ThemSanPhamDialog() {
+    public ThemSanPhamDialog(Frame owner) {
+        super(owner,"Thêm Sản Phẩm",true);
         setSize(900,500);
         setTitle("Thêm Sản Phẩm");
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(null);
 
         JLabel lbTittle = new JLabel("THÊM SẢN PHẨM", SwingConstants.CENTER);
@@ -102,6 +101,5 @@ public class ThemSanPhamDialog extends JFrame {
                 dispose();
             }
         });
-        setVisible(true);
     }
 }

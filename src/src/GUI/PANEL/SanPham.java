@@ -25,11 +25,11 @@ public class SanPham extends JPanel {
         btnThem.setBorderPainted(false);
 
         ImageIcon suaicon= resizeimg(new ImageIcon((getClass().getResource("/icon/sua.png"))));
-        JButton btnsua= createIconButton("Sửa", suaicon);
-//        btnsua.setContentAreaFilled(false);
-        btnsua.setOpaque(false);
-        btnsua.setFocusPainted(false);
-        btnsua.setBorderPainted(false);
+        JButton btnSua= createIconButton("Sửa", suaicon);
+//        btnSua.setContentAreaFilled(false);
+        btnSua.setOpaque(false);
+        btnSua.setFocusPainted(false);
+        btnSua.setBorderPainted(false);
         ImageIcon xoaicon= resizeimg(new ImageIcon((getClass().getResource("/icon/xoa.png"))));
         JButton btnxoa= createIconButton("Xóa", xoaicon);
 //        btnxoa.setContentAreaFilled(false);
@@ -47,7 +47,7 @@ public class SanPham extends JPanel {
 
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
         P1.add(btnThem);
-        P1.add(btnsua);
+        P1.add(btnSua);
         P1.add(btnxoa);
 
         String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc","Trạng Thái"};
@@ -82,17 +82,16 @@ public class SanPham extends JPanel {
         add(them);
         add(scrollPane,BorderLayout.CENTER);
 
-        btnThem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ThemSanPhamDialog();
-            }
+        btnThem.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            ThemSanPhamDialog dlgThemSanPham = new ThemSanPhamDialog(parent);
+            dlgThemSanPham.setVisible(true);
         });
-        btnsua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SuaSanPhamDialog();
-            }
+
+        btnSua.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            SuaSanPhamDialog dlgSuaSanPham = new SuaSanPhamDialog(parent);
+            dlgSuaSanPham.setVisible(true);
         });
         setVisible(true);
     }
