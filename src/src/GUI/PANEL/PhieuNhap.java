@@ -2,6 +2,7 @@ package GUI.PANEL;
 
 import GUI.DIALOG.ChitietPhieuNhapDialog;
 import GUI.DIALOG.ThemPhieuNhapDialog;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -218,7 +219,9 @@ public class PhieuNhap extends JPanel {
         gbc.gridy = 5;
         gbc.weightx = 1.0;
         JPanel datePanelTu = new JPanel(new BorderLayout(5, 0));
-        datePanelTu.add(new JTextField(), BorderLayout.CENTER);
+        JDateChooser dateChooserTu = new JDateChooser(); // Đây là lịch
+        dateChooserTu.setDateFormatString("dd/MM/yyyy"); // Định dạng ngày
+        datePanelTu.add(dateChooserTu, BorderLayout.CENTER);
         leftPanel.add(datePanelTu, gbc);
         gbc.weightx = 0;
 
@@ -228,7 +231,9 @@ public class PhieuNhap extends JPanel {
         gbc.gridy = 7;
         gbc.weightx = 1.0;
         JPanel datePanelDen = new JPanel(new BorderLayout(5, 0));
-        datePanelDen.add(new JTextField(), BorderLayout.CENTER);
+        JDateChooser dateChooserDen = new JDateChooser(); // Đây là lịch
+        dateChooserDen.setDateFormatString("dd/MM/yyyy"); // Định dạng ngày
+        datePanelDen.add(dateChooserDen, BorderLayout.CENTER);
         leftPanel.add(datePanelDen, gbc);
         gbc.weightx = 0;
 

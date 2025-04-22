@@ -2,6 +2,7 @@ package GUI.PANEL;
 
 import GUI.DIALOG.ChitietHoaDonDialog;
 import GUI.DIALOG.ThemHoaDonDialog;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -214,7 +215,9 @@ public class HoaDon extends JPanel {
 
         gbc.gridy++;
         gbc.weightx = 1.0;
-        leftPanel.add(new JTextField(), gbc);
+        JDateChooser dateChooserTu = new JDateChooser(); // Đây là lịch
+        dateChooserTu.setDateFormatString("dd/MM/yyyy"); // Định dạng ngày
+        leftPanel.add(dateChooserTu, gbc);
         gbc.weightx = 0;
 
         gbc.gridy++;
@@ -222,7 +225,9 @@ public class HoaDon extends JPanel {
 
         gbc.gridy++;
         gbc.weightx = 1.0;
-        leftPanel.add(new JTextField(), gbc);
+        JDateChooser dateChooserDen = new JDateChooser(); // Đây là lịch
+        dateChooserDen.setDateFormatString("dd/MM/yyyy"); // Định dạng ngày
+        leftPanel.add(dateChooserDen, gbc);
         gbc.weightx = 0;
 
         gbc.gridy++;
