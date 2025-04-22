@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 
+import GUI.DIALOG.SuaSanPhamDialog;
 import GUI.DIALOG.ThemTaiKhoanDialog;
 import GUI.DIALOG.SuaTaiKhoanDialog;
 import java.awt.event.ActionEvent;
@@ -94,18 +95,16 @@ public class TaiKhoan extends JPanel {
         JTableHeader header = bangkh.getTableHeader();
         add(scrollPane, BorderLayout.CENTER);
 
-        btnThem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ThemTaiKhoanDialog();
-            }
+        btnThem.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            ThemTaiKhoanDialog dlgThemTaiKhoan = new ThemTaiKhoanDialog(parent);
+            dlgThemTaiKhoan.setVisible(true);
         });
         
-        btnSua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SuaTaiKhoanDialog();
-            }
+        btnSua.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            SuaTaiKhoanDialog dlgSuaTaiKhoan = new SuaTaiKhoanDialog(parent);
+            dlgSuaTaiKhoan.setVisible(true);
         });
 
         setVisible(true);

@@ -2,82 +2,96 @@ package GUI.DIALOG;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
+import java.util.Arrays;
 
-public class ThemTaiKhoanDialog extends JFrame {
-    public ThemTaiKhoanDialog() {
-        setSize(568,750);
+public class ThemTaiKhoanDialog extends JDialog {
+    private JTextField txtTenTK;
+    private JPasswordField txtMatKhau;
+    private JComboBox<String> cbChucVu, cbTrangThai;
+    private JButton btnThem, btnHuy;
+    public ThemTaiKhoanDialog(Frame owner) {
+        super(owner);
         setTitle("Thêm Tài Khoản");
-        setLayout(new GridLayout(0,1,10,10));
-
-        JLabel lbThemTaiKhoan = new JLabel("THÊM TÀI KHOẢN");
-        lbThemTaiKhoan.setPreferredSize(new Dimension(200,50));
-        lbThemTaiKhoan.setHorizontalAlignment(JLabel.CENTER);
-        Font font = new Font("Arial", Font.BOLD, 25);
-        lbThemTaiKhoan.setFont(font);
-        lbThemTaiKhoan.setForeground(Color.WHITE);
-
-        JLabel TenDangNhap = new JLabel("Tên Đăng Nhập");
-        JLabel ChucVu = new JLabel("Chức Vụ");
-        JLabel TrangThai = new JLabel("Trạng Thái");
-        JTextField tfTenDangNhap = new JTextField(47);
-        String [] chucVuOptions = {"Quản lý", "Nhân viên"};
-        JComboBox<String> cbChucVu = new JComboBox<>(chucVuOptions);
-        String [] trangThaiOptions = {"Hoạt động", "Ngưng hoạt động"};
-        JComboBox<String> cbTrangThai = new JComboBox<>(trangThaiOptions);
-        tfTenDangNhap.setPreferredSize(new Dimension(200,50));
-        cbChucVu.setPreferredSize(new Dimension(200,50));
-        cbTrangThai.setPreferredSize(new Dimension(200,50));
-
-        JButton btnThem = new JButton("Thêm Tài Khoản");
-        btnThem.setPreferredSize(new Dimension(200,38));
-        Color themTaiKhoanColor = new Color(56,168,223);
-        btnThem.setBackground(themTaiKhoanColor);
-        btnThem.setForeground(Color.WHITE);
-
-        JButton btnHuy = new JButton("Hủy bỏ");
-        Color huyBoColor = new Color(216,92,99);
-        btnHuy.setPreferredSize(new Dimension(200,38));
-        btnHuy.setBackground(huyBoColor);
-        btnHuy.setForeground(Color.WHITE);
-
-        JPanel P = new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-        JPanel P1 = new JPanel(new GridLayout(2, 1, 5, 5));
-        JPanel P2 = new JPanel(new GridLayout(2, 1, 5, 5));
-        JPanel P3 = new JPanel(new FlowLayout(FlowLayout.CENTER,5,0));
-        JPanel P4 = new JPanel(new BorderLayout());
-        JPanel P5 = new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-
-        Color customBlue = new Color(30,129,206);
-        P4.setBackground(customBlue);
-        P4.setForeground(Color.WHITE);
-
-        P.add(TenDangNhap);
-        P.add(tfTenDangNhap);
-        P1.add(ChucVu);
-        P1.add(cbChucVu);
-        P2.add(TrangThai);
-        P2.add(cbTrangThai);
-        P4.add(lbThemTaiKhoan, BorderLayout.CENTER);
-        P3.add(btnThem);
-        P3.add(btnHuy);
-
-        add(P4);
-        add(P);
-        add(P1);
-        add(P2);
-        add(P3);
-
+        setSize(400, 600);
         setLocationRelativeTo(null);
+        setLayout(null);
 
-        btnHuy.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               dispose();
-           }
+        //Tittle
+        JLabel lbTittle = new JLabel("THÊM TÀI KHOẢN", SwingConstants.CENTER);
+        lbTittle.setFont(new Font("Arial", Font.BOLD, 25));
+        lbTittle.setBounds(0, 10, 400, 60);
+        lbTittle.setOpaque(true);
+        lbTittle.setBackground(new Color(30,129,206));
+        lbTittle.setForeground(Color.WHITE);
+        add(lbTittle);
+
+        //Các thuộc tính
+        JLabel lbTenTK = new JLabel("Tên Tài Khoản");
+        lbTenTK.setBounds(50, 80, 250, 25);
+        add(lbTenTK);
+        txtTenTK = new JTextField();
+        txtTenTK.setBounds(50,110, 250, 25);
+        add(txtTenTK);
+
+        JLabel lbMatKhau = new JLabel("Mật Khẩu");
+        lbMatKhau.setBounds(50, 150, 250, 25);
+        add(lbMatKhau);
+        txtMatKhau = new JPasswordField();
+        txtMatKhau.setBounds(50,180, 250, 25);
+        add(txtMatKhau);
+
+        JLabel lbChucVu = new JLabel("Chức Vụ");
+        lbChucVu.setBounds(50, 220, 250, 25);
+        add(lbChucVu);
+        cbChucVu = new JComboBox<>(new String[] {"Quản lý","Nhân viên"});
+        cbChucVu.setBounds(50,250, 250, 25);
+        add(cbChucVu);
+
+        JLabel lbTrangThai = new JLabel("Trạng Thái");
+        lbTrangThai.setBounds(50, 290, 250, 25);
+        add(lbTrangThai);
+        cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động"});
+        cbTrangThai.setBounds(50,320, 250, 25);
+        add(cbTrangThai);
+
+        //Nút thêm, hủy
+        btnThem = new JButton("Thêm Tài Khoản");
+        btnThem.setBounds(50, 400, 150, 40);
+        btnThem.setBackground(new Color(56,168,223));
+        add(btnThem);
+        btnThem.addActionListener(e -> {
+            String tenTK = txtTenTK.getText().trim();
+            char[] matKhau = txtMatKhau.getPassword();
+            String matKhauStr = new String(matKhau);
+            if (tenTK.isEmpty()) {
+                JOptionPane.showMessageDialog(this,"Vui lòng nhập tên tài khoản!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtTenTK.requestFocusInWindow();
+                Arrays.fill(matKhau,'\0');
+                return;
+            }
+            if (matKhauStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this,"Vui lòng nhập mật khẩu!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtMatKhau.requestFocusInWindow();
+                Arrays.fill(matKhau,'\0');
+                return;
+            }
+            if (matKhauStr.length() < 8) {
+                JOptionPane.showMessageDialog(this,"Mật khẩu tối thiểu 8 ký tự!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtMatKhau.requestFocusInWindow();
+                Arrays.fill(matKhau,'\0');
+                return;
+            }
+            Arrays.fill(matKhau,'\0');
+            dispose();
         });
 
-        setVisible(true);
+        btnHuy = new JButton("Hủy");
+        btnHuy.setBounds(200, 400, 150, 40);
+        btnHuy.setBackground(new Color(216,92,99));
+        add(btnHuy);
+        btnHuy.addActionListener(e -> {
+           dispose();
+        });
     }
 }
