@@ -10,6 +10,7 @@ public class SuaTaiKhoanDialog extends JDialog {
     private JPasswordField txtMatKhau;
     private JComboBox<String> cbChucVu, cbTrangThai;
     private JButton btnSua, btnHuy;
+
     public SuaTaiKhoanDialog(Frame owner) {
         super(owner);
         setTitle("Sửa Tài Khoản");

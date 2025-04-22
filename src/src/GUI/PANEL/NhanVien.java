@@ -6,6 +6,9 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import GUI.DIALOG.ChitietNhanVienDialog;
+import GUI.DIALOG.SuaTaiKhoanDialog;
 import GUI.DIALOG.ThemNhanVienDialog;
 import GUI.DIALOG.SuaNhanVienDialog;
 
@@ -72,7 +75,7 @@ public class NhanVien extends JPanel {
         P1.add(btnnhap);
         P1.add(btnxuat);
 
-        String[] cb={"Tất Cả","Họ Tên","Giới Tính","Ngày Sinh","SĐT","Email"};
+        String[] cb={"Tất Cả","Mã NV","Họ Tên","Giới Tính","Ngày Sinh","SĐT","Email"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -88,7 +91,7 @@ public class NhanVien extends JPanel {
 
 
 
-        String[] collum={"MNV","Họ Tên","Giới Tính","Ngày Sinh","SĐT","Email"};
+        String[] collum={"Mã NV","Họ Tên","Giới Tính","Ngày Sinh","SĐT","Email"};
         JTable bangnv = new JTable();
         DefaultTableModel model = new DefaultTableModel(collum,0);
         bangnv.setModel(model);
@@ -104,19 +107,20 @@ public class NhanVien extends JPanel {
 //         add(them);
         add(scrollPane,BorderLayout.CENTER);
 
-        btnthem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ThemNhanVienDialog();
-            }
+        btnthem.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            ThemNhanVienDialog dlgNhanVien = new ThemNhanVienDialog(parent);
+            dlgNhanVien.setVisible(true);
         });
-        btnsua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SuaNhanVienDialog();
-            }
+        btnsua.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            SuaNhanVienDialog dlgSuaNhanVien = new SuaNhanVienDialog(parent);
+            dlgSuaNhanVien.setVisible(true);
         });
-        setVisible(true);
+        btnct.addActionListener(e -> {
+            new ChitietNhanVienDialog();
+        });
+
     }
 public ImageIcon resizeimg(ImageIcon img)
 {

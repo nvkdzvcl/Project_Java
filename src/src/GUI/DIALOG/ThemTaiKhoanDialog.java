@@ -10,6 +10,7 @@ public class ThemTaiKhoanDialog extends JDialog {
     private JPasswordField txtMatKhau;
     private JComboBox<String> cbChucVu, cbTrangThai;
     private JButton btnThem, btnHuy;
+
     public ThemTaiKhoanDialog(Frame owner) {
         super(owner);
         setTitle("Thêm Tài Khoản");
@@ -38,21 +39,21 @@ public class ThemTaiKhoanDialog extends JDialog {
         lbMatKhau.setBounds(70, 170, 250, 25);
         add(lbMatKhau);
         txtMatKhau = new JPasswordField();
-        txtMatKhau.setBounds(70,210, 250, 25);
+        txtMatKhau.setBounds(70,200, 250, 25);
         add(txtMatKhau);
 
         JLabel lbChucVu = new JLabel("Chức Vụ");
-        lbChucVu.setBounds(70, 250, 250, 25);
+        lbChucVu.setBounds(70, 240, 250, 25);
         add(lbChucVu);
         cbChucVu = new JComboBox<>(new String[] {"Quản lý","Nhân viên"});
-        cbChucVu.setBounds(70,280, 250, 25);
+        cbChucVu.setBounds(70,270, 250, 25);
         add(cbChucVu);
 
         JLabel lbTrangThai = new JLabel("Trạng Thái");
-        lbTrangThai.setBounds(70, 320, 250, 25);
+        lbTrangThai.setBounds(70, 310, 250, 25);
         add(lbTrangThai);
         cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động"});
-        cbTrangThai.setBounds(70,350, 250, 25);
+        cbTrangThai.setBounds(70,340, 250, 25);
         add(cbTrangThai);
 
         //Nút thêm, hủy

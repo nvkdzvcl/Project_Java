@@ -123,8 +123,6 @@ public class ChitietNhanVienDialog extends JDialog {
         });
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new ChitietNhanVienDialog();
-    }
+
     }
 

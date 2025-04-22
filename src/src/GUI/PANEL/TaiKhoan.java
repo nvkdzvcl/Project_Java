@@ -106,7 +106,6 @@ public class TaiKhoan extends JPanel {
             dlgSuaTaiKhoan.setVisible(true);
         });
 
-        setVisible(true);
     }
     public ImageIcon resizeimg(ImageIcon img)
     {
