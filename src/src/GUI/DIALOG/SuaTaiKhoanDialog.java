@@ -28,36 +28,36 @@ public class SuaTaiKhoanDialog extends JDialog {
 
         //Các thuộc tính
         JLabel lbTenTK = new JLabel("Tên Tài Khoản");
-        lbTenTK.setBounds(50, 80, 250, 25);
+        lbTenTK.setBounds(70, 100, 250, 25);
         add(lbTenTK);
         txtTenTK = new JTextField();
-        txtTenTK.setBounds(50,110, 250, 25);
+        txtTenTK.setBounds(70,130, 250, 25);
         add(txtTenTK);
 
         JLabel lbMatKhau = new JLabel("Mật Khẩu");
-        lbMatKhau.setBounds(50, 150, 250, 25);
+        lbMatKhau.setBounds(70, 170, 250, 25);
         add(lbMatKhau);
         txtMatKhau = new JPasswordField();
-        txtMatKhau.setBounds(50,180, 250, 25);
+        txtMatKhau.setBounds(70,210, 250, 25);
         add(txtMatKhau);
 
         JLabel lbChucVu = new JLabel("Chức Vụ");
-        lbChucVu.setBounds(50, 220, 250, 25);
+        lbChucVu.setBounds(70, 250, 250, 25);
         add(lbChucVu);
         cbChucVu = new JComboBox<>(new String[] {"Quản lý","Nhân viên"});
-        cbChucVu.setBounds(50,250, 250, 25);
+        cbChucVu.setBounds(70,280, 250, 25);
         add(cbChucVu);
 
         JLabel lbTrangThai = new JLabel("Trạng Thái");
-        lbTrangThai.setBounds(50, 290, 250, 25);
+        lbTrangThai.setBounds(70, 320, 250, 25);
         add(lbTrangThai);
         cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động"});
-        cbTrangThai.setBounds(50,320, 250, 25);
+        cbTrangThai.setBounds(70,350, 250, 25);
         add(cbTrangThai);
 
         //Nút thêm, hủy
-        btnSua = new JButton("Sửa Thông Tin TK");
-        btnSua.setBounds(50, 400, 150, 40);
+        btnSua = new JButton("Sửa Tài Khoản");
+        btnSua.setBounds(50, 450, 150, 40);
         btnSua.setBackground(new Color(56,168,223));
         add(btnSua);
         btnSua.addActionListener(e -> {
@@ -87,7 +87,7 @@ public class SuaTaiKhoanDialog extends JDialog {
         });
 
         btnHuy = new JButton("Hủy");
-        btnHuy.setBounds(200, 400, 150, 40);
+        btnHuy.setBounds(200, 450, 150, 40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
         btnHuy.addActionListener(e -> {
