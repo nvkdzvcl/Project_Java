@@ -1,9 +1,9 @@
 package GUI.PANEL;
 
 import GUI.DIALOG.ChitietKhachHangDialog;
+import GUI.DIALOG.SuaKhachHangDialog;
 import GUI.DIALOG.ThemKhachHangDialog;
-import GUI.DIALOG.SuaKhachHangDiaLog;
-
+import GUI.DIALOG.SuaKhachHangDialog;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -69,7 +69,7 @@ public class KhachHang extends JPanel {
         P1.add(btnxuat);
 
 
-        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Email"};
+        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Số điện thoại","Email","Địa chỉ"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -81,7 +81,7 @@ public class KhachHang extends JPanel {
         P.add(P1, BorderLayout.WEST);
         P.add(P2,BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
-        String[] collum={"Mã khách hàng","Tên khách hàng","Địa chỉ","Số điện thoại","Email"};
+        String[] collum={"Mã khách hàng","Tên khách hàng","Số điện thoại","Email","Địa chỉ"};
         JTable bangkh=new JTable();
         DefaultTableModel model=new DefaultTableModel(collum,0);
         bangkh.setModel(model);
@@ -89,23 +89,20 @@ public class KhachHang extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         JTableHeader header = bangkh.getTableHeader();
         add(scrollPane,BorderLayout.CENTER);
-        btnthem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ThemKhachHangDialog();
-            }
+        btnthem.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            ThemKhachHangDialog dlgThemKhachHang = new ThemKhachHangDialog(parent);
+            dlgThemKhachHang.setVisible(true);
         });
-        btnsua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SuaKhachHangDiaLog();
-            }
+        btnsua.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            SuaKhachHangDialog dlgSuaKhachHang = new SuaKhachHangDialog(parent);
+            dlgSuaKhachHang.setVisible(true);
         });
-        btnct.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ChitietKhachHangDialog();
-            }
+        btnct.addActionListener(e -> {
+            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            ChitietKhachHangDialog dlgChitietKhachHang = new ChitietKhachHangDialog(parent);
+            dlgChitietKhachHang.setVisible(true);
         });
         setVisible(true);
     }

@@ -1,87 +1,66 @@
 package GUI.DIALOG;
-
+import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ChitietKhachHangDialog extends JDialog {
-    public ChitietKhachHangDialog() {
+    private JTextField txtHoVaTen, txtEmail, txtSDT, txtDiaChi;
+    private JButton btnDong;
 
+    public ChitietKhachHangDialog(Frame owner) {
+        super(owner);
         setTitle("Xem Khách Hàng");
-        setSize(568,750);
-        setLayout( new GridLayout(0, 1, 10, 10));
-        JLabel Tenkh=new JLabel("Tên Khách Hàng");
-        JLabel sdt=new JLabel("Số Điện Thoại");
-        JLabel dc=new JLabel("Địa Chỉ");
-        JLabel em=new JLabel("Email");
-        JTextField tf1=new JTextField(47);
-        tf1.setPreferredSize(new Dimension(200,50));
-        tf1.setEnabled(false);
-        JTextField tf2=new JTextField(47);
-        tf2.setPreferredSize(new Dimension(200,50));
-        tf2.setEnabled(false);
-        JTextField tf3=new JTextField(47);
-        tf3.setPreferredSize(new Dimension(200,50));
-        tf3.setEnabled(false);
-        JTextField tf4=new JTextField(47);
-        tf4.setPreferredSize(new Dimension(200,50));
-        tf4.setEnabled(false);
-        JPanel P=new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-        JPanel P1=new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-        JPanel P2=new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-        JPanel P3=new JPanel(new FlowLayout(FlowLayout.CENTER,5,0));
-        JPanel P4=new JPanel(new BorderLayout());
-        JPanel P5=new JPanel(new FlowLayout(FlowLayout.LEFT,9,20));
-        JLabel lb1=new JLabel("XEM KHÁCH HÀNG");
-        lb1.setPreferredSize(new Dimension(200,50));
-        Font largerFont = new Font("Arial", Font.BOLD, 25);
-        lb1.setFont(largerFont);
-        Color customBlue = new Color(30, 129, 206);
-        P4.setBackground(customBlue);
-        P4.setForeground(Color.white);
-        P.add(Tenkh);
-        P.add(tf1);
-        P1.add(sdt);
-        P1.add(tf2);
-        P2.add(dc);
-        P2.add(tf3);
-        P5.add(em);
-        P5.add(tf4);
-        P4.add(lb1,BorderLayout.CENTER);
-        lb1.setHorizontalAlignment(SwingConstants.CENTER);
+        setSize(400, 600);
+        setLocationRelativeTo(owner);
+        setLayout(null);
 
+        //Tittle
+        JLabel lbTittle = new JLabel("XEM KHÁCH HÀNG", SwingConstants.CENTER);
+        lbTittle.setFont(new Font("Arial", Font.BOLD, 25));
+        lbTittle.setBounds(0, 10, 400, 60);
+        lbTittle.setOpaque(true);
+        lbTittle.setBackground(new Color(30,129,206));
+        lbTittle.setForeground(Color.WHITE);
+        add(lbTittle);
 
+        //Các thuộc tính
+        JLabel lbHoVaTen = new JLabel("Họ Và Tên");
+        lbHoVaTen.setBounds(70, 100, 250, 25);
+        add(lbHoVaTen);
+        txtHoVaTen = new JTextField();
+        txtHoVaTen.setBounds(70,130,250,25);
+        add(txtHoVaTen);
 
+        JLabel lbSDT = new JLabel("Số Điện Thoại");
+        lbSDT.setBounds(70, 170, 250, 25);
+        add(lbSDT);
+        txtSDT = new JTextField();
+        txtSDT.setBounds(70,200,250,25);
+        add(txtSDT);
 
+//        JLabel lbEmail = new JLabel("Email");
+//        lbEmail.setBounds(70, 240, 250, 25);
+//        add(lbEmail);
+//        txtEmail = new JTextField();
+//        txtEmail.setBounds(70,270,250,25);
+//        add(txtEmail);
 
+        JLabel lbDiaChi = new JLabel("Địa Chỉ");
+        lbDiaChi.setBounds(70, 240, 250, 25);
+        add(lbDiaChi);
+        txtDiaChi = new JTextField();
+        txtDiaChi.setBounds(70,270,250,25);
+        add(txtDiaChi);
 
-        lb1.setForeground(Color.white);
-
-
-        JButton btnhuy=new JButton("Hủy Bỏ");
-        Color huyBoColor = new Color(216, 92, 99);
-        btnhuy.setPreferredSize(new Dimension(150,38));
-        btnhuy.setBackground(huyBoColor);
-        btnhuy.setForeground(Color.white);
-
-        P3.add(btnhuy);
-        add(P4);
-        add(P);
-
-        add(P1);
-
-        add(P2);
-        add(P5);
-        add(P3);
-        setLocationRelativeTo(null);
-        btnhuy.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
+        //Nút Đóng
+        btnDong = new JButton("Đóng");
+        btnDong.setBounds(125, 500, 150, 25);
+        btnDong.setBackground(new Color(56,168,223));
+        add(btnDong);
+        btnDong.addActionListener(e -> {
+            dispose();
         });
-        setVisible(true);
     }
-
 }

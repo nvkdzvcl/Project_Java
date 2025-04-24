@@ -65,12 +65,21 @@ public class ThemTaiKhoanDialog extends JDialog {
             String tenTK = txtTenTK.getText().trim();
             char[] matKhau = txtMatKhau.getPassword();
             String matKhauStr = new String(matKhau);
+
             if (tenTK.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập tên tài khoản!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtTenTK.requestFocusInWindow();
                 Arrays.fill(matKhau,'\0');
                 return;
             }
+            String tenTKRegex = "^[A-Za-z0-9]+$";
+            if (!tenTK.matches(tenTKRegex)) {
+                JOptionPane.showMessageDialog(this,"Tên tài khoản không hợp lệ!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtTenTK.requestFocusInWindow();
+                Arrays.fill(matKhau,'\0');
+                return;
+            }
+
             if (matKhauStr.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập mật khẩu!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtMatKhau.requestFocusInWindow();

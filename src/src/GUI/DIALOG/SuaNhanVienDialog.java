@@ -80,16 +80,10 @@ public class SuaNhanVienDialog extends JDialog {
                 txtHoVaTen.requestFocusInWindow();
                 return;
             }
-
-            if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtEmail.requestFocusInWindow();
-                return;
-            }
-            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-            if (!email.matches(emailRegex)) {
-                JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtEmail.requestFocusInWindow();
+            String hoVaTenRegex = "^[\\p{L}\\s']+$";
+            if (!hoVaTen.matches(hoVaTenRegex)) {
+                JOptionPane.showMessageDialog(this,"Tên không hợp lệ!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtHoVaTen.requestFocusInWindow();
                 return;
             }
 
@@ -102,6 +96,18 @@ public class SuaNhanVienDialog extends JDialog {
             if (!sdt.matches(sdtRegex)) {
                 JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtSDT.requestFocusInWindow();
+                return;
+            }
+
+            if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this,"Vui lòng nhập Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtEmail.requestFocusInWindow();
+                return;
+            }
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            if (!email.matches(emailRegex)) {
+                JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtEmail.requestFocusInWindow();
                 return;
             }
 

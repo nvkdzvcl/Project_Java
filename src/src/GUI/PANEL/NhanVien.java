@@ -109,8 +109,8 @@ public class NhanVien extends JPanel {
 
         btnthem.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            ThemNhanVienDialog dlgNhanVien = new ThemNhanVienDialog(parent);
-            dlgNhanVien.setVisible(true);
+            ThemNhanVienDialog dlgThemNhanVien = new ThemNhanVienDialog(parent);
+            dlgThemNhanVien.setVisible(true);
         });
         btnsua.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);

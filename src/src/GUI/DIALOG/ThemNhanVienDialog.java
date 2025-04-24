@@ -75,14 +75,21 @@ public class ThemNhanVienDialog extends JDialog {
             String hoVaTen = txtHoVaTen.getText().trim();
             String email = txtEmail.getText().trim();
             String sdt = txtSDT.getText().trim();
+
             if (hoVaTen.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập Họ và tên!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtHoVaTen.requestFocusInWindow();
                 return;
             }
+            String hoVaTenRegex = "^[\\p{L}\\s']+$";
+            if (!hoVaTen.matches(hoVaTenRegex)) {
+                JOptionPane.showMessageDialog(this,"Tên không hợp lệ!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtHoVaTen.requestFocusInWindow();
+                return;
+            }
 
             if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,"Vui lòng nhập Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtEmail.requestFocusInWindow();
                 return;
             }
