@@ -27,19 +27,17 @@ CREATE TABLE IF NOT EXISTS `KHACHHANG` (
     `TENKHACHHANG` VARCHAR(50) NOT NULL,
     `DIACHI` VARCHAR(255) NOT NULL,
     `SDT` CHAR(10) NOT NULL,
-    `EMAIL` VARCHAR(50) NOT NULL,
     `TRANGTHAI` TINYINT(1) NOT NULL DEFAULT 1, -- 1: Hoạt động, 0: Khóa
     PRIMARY KEY (`MAKHACHHANG`),
-    UNIQUE KEY `UK_KH_SDT` (`SDT`),
-    UNIQUE KEY `UK_KH_EMAIL` (`EMAIL`)
+    UNIQUE KEY `UK_KH_SDT` (`SDT`)
 ) ENGINE=InnoDB;
 
-INSERT INTO `KHACHHANG` (`TENKHACHHANG`, `DIACHI`, `SDT`, `EMAIL`) VALUES
-('Nguyễn Văn A',  '123 Lê Lợi, Q1, TP.HCM',   '0223456789', 'vana@gmail.com'),
-('Trần Thị B',     '45 Hai Bà Trưng, Q3, TP.HCM','0112233445', 'thib@gmail.com'),
-('Lê Minh C',      '78 Cách Mạng Tháng 8, Q10','0223344556', 'minhc@gmail.com'),
-('Phạm Thu D',     '23 Nguyễn Văn Linh, Đà Nẵng','0334455667','thud@gmail.com'),
-('Hoàng Quốc E',   '9 Lê Lợi, Huế',             '0445566778', 'quoce@gmail.com');
+INSERT INTO `KHACHHANG` (`TENKHACHHANG`, `DIACHI`, `SDT`) VALUES
+('Nguyễn Văn A',  '123 Lê Lợi, Q1, TP.HCM',   '0223456789'),
+('Trần Thị B',     '45 Hai Bà Trưng, Q3, TP.HCM','0112233445'),
+('Lê Minh C',      '78 Cách Mạng Tháng 8, Q10','0223344556'),
+('Phạm Thu D',     '23 Nguyễn Văn Linh, Đà Nẵng','0334455667'),
+('Hoàng Quốc E',   '9 Lê Lợi, Huế',             '0445566778');
 
 -- 3. BẢNG SẢN PHẨM
 CREATE TABLE IF NOT EXISTS `SANPHAM` (
