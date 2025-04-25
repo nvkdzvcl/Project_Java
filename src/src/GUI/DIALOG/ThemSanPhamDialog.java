@@ -1,15 +1,20 @@
 package GUI.DIALOG;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class ThemSanPhamDialog extends JDialog {
     private JTextField txtTenSP, txtThuongHieu, txtXuatXu, txtSoLuong;
-    private JComboBox<String> cbMauSac, cbKichThuoc, cbTrangThai;
-    private JLabel lbImage;
-    private JButton btnThem, btnHuy;
+    private JComboBox<String> cbMauSac, cbKichThuoc;
+    private JLabel lbHinhAnhSP;
+    private JButton btnHinhAnhSP, btnThem, btnHuy;
 
     public ThemSanPhamDialog(Frame owner) {
         super(owner,"Thêm Sản Phẩm",true);
@@ -74,16 +79,35 @@ public class ThemSanPhamDialog extends JDialog {
 
 
         //Cột 3
-        JLabel lbTrangThai = new JLabel("Trạng thái:");
-        lbTrangThai.setBounds(550,80,200,25);
-        add(lbTrangThai);
-        cbTrangThai = new JComboBox<>(new String[] {"Bình thường","Khóa"});
-        cbTrangThai.setBounds(550,110,200,25);
-        add(cbTrangThai);
+        btnHinhAnhSP = new JButton("Ảnh sản phẩm");
+        btnHinhAnhSP.setBounds(640,80,120,25);
+        btnHinhAnhSP.setFocusPainted(false);
+        add(btnHinhAnhSP);
 
-        JLabel lbHinhAnhSP = new JLabel("Hình ảnh:");
-        lbHinhAnhSP.setBounds(550,150,200,25);
+        lbHinhAnhSP = new JLabel();
+        lbHinhAnhSP.setBounds(575,110,250,250);
         add(lbHinhAnhSP);
+
+        btnHinhAnhSP.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Chọn ảnh sản phẩm");
+            chooser.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Ảnh JPG, PNG, GIF", "jpg", "jpeg", "png", "gif");
+            chooser.addChoosableFileFilter(filter);
+
+            int result = chooser.showOpenDialog(ThemSanPhamDialog.this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                try {
+                    BufferedImage img = ImageIO.read(file);
+                    Image scaled = img.getScaledInstance(lbHinhAnhSP.getWidth(),lbHinhAnhSP.getHeight(),Image.SCALE_SMOOTH);
+                    lbHinhAnhSP.setIcon(new ImageIcon(scaled));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(ThemSanPhamDialog.this, "Không thể mở file ảnh!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
 
         //Nút thêm, hủy

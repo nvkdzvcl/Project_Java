@@ -30,6 +30,13 @@ public class SanPham extends JPanel {
         btnSua.setOpaque(false);
         btnSua.setFocusPainted(false);
         btnSua.setBorderPainted(false);
+
+        ImageIcon chitieticon= resizeimg(new ImageIcon((getClass().getResource("/icon/chitiet.png"))));
+        JButton btnChiTiet = createIconButton("Chi Tiết", chitieticon);
+        btnChiTiet.setOpaque(false);
+        btnChiTiet.setFocusPainted(false);
+        btnChiTiet.setBorderPainted(false);
+
         ImageIcon xoaicon= resizeimg(new ImageIcon((getClass().getResource("/icon/xoa.png"))));
         JButton btnxoa= createIconButton("Xóa", xoaicon);
 //        btnxoa.setContentAreaFilled(false);
@@ -48,9 +55,10 @@ public class SanPham extends JPanel {
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
         P1.add(btnThem);
         P1.add(btnSua);
+        P1.add(btnChiTiet);
         P1.add(btnxoa);
 
-        String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc","Trạng Thái"};
+        String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -65,7 +73,7 @@ public class SanPham extends JPanel {
         add(P, BorderLayout.NORTH);
 
 
-        String[] collum={"Mã SP","Tên SP","Thương Hiệu","Xuất Xứ","Màu Sắc","Kích Thước","Số Lượng","Trạng Thái"};
+        String[] collum={"Mã SP","Tên SP","Thương Hiệu","Xuất Xứ","Màu Sắc","Kích Thước","Số Lượng"};
         JTable bangsp=new JTable();
         DefaultTableModel model=new DefaultTableModel(collum,0);
         bangsp.setModel(model);
@@ -76,10 +84,6 @@ public class SanPham extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         JTableHeader header = bangsp.getTableHeader();
 
-
-
-        JButton them=new JButton("Thêm");
-        add(them);
         add(scrollPane,BorderLayout.CENTER);
 
         btnThem.addActionListener(e -> {
