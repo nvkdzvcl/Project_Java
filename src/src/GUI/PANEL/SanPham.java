@@ -115,5 +115,4 @@ public class SanPham extends JPanel {
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
     }
-    }
-
+}
