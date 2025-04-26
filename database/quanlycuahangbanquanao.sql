@@ -19,7 +19,9 @@ CREATE TABLE IF NOT EXISTS `NHANVIEN` (
 
 INSERT INTO `NHANVIEN` (`HOTENNV`, `GIOITINH`, `NGAYSINH`, `SDT`, `EMAIL`) VALUES
 ('Nguyễn Văn Khanh', 'NAM', '2005-01-30', '0968937705', 'nvkhanh301@gmail.com'),
-('Hàn Gia Hào',     'NAM', '2005-09-10', '0987654321', 'hangiahao@gmail.com');
+('Hàn Gia Hào',     'NAM', '2005-09-10', '0987654321', 'hangiahao@gmail.com'),
+('Nguyễn Tuấn Kiệt', 'NAM', '2005-03-05', '0912345678', 'tuankiet@gmail.com'),
+('Vũ Hồng Vĩnh Khang', 'NAM', '2005-08-26', '0902924723', 'vuhongvinhkhang@gmail.com');
 
 -- 2. BẢNG KHÁCH HÀNG
 CREATE TABLE IF NOT EXISTS `KHACHHANG` (
@@ -142,15 +144,17 @@ INSERT INTO `CTDONHANG` (`MADONHANG`,`MASP`,`DONGIA`,`SOLUONG`) VALUES
 -- 8. BẢNG TÀI KHOẢN
 CREATE TABLE IF NOT EXISTS `TAIKHOAN` (
     `TENNGUOIDUNG` VARCHAR(20) NOT NULL,
-    `MATKHAU` VARCHAR(20) NOT NULL,
+    `MATKHAU` CHAR(8) NOT NULL,
     `CHUCVU` VARCHAR(20) NOT NULL,
     `TRANGTHAI` TINYINT(1) NOT NULL DEFAULT 1, -- 1: Hoạt động, 0: Khóa
-    `MANV` INT NOT NULL,
+    `MANV` INT,
     PRIMARY KEY (`TENNGUOIDUNG`),
     FOREIGN KEY (`MANV`) REFERENCES `NHANVIEN`(`MANV`)
 ) ENGINE=InnoDB;
 
 INSERT INTO `TAIKHOAN` (`TENNGUOIDUNG`,`MATKHAU`,`CHUCVU`,`TRANGTHAI`,`MANV`) VALUES
-('nguyenvankhanh','12345678','QUANLY',1,1),
-('hangiahao',    '11223344','NHANVIEN',1,2),
-('admin', '12345678','QUANLY',1,1);
+('nguyenvankhanh','12345678', 'QUANLY', 1, 1),
+('hangiahao', '11223344', 'NHANVIEN', 1, 2),
+('nguyentuankiet', '22334455', 'NHANVIEN', 1, 3),
+('vuhongvinhkhang', '88888888', 'NHANVIEN', 1, 4),
+('admin', '12345678', 'ADMIN', 1, NULL);
