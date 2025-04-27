@@ -12,7 +12,7 @@ public class PhieuNhapDTO {
     public PhieuNhapDTO(){
 
     }
-    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,String nhanVienNhap,Date ngay,int tongTien){
+    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,String nhanVienNhap,Date ngay,int tongTien,int trangthai){
         this.maPhieuNhap = maPhieuNhap;
         this.nhaCungCap = nhaCungCap;
         this.nhanVienNhap = nhanVienNhap;
