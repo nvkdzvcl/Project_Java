@@ -42,14 +42,14 @@ public class TaiKhoanDAO {
     }
 
     public int update(TaiKhoanDTO taiKhoan){
-        int kq = 0;
-        String sql = "UPDATE `taikhoan` SET `MATKHAU` = ?, `MANV` = ?, `CHUCVU` = ? WHERE `TENNGUOIDUNG` =?";
+        String sql = "UPDATE `taikhoan` SET `MATKHAU` = ?, `MANV` = ?, `CHUCVU` = ?, `TRANGTHAI` = ? WHERE `TENNGUOIDUNG` =?";
         try (Connection conn = JDBCUtil.startConnection();
             PreparedStatement prst = conn.prepareStatement(sql)) {
             prst.setString(1, taiKhoan.getMatKhau());
             prst.setInt(2, taiKhoan.getMaNV());
             prst.setString(3, taiKhoan.getChucVu());
-            prst.setString(4, taiKhoan.getTenNguoiDung());
+            prst.setInt(4, taiKhoan.getTrangThai());
+            prst.setString(5, taiKhoan.getTenNguoiDung());
             return prst.executeUpdate();
         }
         catch (SQLException sqlException){
