@@ -11,9 +11,21 @@ public class TaiKhoanDTO {
     public TaiKhoanDTO(){
 
     }
+    public TaiKhoanDTO(String tenNguoiDung, String matKhau, String chucVu, int trangThai) {
+        this.tenNguoiDung = tenNguoiDung;
+        this.matKhau = matKhau;
+        this.chucVu = chucVu;
+        this.trangThai = trangThai;
+    }
     public TaiKhoanDTO(String tenNguoiDung, String matKhau, String chucVu, int trangThai, int maNV) {
         this.tenNguoiDung = tenNguoiDung;
         this.matKhau = matKhau;
+        this.chucVu = chucVu;
+        this.trangThai = trangThai;
+        this.maNV = maNV;
+    }
+    public TaiKhoanDTO(String tenNguoiDung, String chucVu, int trangThai, int maNV) {
+        this.tenNguoiDung = tenNguoiDung;
         this.chucVu = chucVu;
         this.trangThai = trangThai;
         this.maNV = maNV;
