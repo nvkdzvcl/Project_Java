@@ -38,6 +38,24 @@ public class NhanVienDAO {
 
     }
 
+    public ArrayList<NhanVienDTO> gettennhanvien() {
+        ArrayList<NhanVienDTO> list = new ArrayList<>();
+        try (Connection conn = JDBCUtil.startConnection()) {
+            String sql = "select HOTENNV from NhanVien ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                NhanVienDTO dto = new NhanVienDTO();
+                dto.setHoTen(rs.getString("HOTENNV"));
+                list.add(dto);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
     public boolean insert(NhanVienDTO DTO) {
         String sql = "insert into NhanVien values(?,?,?,?,?)";
         try (Connection conn = JDBCUtil.startConnection()) {
