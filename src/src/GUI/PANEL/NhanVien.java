@@ -6,7 +6,11 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import BLL.KhachHangBLL;
+import BLL.NhanVienBLL;
+import DTO.KhachHangDTO;
 import GUI.DIALOG.ChitietNhanVienDialog;
 import GUI.DIALOG.SuaTaiKhoanDialog;
 import GUI.DIALOG.ThemNhanVienDialog;
@@ -103,6 +107,7 @@ public class NhanVien extends JPanel {
 
 
        bangnv.setShowGrid(false);
+//       loadtabledata(model);
 //       JButton them=new JButton("Thêm");
 //         add(them);
         add(scrollPane,BorderLayout.CENTER);
@@ -140,5 +145,22 @@ public ImageIcon resizeimg(ImageIcon img)
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
     }
+    
     }
+
+//public void loadtabledata(DefaultTableModel model)
+//{
+//    model.setRowCount(0);
+//    NhanVienBLL = new KhachHangBLL();
+//    ArrayList<KhachHangDTO> kh=khachHangBLL.getlistkh();
+//    for(KhachHangDTO dto : kh)
+//    {
+//        int makh= dto.getMaKhachHang();
+//        String tenkh=dto.getTenKhachHang();
+//        String diachi=dto.getDiachi();
+//        String sdt=dto.getSoDienThoai();
+//        Object[] row= new Object[]{makh,tenkh,diachi,sdt};
+//        model.addRow(row);
+//    }
+//}
 

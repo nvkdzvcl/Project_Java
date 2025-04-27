@@ -4,16 +4,15 @@ public class KhachHangDTO {
     private int maKhachHang;
     private String tenKhachHang;
     private String soDienThoai;
-    private String Email;
-
+    private String diachi;
 
     public KhachHangDTO() {}
 
-    public KhachHangDTO(int maKhachHang, String tenKhachHang, String soDienThoai, String Email) {
+    public KhachHangDTO(int maKhachHang, String tenKhachHang,String diachi,String soDienThoai) {
         this.maKhachHang = maKhachHang;
         this.tenKhachHang = tenKhachHang;
+        this.diachi = diachi;
         this.soDienThoai = soDienThoai;
-        this.Email = Email;
     }
 
     public int getMaKhachHang() {
@@ -39,11 +38,12 @@ public class KhachHangDTO {
     public void setSoDienThoai(String soDienThoai) {
         this.soDienThoai = soDienThoai;
     }
-    public String getEmail() {
-        return Email;
+
+    public String getDiachi() {
+        return diachi;
     }
-    public void setEmail(String email) {
-        this.Email = email;
+    public void setDiachi(String diachi) {
+        this.diachi = diachi;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class KhachHangDTO {
                 "maKhachHang=" + maKhachHang +
                 ", tenKhachHang='" + tenKhachHang + '\'' +
                 ", soDienThoai='" + soDienThoai + '\'' +
-                ", Email='" + Email + '\'' +
+                ", diachi='" + diachi + '\'' +
                 '}';
     }
 }

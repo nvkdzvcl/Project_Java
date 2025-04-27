@@ -1,5 +1,7 @@
 package GUI.PANEL;
 
+import BLL.KhachHangBLL;
+import DTO.KhachHangDTO;
 import GUI.DIALOG.ChitietKhachHangDialog;
 import GUI.DIALOG.SuaKhachHangDialog;
 import GUI.DIALOG.ThemKhachHangDialog;
@@ -10,6 +12,9 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class KhachHang extends JPanel {
     public KhachHang() {
@@ -69,7 +74,7 @@ public class KhachHang extends JPanel {
         P1.add(btnxuat);
 
 
-        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Số điện thoại","Email","Địa chỉ"};
+        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -81,22 +86,29 @@ public class KhachHang extends JPanel {
         P.add(P1, BorderLayout.WEST);
         P.add(P2,BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
-        String[] collum={"Mã khách hàng","Tên khách hàng","Số điện thoại","Email","Địa chỉ"};
+        String[] collum={"Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ"};
         JTable bangkh=new JTable();
         DefaultTableModel model=new DefaultTableModel(collum,0);
         bangkh.setModel(model);
         JScrollPane scrollPane = new JScrollPane(bangkh);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         JTableHeader header = bangkh.getTableHeader();
+        loadtabledata(model);
         add(scrollPane,BorderLayout.CENTER);
         btnthem.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
             ThemKhachHangDialog dlgThemKhachHang = new ThemKhachHangDialog(parent);
             dlgThemKhachHang.setVisible(true);
+            dlgThemKhachHang.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadtabledata(model); // tự động reload lại khi dialog đóng
+                }
+            });
         });
         btnsua.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            SuaKhachHangDialog dlgSuaKhachHang = new SuaKhachHangDialog(parent);
+            SuaKhachHangDialog dlgSuaKhachHang = new SuaKhachHangDialog(parent,(int) bangkh.getValueAt(bangkh.getSelectedRow(),0));
             dlgSuaKhachHang.setVisible(true);
         });
         btnct.addActionListener(e -> {
@@ -132,7 +144,22 @@ public class KhachHang extends JPanel {
             button.setFocusPainted(false);
             button.setOpaque(false);
         }
+    public void loadtabledata(DefaultTableModel model)
+    {
+        model.setRowCount(0);
+        KhachHangBLL khachHangBLL = new KhachHangBLL();
+        ArrayList<KhachHangDTO> kh=khachHangBLL.getlistkh();
+        for(KhachHangDTO dto : kh)
+        {
+            int makh= dto.getMaKhachHang();
+            String tenkh=dto.getTenKhachHang();
+            String diachi=dto.getDiachi();
+            String sdt=dto.getSoDienThoai();
 
+            Object[] row= new Object[]{makh,tenkh,diachi,sdt};
+            model.addRow(row);
+        }
+    }
     }
 
 

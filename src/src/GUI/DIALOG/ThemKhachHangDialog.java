@@ -1,5 +1,8 @@
 package GUI.DIALOG;
 
+import BLL.KhachHangBLL;
+import DTO.KhachHangDTO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -60,7 +63,6 @@ public class ThemKhachHangDialog extends JDialog {
         add(btnThem);
         btnThem.addActionListener(e -> {
             String hoVaTen = txtHoVaTen.getText().trim();
-            String email = txtEmail.getText().trim();
             String sdt = txtSDT.getText().trim();
             String diaChi = txtDiaChi.getText().trim();
 
@@ -88,24 +90,27 @@ public class ThemKhachHangDialog extends JDialog {
                 return;
             }
 
-            if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng nhập Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtEmail.requestFocusInWindow();
-                return;
-            }
-            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-            if (!email.matches(emailRegex)) {
-                JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtEmail.requestFocusInWindow();
-                return;
-            }
+//            if (email.isEmpty()) {
+//                JOptionPane.showMessageDialog(this,"Vui lòng nhập Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
+//                txtEmail.requestFocusInWindow();
+//                return;
+//            }
+//            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+//            if (!email.matches(emailRegex)) {
+//                JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//                txtEmail.requestFocusInWindow();
+//                return;
+//            }
 
-            if (!diaChi.isEmpty()) {
+            if (diaChi.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập địa chỉ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtDiaChi.requestFocusInWindow();
                 return;
             }
-            
+            KhachHangDTO dto=new KhachHangDTO(0,hoVaTen,diaChi,sdt);
+            KhachHangBLL khachHangBLL=new KhachHangBLL();
+            khachHangBLL.insert(dto);
+            loadtabledata();
             dispose();
         });
 
@@ -116,5 +121,8 @@ public class ThemKhachHangDialog extends JDialog {
         btnHuy.addActionListener(e -> {
             dispose();
         });
+    }
+    public void loadtabledata() {
+
     }
 }

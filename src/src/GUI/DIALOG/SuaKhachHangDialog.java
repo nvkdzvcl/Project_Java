@@ -1,5 +1,10 @@
 package GUI.DIALOG;
 
+import BLL.KhachHangBLL;
+import DAO.KhachHangDAO;
+import DTO.KhachHangDTO;
+import DTO.NhanVienDTO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,8 +13,10 @@ import java.awt.event.ActionListener;
 public class SuaKhachHangDialog extends JDialog {
     private JTextField txtHoVaTen, txtEmail, txtSDT, txtDiaChi;
     private JButton btnSua, btnHuy;
-    public SuaKhachHangDialog(Frame owner) {
+    private int id;
+    public SuaKhachHangDialog(Frame owner,int id) {
         super(owner);
+        this.id=id;
         setTitle("Sửa Khách Hàng");
         setSize(400,600);
         setLocationRelativeTo(owner);
@@ -60,7 +67,6 @@ public class SuaKhachHangDialog extends JDialog {
         add(btnSua);
         btnSua.addActionListener(e -> {
             String hoVaTen = txtHoVaTen.getText().trim();
-            String email = txtEmail.getText().trim();
             String sdt = txtSDT.getText().trim();
             String diaChi = txtDiaChi.getText().trim();
 
@@ -88,24 +94,30 @@ public class SuaKhachHangDialog extends JDialog {
                 return;
             }
 
-            if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng nhập Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtEmail.requestFocusInWindow();
-                return;
-            }
-            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-            if (!email.matches(emailRegex)) {
-                JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                txtEmail.requestFocusInWindow();
-                return;
-            }
+//            if (email.isEmpty()) {
+//                JOptionPane.showMessageDialog(this,"Vui lòng nhập Email!","Lỗi", JOptionPane.ERROR_MESSAGE);
+//                txtEmail.requestFocusInWindow();
+//                return;
+//            }
+//            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+//            if (!email.matches(emailRegex)) {
+//                JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//                txtEmail.requestFocusInWindow();
+//                return;
+//            }
 
-            if (!diaChi.isEmpty()) {
+            if (diaChi.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập địa chỉ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 txtDiaChi.requestFocusInWindow();
                 return;
             }
-
+            KhachHangDTO dto = new KhachHangDTO();
+            KhachHangBLL khachHangBLL = new KhachHangBLL();
+            dto.setMaKhachHang(id);
+            dto.setTenKhachHang(hoVaTen);
+            dto.setDiachi(diaChi);
+            dto.setSoDienThoai(sdt);
+            khachHangBLL.update(dto);
             dispose();
         });
 
@@ -116,5 +128,16 @@ public class SuaKhachHangDialog extends JDialog {
         btnHuy.addActionListener(e -> {
             dispose();
         });
+        loadtabledata(id);
+    }
+    public void loadtabledata(int id)
+    {
+        KhachHangDTO dto = new KhachHangDTO();
+        KhachHangBLL bll = new KhachHangBLL();
+        dto=bll.getonekh(id);
+        txtHoVaTen.setText(dto.getTenKhachHang());
+        txtDiaChi.setText(dto.getDiachi());
+        txtSDT.setText(dto.getSoDienThoai());
+
     }
 }
