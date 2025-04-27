@@ -1,5 +1,9 @@
 package GUI.DIALOG;
 
+import BLL.TaiKhoanBLL;
+import DTO.TaiKhoanDTO;
+import GUI.PANEL.TaiKhoan;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,11 +12,14 @@ import java.util.Arrays;
 public class ThemTaiKhoanDialog extends JDialog {
     private JTextField txtTenTK;
     private JPasswordField txtMatKhau;
-    private JComboBox<String> cbChucVu, cbTrangThai;
+    private JComboBox<String> cbChucVu, cbTrangThai, cbMaNV;
     private JButton btnThem, btnHuy;
 
-    public ThemTaiKhoanDialog(Frame owner) {
-        super(owner);
+    TaiKhoanBLL taiKhoanBLL = new TaiKhoanBLL();
+
+    public ThemTaiKhoanDialog(/*Frame owner*/TaiKhoan taiKhoanPanel) {
+        //super(owner);
+        new TaiKhoan();
         setTitle("Thêm Tài Khoản");
         setSize(400, 600);
         setLocationRelativeTo(null);
@@ -52,9 +59,17 @@ public class ThemTaiKhoanDialog extends JDialog {
         JLabel lbTrangThai = new JLabel("Trạng Thái");
         lbTrangThai.setBounds(70, 310, 250, 25);
         add(lbTrangThai);
-        cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động"});
+        cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động", "Hoạt động"});
         cbTrangThai.setBounds(70,340, 250, 25);
         add(cbTrangThai);
+
+//        JLabel lbMaNv = new JLabel("Mã Nhân Viên");
+//        lbMaNv.setBounds(70, 380, 250, 25);
+//        add(lbMaNv);
+//        String[] danhSachNhanVien = taiKhoanBLL.getListTaiKhoan().toArray(new String[0]);
+//        cbMaNV = new JComboBox<>(danhSachNhanVien);
+//        cbMaNV.setBounds(70,410, 250, 25);
+//        add(cbMaNV);
 
         //Nút thêm, hủy
         btnThem = new JButton("Thêm Tài Khoản");
@@ -93,6 +108,14 @@ public class ThemTaiKhoanDialog extends JDialog {
                 return;
             }
             Arrays.fill(matKhau,'\0');
+
+            int trangThai = (cbTrangThai.getSelectedItem()).equals("Hoạt động") ? 1 : 0;
+            TaiKhoanDTO taiKhoan = new TaiKhoanDTO(tenTK, matKhauStr, (String) cbChucVu.getSelectedItem(), trangThai, 1);
+            if(taiKhoanBLL.addAccount(taiKhoan)){
+                JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công");
+                taiKhoanPanel.loadDataToTable(taiKhoanBLL.getListTaiKhoan());
+            }
+
             dispose();
         });
 

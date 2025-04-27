@@ -1,5 +1,9 @@
 package GUI.DIALOG;
 
+import BLL.TaiKhoanBLL;
+import DTO.TaiKhoanDTO;
+import GUI.PANEL.TaiKhoan;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,8 +15,11 @@ public class SuaTaiKhoanDialog extends JDialog {
     private JComboBox<String> cbChucVu, cbTrangThai;
     private JButton btnSua, btnHuy;
 
-    public SuaTaiKhoanDialog(Frame owner) {
-        super(owner);
+    TaiKhoanBLL taiKhoanBLL = new TaiKhoanBLL();
+
+    public SuaTaiKhoanDialog(/*Frame owner*/TaiKhoanDTO taiKhoanDTO, TaiKhoan taiKhoanPanel, int index) {
+        //super(owner);
+        new TaiKhoan();
         setTitle("Sửa Tài Khoản");
         setSize(400, 600);
         setLocationRelativeTo(null);
@@ -33,6 +40,8 @@ public class SuaTaiKhoanDialog extends JDialog {
         add(lbTenTK);
         txtTenTK = new JTextField();
         txtTenTK.setBounds(70,130, 250, 25);
+        txtTenTK.setText(taiKhoanDTO.getTenNguoiDung());
+        txtTenTK.setEditable(false);
         add(txtTenTK);
 
         JLabel lbMatKhau = new JLabel("Mật Khẩu");
@@ -40,6 +49,7 @@ public class SuaTaiKhoanDialog extends JDialog {
         add(lbMatKhau);
         txtMatKhau = new JPasswordField();
         txtMatKhau.setBounds(70,210, 250, 25);
+        txtMatKhau.setText(taiKhoanBLL.getMatKhauByTenNguoiDung(txtTenTK.getText()));
         add(txtMatKhau);
 
         JLabel lbChucVu = new JLabel("Chức Vụ");
@@ -47,6 +57,7 @@ public class SuaTaiKhoanDialog extends JDialog {
         add(lbChucVu);
         cbChucVu = new JComboBox<>(new String[] {"Quản lý","Nhân viên"});
         cbChucVu.setBounds(70,280, 250, 25);
+        cbChucVu.setSelectedItem(taiKhoanDTO.getChucVu());
         add(cbChucVu);
 
         JLabel lbTrangThai = new JLabel("Trạng Thái");
@@ -54,7 +65,16 @@ public class SuaTaiKhoanDialog extends JDialog {
         add(lbTrangThai);
         cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động"});
         cbTrangThai.setBounds(70,350, 250, 25);
+        cbTrangThai.setSelectedItem(taiKhoanDTO.getTrangThai());
         add(cbTrangThai);
+
+//        JLabel lbMaNv = new JLabel("Mã Nhân Viên");
+//        lbMaNv.setBounds(70, 390, 250, 25);
+//        add(lbMaNv);
+//        String[] danhSachNhanVien = taiKhoanBLL.getListTaiKhoan().toArray(new String[0]);
+//        cbMaNV = new JComboBox<>(danhSachNhanVien);
+//        cbMaNV.setBounds(70,420, 250, 25);
+//        add(cbMaNV);
 
         //Nút thêm, hủy
         btnSua = new JButton("Sửa Tài Khoản");
@@ -93,6 +113,13 @@ public class SuaTaiKhoanDialog extends JDialog {
                 return;
             }
             Arrays.fill(matKhau,'\0');
+            int trangThai = (cbTrangThai.getSelectedItem()).equals("Hoạt động") ? 1 : 0;
+            TaiKhoanDTO taiKhoanMoi = new TaiKhoanDTO(tenTK, matKhauStr, (String)cbChucVu.getSelectedItem(), trangThai);
+            if(taiKhoanBLL.updateAccount(index, taiKhoanMoi)){
+                JOptionPane.showMessageDialog(this, "Sửa tài khoản thành công");
+                taiKhoanPanel.loadDataToTable(taiKhoanBLL.getListTaiKhoan());
+            }
+
             dispose();
         });
 
