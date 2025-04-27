@@ -73,9 +73,6 @@ public class TaiKhoan extends JPanel {
         btnLamMoi.setFocusPainted(false);
         btnLamMoi.setVerticalTextPosition(SwingConstants.CENTER);
         btnLamMoi.setHorizontalTextPosition(SwingConstants.RIGHT);
-        btnLamMoi.addActionListener(e -> {
-            loadDataToTable(taiKhoanBLL.getListTaiKhoan());
-        });
 
 
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -117,25 +114,35 @@ public class TaiKhoan extends JPanel {
         });
         
         btnSua.addActionListener(e -> {
-            int trangThai = model.getValueAt(bangkh.getSelectedRow(), 3).equals("Hoạt động") ? 1 : 0;
-            TaiKhoanDTO taiKhoan = new TaiKhoanDTO(model.getValueAt(bangkh.getSelectedRow(), 1).toString(), model.getValueAt(bangkh.getSelectedRow(), 2).toString(), trangThai, Integer.parseInt(model.getValueAt(bangkh.getSelectedRow(), 0).toString()));
+            if(bangkh.getSelectedRow() != -1){
+                int trangThai = model.getValueAt(bangkh.getSelectedRow(), 3).equals("Hoạt động") ? 1 : 0;
+                TaiKhoanDTO taiKhoan = new TaiKhoanDTO(model.getValueAt(bangkh.getSelectedRow(), 1).toString(), model.getValueAt(bangkh.getSelectedRow(), 2).toString(), trangThai, Integer.parseInt(model.getValueAt(bangkh.getSelectedRow(), 0).toString()));
+                SuaTaiKhoanDialog dlgSuaTaiKhoan = new SuaTaiKhoanDialog(taiKhoan, this, bangkh.getSelectedRow());
+                dlgSuaTaiKhoan.setVisible(true);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Chưa chọn tài khoản nào để sửa");
+            }
             //Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
             //SuaTaiKhoanDialog dlgSuaTaiKhoan = new SuaTaiKhoanDialog(parent);
-            SuaTaiKhoanDialog dlgSuaTaiKhoan = new SuaTaiKhoanDialog(taiKhoan, this, bangkh.getSelectedRow());
-            dlgSuaTaiKhoan.setVisible(true);
+
         });
 
         btnXoa.addActionListener(e -> {
             if(bangkh.getSelectedRow() != -1){
-                int maNV_Xoa = Integer.parseInt(model.getValueAt(bangkh.getSelectedRow(), 0).toString());
-                if(JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá tài khoản " + maNV_Xoa + " không?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION){
-                    taiKhoanBLL.deleteAccount(maNV_Xoa);
+                int maNV_Sua = Integer.parseInt(model.getValueAt(bangkh.getSelectedRow(), 0).toString());
+                if(JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá tài khoản " + maNV_Sua + " không?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION){
+                    taiKhoanBLL.deleteAccount(maNV_Sua);
                     loadDataToTable(taiKhoanBLL.getListTaiKhoan());
                 }
             }
             else {
                 JOptionPane.showMessageDialog(this, "Chưa chọn tài khoản nào để xoá");
             }
+        });
+
+        btnLamMoi.addActionListener(e -> {
+            loadDataToTable(taiKhoanBLL.getListTaiKhoan());
         });
 
         tf.getDocument().addDocumentListener(new DocumentListener() {
@@ -188,7 +195,7 @@ public class TaiKhoan extends JPanel {
                     Integer.toString(taiKhoan.getMaNV()),
                     taiKhoan.getTenNguoiDung(),
                     taiKhoan.getChucVu(),
-                    (taiKhoan.getTrangThai() == 1 ? "Hoạt động" : "Ngừng hoạt động"),
+                    (taiKhoan.getTrangThai() == 1 ? "Hoạt động" : "Ngừng hoạt động")
             });
         }
     }
