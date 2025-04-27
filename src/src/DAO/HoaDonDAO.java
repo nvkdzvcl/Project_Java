@@ -17,8 +17,8 @@ public class HoaDonDAO {
              PreparedStatement prst = conn.prepareStatement(sql)) {
 
             prst.setInt(1, hoaDon.getMaHoaDon());
-            prst.setString(2, hoaDon.getKhachhang());
-            prst.setString(3, hoaDon.getNhanVienBan());
+            prst.setInt(2, hoaDon.getKhachhang());
+            prst.setInt(3, hoaDon.getNhanVienBan());
             prst.setDate(4, new java.sql.Date(hoaDon.getThoigian().getTime()));
             prst.setInt(5, hoaDon.getTongTien());
 
@@ -34,8 +34,8 @@ public class HoaDonDAO {
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement prst = conn.prepareStatement(sql)) {
 
-            prst.setString(1, hoaDon.getKhachhang());
-            prst.setString(2, hoaDon.getNhanVienBan());
+            prst.setInt(1, hoaDon.getKhachhang());
+            prst.setInt(2, hoaDon.getNhanVienBan());
             prst.setDate(3, new java.sql.Date(hoaDon.getThoigian().getTime()));
             prst.setInt(4, hoaDon.getTongTien());
             prst.setInt(5, hoaDon.getMaHoaDon());
@@ -71,8 +71,8 @@ public class HoaDonDAO {
             while (rs.next()) {
                 HoaDonDTO hd = new HoaDonDTO(
                         rs.getInt("MAHOADON"),
-                        rs.getString("KHACHHANG"),
-                        rs.getString("NHANVIENBAN"),
+                        rs.getInt("KHACHHANG"),
+                        rs.getInt("NHANVIENBAN"),
                         rs.getDate("THOIGIAN"),
                         rs.getInt("TONGTIEN")
                 );
@@ -99,8 +99,8 @@ public class HoaDonDAO {
             if (rs.next()) {
                 hd = new HoaDonDTO(
                         rs.getInt("MAHOADON"),
-                        rs.getString("KHACHHANG"),
-                        rs.getString("NHANVIENBAN"),
+                        rs.getInt("KHACHHANG"),
+                        rs.getInt("NHANVIENBAN"),
                         rs.getDate("THOIGIAN"),
                         rs.getInt("TONGTIEN")
                 );
@@ -126,8 +126,8 @@ public class HoaDonDAO {
             while (rs.next()) {
                 HoaDonDTO hd = new HoaDonDTO(
                         rs.getInt("MAHOADON"),
-                        rs.getString("KHACHHANG"),
-                        rs.getString("NHANVIENBAN"),
+                        rs.getInt("KHACHHANG"),
+                        rs.getInt("NHANVIENBAN"),
                         rs.getDate("THOIGIAN"),
                         rs.getInt("TONGTIEN")
                 );
@@ -170,8 +170,8 @@ public class HoaDonDAO {
             while (rs.next()) {
                 HoaDonDTO hd = new HoaDonDTO(
                         rs.getInt("MAHOADON"),
-                        rs.getString("KHACHHANG"),
-                        rs.getString("NHANVIENBAN"),
+                        rs.getInt("KHACHHANG"),
+                        rs.getInt("NHANVIENBAN"),
                         rs.getDate("THOIGIAN"),
                         rs.getInt("TONGTIEN")
                 );

@@ -4,22 +4,22 @@ import java.util.Date;
 
 public class HoaDonDTO {
     private int maHoaDon;
-    private String khachhang;
-    private String nhanVienBan;
+    private int  khachhang;
+    private int nhanVienBan;
     private Date thoigian;
     private int tongTien;
     private int trangthai;
 
     public HoaDonDTO(){
     }
-    public HoaDonDTO(int maHoaDon, String khachhang, String nhanVienBan, Date thoigian, int tongTien) {
+    public HoaDonDTO(int maHoaDon, int khachhang, int nhanVienBan, Date thoigian, int tongTien) {
         this.maHoaDon = maHoaDon;
         this.khachhang = khachhang;
         this.nhanVienBan = nhanVienBan;
         this.thoigian = thoigian;
         this.tongTien = tongTien;
     }
-    public HoaDonDTO(int maHoaDon, String khachhang, String nhanVienBan, Date thoigian, int tongTien, int trangthai){
+    public HoaDonDTO(int maHoaDon, int khachhang, int nhanVienBan, Date thoigian, int tongTien, int trangthai){
         this.maHoaDon = maHoaDon;
         this.khachhang = khachhang;
         this.nhanVienBan = nhanVienBan;
@@ -36,19 +36,19 @@ public class HoaDonDTO {
         this.maHoaDon = maHoaDon;
     }
 
-    public String getKhachhang() {
+    public int getKhachhang() {
         return khachhang;
     }
 
-    public void setKhachhang(String khachhang) {
+    public void setKhachhang(int khachhang) {
         this.khachhang = khachhang;
     }
 
-    public String getNhanVienBan() {
+    public int getNhanVienBan() {
         return nhanVienBan;
     }
 
-    public void setNhanVienBan(String nhanVienBan) {
+    public void setNhanVienBan(int nhanVienBan) {
         this.nhanVienBan = nhanVienBan;
     }
 
