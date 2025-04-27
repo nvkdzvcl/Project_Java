@@ -20,7 +20,7 @@ public class PhieuNhapDAO {
                      sql, Statement.RETURN_GENERATED_KEYS)) {
 
             prst.setString(1, phieuNhap.getNhaCungCap());
-            prst.setString(2, phieuNhap.getNhanVienNhap());
+            prst.setInt(2, phieuNhap.getNhanVienNhap());
             prst.setDate(3, new java.sql.Date(phieuNhap.getNgay().getTime()));
             prst.setInt(4, phieuNhap.getTongTien());
 
@@ -50,7 +50,7 @@ public class PhieuNhapDAO {
              PreparedStatement prst = conn.prepareStatement(sql)) {
 
             prst.setString(1, phieuNhap.getNhaCungCap());
-            prst.setString(2, phieuNhap.getNhanVienNhap());
+            prst.setInt(2, phieuNhap.getNhanVienNhap());
             prst.setDate(3, new java.sql.Date(phieuNhap.getNgay().getTime()));
             prst.setInt(4, phieuNhap.getTongTien());
             prst.setInt(5, phieuNhap.getMaPhieuNhap());
@@ -87,7 +87,7 @@ public class PhieuNhapDAO {
                 PhieuNhapDTO pn = new PhieuNhapDTO(
                         rs.getInt("MAPHIEUNHAP"),
                         rs.getString("NHACUNGCAP"),
-                        rs.getString("NHANVIENNHAP"),
+                        rs.getInt("NHANVIENNHAP"),
                         rs.getDate("NGAY"),
                         rs.getInt("TONGTIEN")
                 );
@@ -115,7 +115,7 @@ public class PhieuNhapDAO {
                 pn = new PhieuNhapDTO(
                         rs.getInt("MAPHIEUNHAP"),
                         rs.getString("NHACUNGCAP"),
-                        rs.getString("NHANVIENNHAP"),
+                        rs.getInt("NHANVIENNHAP"),
                         rs.getDate("NGAY"),
                         rs.getInt("TONGTIEN")
                 );
@@ -141,7 +141,7 @@ public class PhieuNhapDAO {
                 PhieuNhapDTO pn = new PhieuNhapDTO(
                         rs.getInt("MAPHIEUNHAP"),
                         rs.getString("NHACUNGCAP"),
-                        rs.getString("NHANVIENNHAP"),
+                        rs.getInt("NHANVIENNHAP"),
                         rs.getDate("NGAY"),
                         rs.getInt("TONGTIEN")
                 );
@@ -185,7 +185,7 @@ public class PhieuNhapDAO {
                 PhieuNhapDTO pn = new PhieuNhapDTO(
                         rs.getInt("MAPHIEUNHAP"),
                         rs.getString("NHACUNGCAP"),
-                        rs.getString("NHANVIENNHAP"),
+                        rs.getInt("NHANVIENNHAP"),
                         rs.getDate("NGAY"),
                         rs.getInt("TONGTIEN")
                 );

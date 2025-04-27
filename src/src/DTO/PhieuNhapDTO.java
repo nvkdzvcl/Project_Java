@@ -5,14 +5,14 @@ import java.util.Date;
 public class PhieuNhapDTO {
     private int maPhieuNhap;
     private String nhaCungCap;
-    private String nhanVienNhap;
+    private int nhanVienNhap;
     private Date ngay;
     private int tongTien;
     private int trangthai;
     public PhieuNhapDTO(){
 
     }
-    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,String nhanVienNhap,Date ngay,int tongTien,int trangthai){
+    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,int nhanVienNhap,Date ngay,int tongTien,int trangthai){
         this.maPhieuNhap = maPhieuNhap;
         this.nhaCungCap = nhaCungCap;
         this.nhanVienNhap = nhanVienNhap;
@@ -20,7 +20,7 @@ public class PhieuNhapDTO {
         this.tongTien = tongTien;
         this.trangthai = trangthai;
     }
-    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,String nhanVienNhap,Date ngay,int tongTien){
+    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,int nhanVienNhap,Date ngay,int tongTien){
         this.maPhieuNhap = maPhieuNhap;
         this.nhaCungCap = nhaCungCap;
         this.nhanVienNhap = nhanVienNhap;
@@ -44,11 +44,11 @@ public class PhieuNhapDTO {
         this.nhaCungCap = nhaCungCap;
     }
 
-    public String getNhanVienNhap() {
+    public int getNhanVienNhap() {
         return nhanVienNhap;
     }
 
-    public void setNhanVienNhap(String nhanVienNhap) {
+    public void setNhanVienNhap(int nhanVienNhap) {
         this.nhanVienNhap = nhanVienNhap;
     }
 
