@@ -20,6 +20,15 @@ public class PhieuNhapDTO {
         this.tongTien = tongTien;
         this.trangthai = trangthai;
     }
+    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,String nhanVienNhap,Date ngay,int tongTien){
+        this.maPhieuNhap = maPhieuNhap;
+        this.nhaCungCap = nhaCungCap;
+        this.nhanVienNhap = nhanVienNhap;
+        this.ngay = ngay;
+        this.tongTien = tongTien;
+
+    }
+
     public int getMaPhieuNhap(){
         return maPhieuNhap;
     }
