@@ -1,16 +1,27 @@
 package GUI.PANEL;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 
+import BLL.TaiKhoanBLL;
+import DTO.TaiKhoanDTO;
 import GUI.DIALOG.ThemTaiKhoanDialog;
 import GUI.DIALOG.SuaTaiKhoanDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class TaiKhoan extends JPanel {
+
+    TaiKhoanBLL taiKhoanBLL = new TaiKhoanBLL();
+    JTable bangkh;
+    DefaultTableModel model;
+    JScrollPane scrollPane;
+
     public TaiKhoan() {
         setLayout(new BorderLayout(10, 10));
 
@@ -62,6 +73,9 @@ public class TaiKhoan extends JPanel {
         btnLamMoi.setFocusPainted(false);
         btnLamMoi.setVerticalTextPosition(SwingConstants.CENTER);
         btnLamMoi.setHorizontalTextPosition(SwingConstants.RIGHT);
+        btnLamMoi.addActionListener(e -> {
+            loadDataToTable(taiKhoanBLL.getListTaiKhoan());
+        });
 
 
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -86,24 +100,59 @@ public class TaiKhoan extends JPanel {
         P.add(P2, BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
         String[] collum = {"Mã NV","Tên Đăng Nhập","Chức Vụ","Trạng Thái"};
-        JTable bangkh = new JTable();
-        DefaultTableModel model = new DefaultTableModel(collum,0);
+        bangkh = new JTable();
+        model = new DefaultTableModel(collum,0);
         bangkh.setModel(model);
-        JScrollPane scrollPane = new JScrollPane(bangkh);
+        scrollPane = new JScrollPane(bangkh);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        loadDataToTable(taiKhoanBLL.getListTaiKhoan());
         JTableHeader header = bangkh.getTableHeader();
         add(scrollPane, BorderLayout.CENTER);
 
         btnThem.addActionListener(e -> {
-            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            ThemTaiKhoanDialog dlgThemTaiKhoan = new ThemTaiKhoanDialog(parent);
+            //Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            //ThemTaiKhoanDialog dlgThemTaiKhoan = new ThemTaiKhoanDialog(parent);
+            ThemTaiKhoanDialog dlgThemTaiKhoan = new ThemTaiKhoanDialog(this);
             dlgThemTaiKhoan.setVisible(true);
         });
         
         btnSua.addActionListener(e -> {
-            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            SuaTaiKhoanDialog dlgSuaTaiKhoan = new SuaTaiKhoanDialog(parent);
+            int trangThai = model.getValueAt(bangkh.getSelectedRow(), 3).equals("Hoạt động") ? 1 : 0;
+            TaiKhoanDTO taiKhoan = new TaiKhoanDTO(model.getValueAt(bangkh.getSelectedRow(), 1).toString(), model.getValueAt(bangkh.getSelectedRow(), 2).toString(), trangThai, Integer.parseInt(model.getValueAt(bangkh.getSelectedRow(), 0).toString()));
+            //Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+            //SuaTaiKhoanDialog dlgSuaTaiKhoan = new SuaTaiKhoanDialog(parent);
+            SuaTaiKhoanDialog dlgSuaTaiKhoan = new SuaTaiKhoanDialog(taiKhoan, this, bangkh.getSelectedRow());
             dlgSuaTaiKhoan.setVisible(true);
+        });
+
+        btnXoa.addActionListener(e -> {
+            if(bangkh.getSelectedRow() != -1){
+                int maNV_Xoa = Integer.parseInt(model.getValueAt(bangkh.getSelectedRow(), 0).toString());
+                if(JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá tài khoản " + maNV_Xoa + " không?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION){
+                    taiKhoanBLL.deleteAccount(maNV_Xoa);
+                    loadDataToTable(taiKhoanBLL.getListTaiKhoan());
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Chưa chọn tài khoản nào để xoá");
+            }
+        });
+
+        tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadDataToTable(taiKhoanBLL.search(tf.getText(), pl.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadDataToTable(taiKhoanBLL.search(tf.getText(), pl.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadDataToTable(taiKhoanBLL.search(tf.getText(), pl.getSelectedItem().toString()));
+            }
         });
 
     }
@@ -130,6 +179,18 @@ public class TaiKhoan extends JPanel {
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setOpaque(false);
+    }
+
+    public void loadDataToTable(ArrayList<TaiKhoanDTO> danhSachTaiKhoan){
+        model.setRowCount(0);
+        for(TaiKhoanDTO taiKhoan : danhSachTaiKhoan){
+            model.addRow(new String[]{
+                    Integer.toString(taiKhoan.getMaNV()),
+                    taiKhoan.getTenNguoiDung(),
+                    taiKhoan.getChucVu(),
+                    (taiKhoan.getTrangThai() == 1 ? "Hoạt động" : "Ngừng hoạt động"),
+            });
+        }
     }
 }
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class TaiKhoanBLL {
     private ArrayList<TaiKhoanDTO> listTaiKhoan;
+    private TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
 
     public TaiKhoanBLL(){
         this.listTaiKhoan = TaiKhoanDAO.getInstance().selectAll();
@@ -32,12 +33,39 @@ public class TaiKhoanBLL {
         return pos;
     }
 
-    public void addAccount(TaiKhoanDTO tk) {
-        listTaiKhoan.add(tk);
+    public String getMatKhauByTenNguoiDung(String tenNguoiDung){
+        int i = 0;
+        while (i < listTaiKhoan.size()){
+            if(listTaiKhoan.get(i).getTenNguoiDung().equals(tenNguoiDung)){
+                return listTaiKhoan.get(i).getMatKhau();
+            }
+            else {
+                i++;
+            }
+        }
+        return null;
     }
 
-    public void updateAccount(int index, TaiKhoanDTO tk) {
-        listTaiKhoan.set(index, tk);
+//    public void addAccount(TaiKhoanDTO tk) {
+//        listTaiKhoan.add(tk);
+//    }
+
+    public Boolean addAccount(TaiKhoanDTO taiKhoan){
+        if(taiKhoanDAO.insert(taiKhoan) > 0){
+            listTaiKhoan.add(taiKhoan);
+            return true;
+        }
+
+        return false;
+    }
+
+    public Boolean updateAccount(int index, TaiKhoanDTO tk) {
+        if(taiKhoanDAO.update(tk) > 0){
+            listTaiKhoan.set(index, tk);
+            return true;
+        }
+
+        return false;
     }
 
     public void deleteAccount(int maNV) {
@@ -49,7 +77,7 @@ public class TaiKhoanBLL {
         ArrayList<TaiKhoanDTO> result = new ArrayList<>();
         txt = txt.toLowerCase();
         switch (type) {
-            case "Tất cả" -> {
+            case "Tất Cả" -> {
                 for (TaiKhoanDTO i : listTaiKhoan) {
                     if (Integer.toString(i.getMaNV()).contains(txt) || i.getTenNguoiDung().contains(txt)) {
                         result.add(i);
