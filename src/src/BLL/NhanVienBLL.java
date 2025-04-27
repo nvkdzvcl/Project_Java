@@ -11,6 +11,10 @@ public class NhanVienBLL {
         NhanVienDAO dao = new NhanVienDAO();
         nv=dao.getallnhanvien();
     }
+    public NhanVienBLL(int i){
+        NhanVienDAO dao = new NhanVienDAO();
+        nv=dao.gettennhanvien();
+    }
     public ArrayList<NhanVienDTO> getlistnv() {
         return nv;
     }
