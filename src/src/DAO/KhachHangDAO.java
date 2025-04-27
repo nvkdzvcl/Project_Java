@@ -16,7 +16,7 @@ public class KhachHangDAO {
     }
     public ArrayList<KhachHangDTO> getallkhachhang() {
         ArrayList<KhachHangDTO> list = new ArrayList<>();
-        String sql = "select * from khachhang";
+        String sql = "select * from khachhang where TRANGTHAI=1";
         try (Connection conn= JDBCUtil.startConnection())
         {
             PreparedStatement ps=conn.prepareStatement(sql);
@@ -52,7 +52,7 @@ public class KhachHangDAO {
         return false;
     }
     public static boolean updatekhachhang(KhachHangDTO dto) {
-        String sql="Update KHACHHANG set TENKHACHHANG =?  SDT= ? DIACHI= ?  where MAKHACHHANG=?";
+        String sql="Update KHACHHANG set TENKHACHHANG =? ,SDT= ? ,DIACHI= ?  where MAKHACHHANG=?";
         try (Connection conn=JDBCUtil.startConnection())
         {
             PreparedStatement ps=conn.prepareStatement(sql);
@@ -69,7 +69,7 @@ public class KhachHangDAO {
         return false;
     }
     public static boolean deletekhachhang(int id) {
-        String sql="set TRANGTHAI = 0 where MAKHACHHANG=?";
+        String sql="UPDATE khachhang SET TRANGTHAI = 0 where MAKHACHHANG=?";
         try (Connection conn=JDBCUtil.startConnection())
         {
             PreparedStatement ps=conn.prepareStatement(sql);

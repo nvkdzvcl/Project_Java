@@ -1,4 +1,7 @@
 package GUI.DIALOG;
+import DAO.KhachHangDAO;
+import DTO.KhachHangDTO;
+import GUI.PANEL.KhachHang;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
@@ -8,9 +11,10 @@ import java.awt.event.ActionListener;
 public class ChitietKhachHangDialog extends JDialog {
     private JTextField txtHoVaTen, txtEmail, txtSDT, txtDiaChi;
     private JButton btnDong;
-
-    public ChitietKhachHangDialog(Frame owner) {
+    private int id;
+    public ChitietKhachHangDialog(Frame owner,int id) {
         super(owner);
+        this.id=id;
         setTitle("Xem Khách Hàng");
         setSize(400, 600);
         setLocationRelativeTo(owner);
@@ -31,6 +35,7 @@ public class ChitietKhachHangDialog extends JDialog {
         add(lbHoVaTen);
         txtHoVaTen = new JTextField();
         txtHoVaTen.setBounds(70,130,250,25);
+        txtHoVaTen.setEnabled(false);
         add(txtHoVaTen);
 
         JLabel lbSDT = new JLabel("Số Điện Thoại");
@@ -38,6 +43,7 @@ public class ChitietKhachHangDialog extends JDialog {
         add(lbSDT);
         txtSDT = new JTextField();
         txtSDT.setBounds(70,200,250,25);
+        txtSDT.setEnabled(false);
         add(txtSDT);
 
 //        JLabel lbEmail = new JLabel("Email");
@@ -52,8 +58,9 @@ public class ChitietKhachHangDialog extends JDialog {
         add(lbDiaChi);
         txtDiaChi = new JTextField();
         txtDiaChi.setBounds(70,270,250,25);
+        txtDiaChi.setEnabled(false);
         add(txtDiaChi);
-
+    loadtabledata(id);
         //Nút Đóng
         btnDong = new JButton("Đóng");
         btnDong.setBounds(125, 500, 150, 25);
@@ -62,5 +69,15 @@ public class ChitietKhachHangDialog extends JDialog {
         btnDong.addActionListener(e -> {
             dispose();
         });
+    }
+    public void loadtabledata(int id)
+    {
+        KhachHangDTO DTO=new KhachHangDTO();
+        KhachHangDAO DAO=new KhachHangDAO();
+        DTO=DAO.getonekhachhang(id);
+        txtHoVaTen.setText(DTO.getTenKhachHang());
+        txtSDT.setText(DTO.getSoDienThoai());
+        txtDiaChi.setText(DTO.getDiachi());
+
     }
 }

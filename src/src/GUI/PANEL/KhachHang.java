@@ -2,6 +2,7 @@ package GUI.PANEL;
 
 import BLL.KhachHangBLL;
 import DTO.KhachHangDTO;
+import DTO.NhanVienDTO;
 import GUI.DIALOG.ChitietKhachHangDialog;
 import GUI.DIALOG.SuaKhachHangDialog;
 import GUI.DIALOG.ThemKhachHangDialog;
@@ -10,10 +11,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class KhachHang extends JPanel {
@@ -107,14 +105,65 @@ public class KhachHang extends JPanel {
             });
         });
         btnsua.addActionListener(e -> {
-            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            SuaKhachHangDialog dlgSuaKhachHang = new SuaKhachHangDialog(parent,(int) bangkh.getValueAt(bangkh.getSelectedRow(),0));
-            dlgSuaKhachHang.setVisible(true);
+            if(bangkh.getSelectedRow()!=-1) {
+                Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+                SuaKhachHangDialog dlgSuaKhachHang = new SuaKhachHangDialog(parent, (int) bangkh.getValueAt(bangkh.getSelectedRow(), 0));
+                dlgSuaKhachHang.setVisible(true);
+                dlgSuaKhachHang.addWindowListener(new WindowAdapter() {
+                    public void windowClosed(WindowEvent e) {
+                        loadtabledata(model);
+                    }
+                });
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Khách Hàng");
+            }
         });
         btnct.addActionListener(e -> {
-            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            ChitietKhachHangDialog dlgChitietKhachHang = new ChitietKhachHangDialog(parent);
-            dlgChitietKhachHang.setVisible(true);
+            if(bangkh.getSelectedRow()!=-1) {
+                Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+                ChitietKhachHangDialog dlgChitietKhachHang = new ChitietKhachHangDialog(parent, (int) bangkh.getValueAt(bangkh.getSelectedRow(), 0));
+                dlgChitietKhachHang.setVisible(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Khách Hàng");
+            }
+        });
+        btnxoa.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e) {
+            if(bangkh.getSelectedRow()!=-1){
+                int option = JOptionPane.showConfirmDialog(
+                        KhachHang.this,
+                        " Xác nhận xóa","Xác nhận xóa",
+
+
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+                if(option==JOptionPane.YES_OPTION) {
+                    int maKH = (int) bangkh.getValueAt(bangkh.getSelectedRow(), 0);
+                    KhachHangBLL kh = new KhachHangBLL();
+                    kh.delete(maKH);
+                    loadtabledata(model);
+                }
+            }
+//        JOptionPane.showConfirmDialog("Bạn CÓ")
+            else{
+                JOptionPane.showMessageDialog(null,"Vui Lòng Chọn Khách Hàng");
+            }
+        }
+    });
+        tf.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                String selectedCriteria = (String) pl.getSelectedItem();
+                String searchText = tf.getText().trim();
+                if (!searchText.isEmpty()) {
+                    searchTableData(model, selectedCriteria, searchText);
+                } else {
+                    loadtabledata(model);
+                }
+            }
         });
         setVisible(true);
     }
@@ -158,6 +207,49 @@ public class KhachHang extends JPanel {
 
             Object[] row= new Object[]{makh,tenkh,diachi,sdt};
             model.addRow(row);
+        }
+    }
+    public void searchTableData(DefaultTableModel model, String criteria, String searchText) {
+        model.setRowCount(0);
+        KhachHangBLL kh = new KhachHangBLL();
+        ArrayList<KhachHangDTO> list = kh.getlistkh();
+        if (list != null) {
+            for (KhachHangDTO khachhang : list) {
+                boolean match = false;
+                switch (criteria) {
+                    case "Tất Cả":
+                        match = String.valueOf(khachhang.getMaKhachHang()).contains(searchText) ||
+                                khachhang.getTenKhachHang().toLowerCase().contains(searchText.toLowerCase()) ||
+                                khachhang.getSoDienThoai().contains(searchText) ||
+                                khachhang.getDiachi().toLowerCase().contains(searchText.toLowerCase());
+                        break;
+                    case "Mã khách hàng":
+                        match = String.valueOf(khachhang.getMaKhachHang()).contains(searchText);
+                        break;
+                    case "Tên khách hàng":
+                        match = khachhang.getTenKhachHang().toLowerCase().contains(searchText.toLowerCase());
+                        break;
+                    case "Số điện thoại":
+                        match = khachhang.getSoDienThoai().contains(searchText);
+                        break;
+
+                    case "Địa chỉ":
+                        match = khachhang.getDiachi().toLowerCase().contains(searchText.toLowerCase());
+                        break;
+
+                }
+                if (match) {
+                    Object[] row = new Object[]{
+                            khachhang.getMaKhachHang(),
+                            khachhang.getTenKhachHang(),
+                            khachhang.getSoDienThoai(),
+                            khachhang.getDiachi(),
+
+
+                    };
+                    model.addRow(row);
+                }
+            }
         }
     }
     }
