@@ -73,7 +73,7 @@ public class NhanVienDAO {
         return false;
     }
     public static boolean delete(String id) {
-        String sql = "SET Trangthai=0 from NhanVien where MANV =?";
+        String sql = "UPDATE nhanvien SET Trangthai=0 from NhanVien where MANV =?";
         try (Connection conn = JDBCUtil.startConnection())
         {
             PreparedStatement ps = conn.prepareStatement(sql);

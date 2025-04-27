@@ -6,16 +6,18 @@ public class NhanVienDTO {
     private String hoTen;
     private String gioiTinh;
     private String ngaySinh;
+    private String sdt;
     private String email;
 
     public NhanVienDTO(){
 
     }
-    public NhanVienDTO(String maNV, String hoTen, String gioiTinh, String ngaySinh, String email) {
+    public NhanVienDTO(String maNV, String hoTen, String gioiTinh, String ngaySinh, String sdt,String email) {
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
         this.ngaySinh = ngaySinh;
+        this.sdt = sdt;
         this.email = email;
     }
 
@@ -58,7 +60,12 @@ public class NhanVienDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
+    }
+    public String getSdt() {
+        return sdt;
+    }
     @Override
     public String toString() {
         return "NhanVienDTO{" +

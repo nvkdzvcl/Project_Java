@@ -4,15 +4,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Date;
 
-import BLL.KhachHangBLL;
 import BLL.NhanVienBLL;
-import DTO.KhachHangDTO;
+import DTO.NhanVienDTO;
 import GUI.DIALOG.ChitietNhanVienDialog;
-import GUI.DIALOG.SuaTaiKhoanDialog;
 import GUI.DIALOG.ThemNhanVienDialog;
 import GUI.DIALOG.SuaNhanVienDialog;
 
@@ -107,20 +106,31 @@ public class NhanVien extends JPanel {
 
 
        bangnv.setShowGrid(false);
-//       loadtabledata(model);
 //       JButton them=new JButton("Thêm");
 //         add(them);
+        loadtabledata(model);
         add(scrollPane,BorderLayout.CENTER);
 
         btnthem.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
             ThemNhanVienDialog dlgThemNhanVien = new ThemNhanVienDialog(parent);
             dlgThemNhanVien.setVisible(true);
+            dlgThemNhanVien.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadtabledata(model);
+                }
+            });
         });
         btnsua.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
             SuaNhanVienDialog dlgSuaNhanVien = new SuaNhanVienDialog(parent);
             dlgSuaNhanVien.setVisible(true);
+            dlgSuaNhanVien.addWindowListener(new WindowAdapter() {
+                public void windowClosed(WindowEvent e) {
+                    loadtabledata(model);
+                }
+            });
         });
         btnct.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
@@ -145,22 +155,27 @@ public ImageIcon resizeimg(ImageIcon img)
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
     }
+    public void loadtabledata(DefaultTableModel model)
+    {
+        model.setRowCount(0);
+        NhanVienBLL bll=new NhanVienBLL();
+        ArrayList< NhanVienDTO> nv=bll.getlistnv();
+        for(NhanVienDTO dto : nv)
+        {
+            String manv= dto.getMaNV();
+            String tenkh=dto.getHoTen();
+            String gioitinh=dto.getGioiTinh();
+            String ns=dto.getNgaySinh();
+            String sdt=dto.getSdt();
+            String email=dto.getEmail();
+            Object[] row=new Object[] {manv,tenkh,gioitinh,ns,sdt,email};
+            model.addRow(row);
+
+        }
+    }
     
     }
 
-//public void loadtabledata(DefaultTableModel model)
-//{
-//    model.setRowCount(0);
-//    NhanVienBLL = new KhachHangBLL();
-//    ArrayList<KhachHangDTO> kh=khachHangBLL.getlistkh();
-//    for(KhachHangDTO dto : kh)
-//    {
-//        int makh= dto.getMaKhachHang();
-//        String tenkh=dto.getTenKhachHang();
-//        String diachi=dto.getDiachi();
-//        String sdt=dto.getSoDienThoai();
-//        Object[] row= new Object[]{makh,tenkh,diachi,sdt};
-//        model.addRow(row);
-//    }
-//}
+
+
 
