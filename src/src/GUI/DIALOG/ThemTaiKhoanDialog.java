@@ -1,6 +1,8 @@
 package GUI.DIALOG;
 
+import BLL.NhanVienBLL;
 import BLL.TaiKhoanBLL;
+import DTO.NhanVienDTO;
 import DTO.TaiKhoanDTO;
 import GUI.PANEL.TaiKhoan;
 
@@ -16,6 +18,7 @@ public class ThemTaiKhoanDialog extends JDialog {
     private JButton btnThem, btnHuy;
 
     TaiKhoanBLL taiKhoanBLL = new TaiKhoanBLL();
+    NhanVienBLL nhanVienBLL = new NhanVienBLL(1);
 
     public ThemTaiKhoanDialog(/*Frame owner*/TaiKhoan taiKhoanPanel) {
         //super(owner);
@@ -63,13 +66,19 @@ public class ThemTaiKhoanDialog extends JDialog {
         cbTrangThai.setBounds(70,340, 250, 25);
         add(cbTrangThai);
 
-//        JLabel lbMaNv = new JLabel("Mã Nhân Viên");
-//        lbMaNv.setBounds(70, 380, 250, 25);
-//        add(lbMaNv);
-//        String[] danhSachNhanVien = taiKhoanBLL.getListTaiKhoan().toArray(new String[0]);
-//        cbMaNV = new JComboBox<>(danhSachNhanVien);
-//        cbMaNV.setBounds(70,410, 250, 25);
-//        add(cbMaNV);
+        JLabel lbMaNv = new JLabel("Mã Nhân Viên");
+        lbMaNv.setBounds(70, 380, 250, 25);
+        add(lbMaNv);
+        String[] danhSachNhanVien = new String[0];
+        int i = 0;
+        for(NhanVienDTO nhanVienDTO : nhanVienBLL.getlistnv()){
+            danhSachNhanVien = Arrays.copyOf(danhSachNhanVien, danhSachNhanVien.length + 1);
+            danhSachNhanVien[i] = nhanVienDTO.getHoTen();
+            i++;
+        }
+        cbMaNV = new JComboBox<>(danhSachNhanVien);
+        cbMaNV.setBounds(70,410, 250, 25);
+        add(cbMaNV);
 
         //Nút thêm, hủy
         btnThem = new JButton("Thêm Tài Khoản");
@@ -110,7 +119,7 @@ public class ThemTaiKhoanDialog extends JDialog {
             Arrays.fill(matKhau,'\0');
 
             int trangThai = (cbTrangThai.getSelectedItem()).equals("Hoạt động") ? 1 : 0;
-            TaiKhoanDTO taiKhoan = new TaiKhoanDTO(tenTK, matKhauStr, (String) cbChucVu.getSelectedItem(), trangThai, 1);
+            TaiKhoanDTO taiKhoan = new TaiKhoanDTO(tenTK, matKhauStr, (String) cbChucVu.getSelectedItem(), trangThai, (cbMaNV.getSelectedIndex() + 1));
             if(taiKhoanBLL.addAccount(taiKhoan)){
                 JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công");
                 taiKhoanPanel.loadDataToTable(taiKhoanBLL.getListTaiKhoan());
