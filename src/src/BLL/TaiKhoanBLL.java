@@ -5,7 +5,7 @@ import DTO.TaiKhoanDTO;
 import java.util.ArrayList;
 
 public class TaiKhoanBLL {
-    private ArrayList<TaiKhoanDTO> listTaiKhoan;
+    private static ArrayList<TaiKhoanDTO> listTaiKhoan;
     private TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
 
     public TaiKhoanBLL(){
@@ -70,7 +70,10 @@ public class TaiKhoanBLL {
 
     public void deleteAccount(int maNV) {
         int index = getTaiKhoanByMaNV(maNV);
-        if (index != -1) listTaiKhoan.remove(index);
+        if (index != -1) {
+            listTaiKhoan.set(index, listTaiKhoan.get(index));
+            taiKhoanDAO.delete(listTaiKhoan.get(index));
+        }
     }
 
     public ArrayList<TaiKhoanDTO> search(String txt, String type) {
