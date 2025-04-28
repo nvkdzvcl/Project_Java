@@ -37,10 +37,12 @@ public class PhieuNhapBLL {
 
     public void insertPhieuNhap(PhieuNhapDTO phieuNhap) {
         danhSachPhieuNhap.add(phieuNhap);
+        PhieuNhapDAO.getInstance().insert(phieuNhap);
     }
 
     public void updatePhieuNhap(int viTri, PhieuNhapDTO phieuNhap) {
         danhSachPhieuNhap.set(viTri, phieuNhap);
+        PhieuNhapDAO.getInstance().update(phieuNhap);
     }
 
     public void deletePhieuNhap(int maPhieuNhap) {
@@ -68,8 +70,8 @@ public class PhieuNhapBLL {
                 for (PhieuNhapDTO pn : danhSachPhieuNhap) {
                     if (String.valueOf(pn.getMaPhieuNhap()).contains(text) ||
                             pn.getNhaCungCap().toLowerCase().contains(text) ||
-                            pn.getNhanVienNhap().toLowerCase().contains(text)) {
-                        ketQua.add(pn);
+                            String.valueOf(pn.getNhanVienNhap()).contains(text)) {
+                            ketQua.add(pn);
                     }
                 }
             }
@@ -89,7 +91,7 @@ public class PhieuNhapBLL {
             }
             case "Nhân Viên Nhập" -> {
                 for (PhieuNhapDTO pn : danhSachPhieuNhap) {
-                    if (pn.getNhanVienNhap().toLowerCase().contains(text)) {
+                    if (String.valueOf(pn.getNhanVienNhap()).contains(text)) {
                         ketQua.add(pn);
                     }
                 }
