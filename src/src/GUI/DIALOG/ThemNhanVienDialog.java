@@ -120,8 +120,8 @@ public class ThemNhanVienDialog extends JDialog {
                 JOptionPane.showMessageDialog(this,"Vui lòng chọn Ngày sinh!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 ngaySinh.requestFocusInWindow();
             }
-            NhanVienDTO nhv = new NhanVienDTO(0,hoVaTen,gi);
-  lbGioiTinh
+//            NhanVienDTO nhv = new NhanVienDTO(0,hoVaTen,gi);
+//  lbGioiTinh
             dispose();
         });
 

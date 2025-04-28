@@ -57,7 +57,9 @@ public class HoaDonBLL {
         switch (type){
             case "Tất cả":
                 for(HoaDonDTO hoaDon : danhSachHoaDon){
-                    if(Integer.toString(hoaDon.getMaHoaDon()).contains(text) || hoaDon.getKhachhang().contains(text) || hoaDon.getNhanVienBan().contains(text)){
+                    if(Integer.toString(hoaDon.getMaHoaDon()).contains(text)
+                            || Integer.toString(hoaDon.getKhachhang()).contains(text)
+                            || Integer.toString(hoaDon.getNhanVienBan()).contains(text)){
                         danhSachKetQua.add(hoaDon);
                     }
                 }
@@ -71,20 +73,20 @@ public class HoaDonBLL {
                 break;
             case "Khách hàng":
                 for(HoaDonDTO hoaDon : danhSachHoaDon){
-                    if(hoaDon.getKhachhang().contains(text)){
+                    if(Integer.toString(hoaDon.getKhachhang()).contains(text)){
                         danhSachKetQua.add(hoaDon);
                     }
                 }
                 break;
             case "Nhân viên bán":
                 for(HoaDonDTO hoaDon : danhSachHoaDon){
-                    if(hoaDon.getNhanVienBan().contains(text)){
+                    if(Integer.toString(hoaDon.getNhanVienBan()).contains(text)){
                         danhSachKetQua.add(hoaDon);
                     }
                 }
                 break;
         }
 
-        return danhSachHoaDon;
+        return danhSachKetQua;
     }
 }
