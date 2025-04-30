@@ -28,7 +28,7 @@ public class Main extends JFrame {
     private void initUI() {
         setTitle("Hệ thống quản lý cửa hàng");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 700);
+        setSize(1300, 700);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
@@ -41,21 +41,27 @@ public class Main extends JFrame {
         contentPanel.setLayout(cardLayout);
 
         // Thêm các card vào
-        contentPanel.add(new TrangChu(),    "trangchu");
-        contentPanel.add(new SanPham(),     "sanpham");
-        contentPanel.add(new PhieuNhap(),   "phieunhap");
-        contentPanel.add(new HoaDon(),      "hoadon");
-        contentPanel.add(new KhachHang(),   "khachhang");
-        contentPanel.add(new NhanVien(),    "nhanvien");
-        contentPanel.add(new TaiKhoan(),    "taikhoan");
+        contentPanel.add(new TrangChu(),"trangchu");
+        contentPanel.add(new SanPham(),"sanpham");
+        contentPanel.add(new PhieuNhap(this),"phieunhap");
+        contentPanel.add(new ThemPhieuNhap(),"themphieunhap");
+        contentPanel.add(new HoaDon(this),"hoadon");
+        contentPanel.add(new ThemHoaDon(),"themhoadon");
+        contentPanel.add(new KhachHang(),"khachhang");
+        contentPanel.add(new NhanVien(),"nhanvien");
+        contentPanel.add(new TaiKhoan(),"taikhoan");
         contentPanel.add(new JLabel("Thống kê"), "thongke");
         contentPanel.add(new JLabel("Đăng xuất"),"dangxuat");
 
-        add(menuPanel,    BorderLayout.WEST);
+        add(menuPanel, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
 
         // Hiển thị window
         setVisible(true);
+    }
+
+    public void showPanel(String cardName) {
+        cardLayout.show(contentPanel, cardName);
     }
 
     private JPanel createMenuPanel() {

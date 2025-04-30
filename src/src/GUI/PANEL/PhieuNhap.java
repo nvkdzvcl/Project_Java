@@ -1,7 +1,7 @@
 package GUI.PANEL;
 
-import GUI.DIALOG.ChitietPhieuNhapDialog;
-import GUI.DIALOG.ThemPhieuNhapDialog;
+import GUI.DIALOG.ChiTietPhieuNhapDialog;
+import GUI.Main;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -12,9 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
-public class PhieuNhap extends JPanel {
 
-    public PhieuNhap() {
+public class PhieuNhap extends JPanel {
+    private Main parent;
+
+    public PhieuNhap(Main parent) {
+        this.parent = parent;
         // Sử dụng BorderLayout với khoảng cách 10 pixel
         setLayout(new BorderLayout(10, 10));
 
@@ -64,7 +67,7 @@ public class PhieuNhap extends JPanel {
 
         // Panel chứa công cụ tìm kiếm (bên phải của thanh chức năng)
         JPanel P2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        String[] cb = {"Tất Cả", "Mã phiếu nhập", "Nhà cung cấp", "Nhân viên nhập"};
+        String[] cb = {"Tất Cả", "Mã phiếu nhập", "Nhân viên nhập"};
         JComboBox<String> pl = new JComboBox<>(cb);
         pl.setPreferredSize(new Dimension(100, 40));
         JTextField tf = new JTextField(20);
@@ -90,17 +93,12 @@ public class PhieuNhap extends JPanel {
 
         // Ví dụ: Thêm bảng dữ liệu vào phần CENTER (bạn có thể thay bảng mẫu này bằng bảng của bạn)
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Mã phiếu nhập");
-        model.addColumn("Nhà cung cấp");
-        model.addColumn("Nhân viên nhập");
-        model.addColumn("Ngày");
-        model.addColumn("Trạng thái");
+        model.addColumn("STT");
+        model.addColumn("Mã PN");
+        model.addColumn("NV Nhập");
+        model.addColumn("Thời gian");
         model.addColumn("Tổng tiền");
 
-        //Demo
-        model.addRow(new Object[]{"1", "Công Ty A", "Nguyễn Văn A", "01/01/2025","Hoàn thành", "1,000,000"});
-        model.addRow(new Object[]{"2", "Công Ty B", "Trần Thị B", "02/01/2025","Chưa hoàn thành", "2,000,000"});
-        model.addRow(new Object[]{"3", "Công Ty C", "Lê Văn C", "02/01/2025","Đã hủy", "2,000,000"});
 
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -108,17 +106,11 @@ public class PhieuNhap extends JPanel {
 
 
         add(centerPanel, BorderLayout.CENTER);
-        btnthem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ThemPhieuNhapDialog();
-            }
-        });
-        btnchitiet.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ChitietPhieuNhapDialog();
-            }
+        btnthem.addActionListener(e -> parent.showPanel("themphieunhap"));
+        btnchitiet.addActionListener(e -> {
+            Frame p = (Frame) SwingUtilities.getWindowAncestor(this);
+            ChiTietPhieuNhapDialog dlgChiTietPhieuNhap = new ChiTietPhieuNhapDialog(p);
+            dlgChiTietPhieuNhap.setVisible(true);
         });
         btnhuyphieu.addActionListener(new ActionListener() {
             @Override
@@ -193,14 +185,14 @@ public class PhieuNhap extends JPanel {
         gbc.gridy = 0;
 
         // Nhà cung cấp
-        leftPanel.add(new JLabel("Nhà cung cấp:"), gbc);
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        JComboBox<String> cbNhaCungCap = new JComboBox<>(new String[]{
-                "Tất cả", "LouisVuitton", "Gucci","Chanel"
-        });
-        leftPanel.add(cbNhaCungCap, gbc);
-        gbc.weightx = 0;
+//        leftPanel.add(new JLabel("Nhà cung cấp:"), gbc);
+//        gbc.gridy = 1;
+//        gbc.weightx = 1.0;
+//        JComboBox<String> cbNhaCungCap = new JComboBox<>(new String[]{
+//                "Tất cả", "LouisVuitton", "Gucci","Chanel"
+//        });
+//        leftPanel.add(cbNhaCungCap, gbc);
+//        gbc.weightx = 0;
 
         // Nhân viên nhập
         gbc.gridy = 2;

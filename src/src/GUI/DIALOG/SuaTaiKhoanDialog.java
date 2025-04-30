@@ -51,23 +51,23 @@ public class SuaTaiKhoanDialog extends JDialog {
         lbMatKhau.setBounds(70, 170, 250, 25);
         add(lbMatKhau);
         txtMatKhau = new JPasswordField();
-        txtMatKhau.setBounds(70,210, 250, 25);
+        txtMatKhau.setBounds(70,200, 250, 25);
         txtMatKhau.setText(taiKhoanBLL.getMatKhauByTenNguoiDung(txtTenTK.getText()));
         add(txtMatKhau);
 
         JLabel lbChucVu = new JLabel("Chức Vụ");
-        lbChucVu.setBounds(70, 250, 250, 25);
+        lbChucVu.setBounds(70, 240, 250, 25);
         add(lbChucVu);
         cbChucVu = new JComboBox<>(new String[] {"Quản lý","Nhân viên"});
-        cbChucVu.setBounds(70,280, 250, 25);
+        cbChucVu.setBounds(70,270, 250, 25);
         cbChucVu.setSelectedItem(taiKhoanDTO.getChucVu());
         add(cbChucVu);
 
         JLabel lbTrangThai = new JLabel("Trạng Thái");
-        lbTrangThai.setBounds(70, 320, 250, 25);
+        lbTrangThai.setBounds(70, 310, 250, 25);
         add(lbTrangThai);
         cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động"});
-        cbTrangThai.setBounds(70,350, 250, 25);
+        cbTrangThai.setBounds(70,340, 250, 25);
         if(taiKhoanDTO.getTrangThai() == 1){
             cbTrangThai.setSelectedItem("Hoạt động");
         }
@@ -76,8 +76,8 @@ public class SuaTaiKhoanDialog extends JDialog {
         }
         add(cbTrangThai);
 
-        JLabel lbMaNv = new JLabel("Mã Nhân Viên");
-        lbMaNv.setBounds(70, 390, 250, 25);
+        JLabel lbMaNv = new JLabel("Tên Nhân Viên");
+        lbMaNv.setBounds(70, 380, 250, 25);
         add(lbMaNv);
         String[] danhSachNhanVien = new String[0];
         int i = 0;
@@ -87,7 +87,7 @@ public class SuaTaiKhoanDialog extends JDialog {
             i++;
         };
         cbMaNV = new JComboBox<>(danhSachNhanVien);
-        cbMaNV.setBounds(70,420, 250, 25);
+        cbMaNV.setBounds(70,410, 250, 25);
         for(int j = 0; j < danhSachNhanVien.length; j++){
             if(taiKhoanDTO.getMaNV() == j + 1){
                 cbMaNV.setSelectedItem(danhSachNhanVien[j]);
@@ -97,7 +97,7 @@ public class SuaTaiKhoanDialog extends JDialog {
 
         //Nút thêm, hủy
         btnSua = new JButton("Sửa Tài Khoản");
-        btnSua.setBounds(50, 450, 150, 40);
+        btnSua.setBounds(50, 500, 150, 40);
         btnSua.setBackground(new Color(56,168,223));
         add(btnSua);
         btnSua.addActionListener(e -> {
@@ -143,7 +143,7 @@ public class SuaTaiKhoanDialog extends JDialog {
         });
 
         btnHuy = new JButton("Hủy");
-        btnHuy.setBounds(200, 450, 150, 40);
+        btnHuy.setBounds(200, 500, 150, 40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
         btnHuy.addActionListener(e -> {

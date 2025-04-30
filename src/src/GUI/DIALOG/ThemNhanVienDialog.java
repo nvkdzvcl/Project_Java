@@ -53,10 +53,10 @@ public class ThemNhanVienDialog extends JDialog {
         JLabel lbGioiTinh = new JLabel("Giới tính");
         lbGioiTinh.setBounds(70, 310, 250, 25);
         add(lbGioiTinh);
-        btnNam = new JRadioButton("Nam");
+        btnNam = new JRadioButton("NAM");
         btnNam.setBounds(70, 340, 60, 25);
         add(btnNam);
-        btnNu = new JRadioButton("Nữ");
+        btnNu = new JRadioButton("NU");
         btnNu.setBounds(130, 340, 60, 25);
         add(btnNu);
 

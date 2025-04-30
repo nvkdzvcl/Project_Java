@@ -66,7 +66,7 @@ public class ThemTaiKhoanDialog extends JDialog {
         cbTrangThai.setBounds(70,340, 250, 25);
         add(cbTrangThai);
 
-        JLabel lbMaNv = new JLabel("Mã Nhân Viên");
+        JLabel lbMaNv = new JLabel("Tên Nhân Viên");
         lbMaNv.setBounds(70, 380, 250, 25);
         add(lbMaNv);
         String[] danhSachNhanVien = new String[0];
@@ -82,7 +82,7 @@ public class ThemTaiKhoanDialog extends JDialog {
 
         //Nút thêm, hủy
         btnThem = new JButton("Thêm Tài Khoản");
-        btnThem.setBounds(50, 450, 150, 40);
+        btnThem.setBounds(50, 500, 150, 40);
         btnThem.setBackground(new Color(56,168,223));
         add(btnThem);
         btnThem.addActionListener(e -> {
@@ -129,7 +129,7 @@ public class ThemTaiKhoanDialog extends JDialog {
         });
 
         btnHuy = new JButton("Hủy");
-        btnHuy.setBounds(200, 450, 150, 40);
+        btnHuy.setBounds(200, 500, 150, 40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
         btnHuy.addActionListener(e -> {

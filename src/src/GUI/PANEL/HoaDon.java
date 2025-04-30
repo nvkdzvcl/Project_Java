@@ -1,9 +1,8 @@
 package GUI.PANEL;
 
-import GUI.DIALOG.ChitietHoaDonDialog;
-import GUI.DIALOG.ThemHoaDonDialog;
+import GUI.DIALOG.ChiTietHoaDonDialog;
 import com.toedter.calendar.JDateChooser;
-
+import GUI.Main;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -13,8 +12,10 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class HoaDon extends JPanel {
+    private Main parent;
 
-    public HoaDon() {
+    public HoaDon(Main parent) {
+        this.parent = parent;
         // Sử dụng BorderLayout với khoảng cách 10 pixel
         setLayout(new BorderLayout(10, 10));
 
@@ -64,7 +65,7 @@ public class HoaDon extends JPanel {
 
         // Panel chứa công cụ tìm kiếm (bên phải của thanh chức năng)
         JPanel P2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        String[] cb = {"Tất Cả", "Mã hóa đơn", "Khách hàng", "Nhân viên bán"};
+        String[] cb = {"Tất cả", "Mã hóa đơn", "Tên khách hàng", "Nhân viên bán"};
         JComboBox<String> pl = new JComboBox<>(cb);
         pl.setPreferredSize(new Dimension(100, 40));
         JTextField tf = new JTextField(20);
@@ -90,36 +91,29 @@ public class HoaDon extends JPanel {
 
         // Ví dụ: Thêm bảng dữ liệu vào phần CENTER (bạn có thể thay bảng mẫu này bằng bảng của bạn)
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Mã hóa đơn");
-        model.addColumn("Khách hàng");
+        model.addColumn("STT");
+        model.addColumn("Mã HĐ");
+        model.addColumn("Tên Khách hàng");
         model.addColumn("Nhân viên bán");
         model.addColumn("Thời gian");
         model.addColumn("Trạng thái");
         model.addColumn("Tổng tiền");
 
-        //Demo
-        model.addRow(new Object[]{"1", "Anh Khanh đẹp trai", "Nguyễn Văn A", "01/01/2025","Đã nhận", "1,000,000"});
-        model.addRow(new Object[]{"2", "Anh Khang đẹp trai", "Trần Thị B", "02/01/2025","Chưa nhận", "2,000,000"});
-        model.addRow(new Object[]{"3", "Anh Kiệt đẹp trai", "Nguyễn Văn C", "02/01/2025","Đã hủy", "2,000,000"});
 
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         centerPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Thêm centerPanel vào phần CENTER của giao diện chính
         add(centerPanel, BorderLayout.CENTER);
-        btnthem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ThemHoaDonDialog();
-            }
-        });
 
-        btnchitiet.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ChitietHoaDonDialog();
-            }
+        //xử lý sự kiện nút thêm
+        btnthem.addActionListener(e -> parent.showPanel("themhoadon"));
+
+        //xử lý sự kiện nút chitiet
+        btnchitiet.addActionListener(e -> {
+            Frame p = (Frame) SwingUtilities.getWindowAncestor(this);
+            ChiTietHoaDonDialog dlgChiTietHoaDon = new ChiTietHoaDonDialog(p);
+            dlgChiTietHoaDon.setVisible(true);
         });
         btnhuyphieu.addActionListener(new ActionListener() {
             @Override
@@ -191,12 +185,12 @@ public class HoaDon extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        leftPanel.add(new JLabel("Khách hàng:"), gbc);
+        leftPanel.add(new JLabel("Tên Khách hàng:"), gbc);
 
         gbc.gridy++;
         gbc.weightx = 1.0;
         leftPanel.add(new JComboBox<>(new String[] {
-                "Tất cả", "Nguyễn Văn A", "Trần Thị B"
+                "Tất cả"
         }), gbc);
         gbc.weightx = 0;
 
@@ -206,7 +200,7 @@ public class HoaDon extends JPanel {
         gbc.gridy++;
         gbc.weightx = 1.0;
         leftPanel.add(new JComboBox<>(new String[] {
-                "Tất cả", "Vũ Hồng Vĩnh Khang", "Nguyễn Văn Khanh", "Hàn Gia Hào"
+                "Tất cả"
         }), gbc);
         gbc.weightx = 0;
 
