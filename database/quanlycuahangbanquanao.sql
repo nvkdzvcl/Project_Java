@@ -11,17 +11,18 @@ CREATE TABLE IF NOT EXISTS `NHANVIEN` (
     `NGAYSINH` DATE NOT NULL DEFAULT (CURDATE()),
     `SDT` CHAR(10) NOT NULL,
     `EMAIL` VARCHAR(50) NOT NULL,
+    `DIACHI` VARCHAR(100) NOT NULL,
     `TRANGTHAI` TINYINT(1) NOT NULL DEFAULT 1,  -- 1: Hoạt động, 0: Khóa
     PRIMARY KEY (`MANV`),
     UNIQUE KEY `UK_NV_SDT` (`SDT`),
     UNIQUE KEY `UK_NV_EMAIL` (`EMAIL`)
 ) ENGINE=InnoDB;
 
-INSERT INTO `NHANVIEN` (`HOTENNV`, `GIOITINH`, `NGAYSINH`, `SDT`, `EMAIL`) VALUES
-('Nguyễn Văn Khanh', 'NAM', '2005-01-30', '0968937705', 'nvkhanh301@gmail.com'),
-('Hàn Gia Hào',     'NAM', '2005-09-10', '0987654321', 'hangiahao@gmail.com'),
-('Nguyễn Tuấn Kiệt', 'NAM', '2005-03-05', '0912345678', 'tuankiet@gmail.com'),
-('Vũ Hồng Vĩnh Khang', 'NAM', '2005-08-26', '0902924723', 'vuhongvinhkhang@gmail.com');
+INSERT INTO `NHANVIEN` (`HOTENNV`, `GIOITINH`, `NGAYSINH`, `SDT`, `EMAIL`, `DIACHI`) VALUES
+('Nguyễn Văn Khanh', 'NAM', '2005-01-30', '0968937705', 'nvkhanh301@gmail.com', '123 Hà Nội'),
+('Hàn Gia Hào',     'NAM', '2005-09-10', '0987654321', 'hangiahao@gmail.com', '456 TPHCM'),
+('Nguyễn Tuấn Kiệt', 'NAM', '2005-03-05', '0912345678', 'tuankiet@gmail.com', '789 Cần Thơ'),
+('Vũ Hồng Vĩnh Khang', 'NAM', '2005-08-26', '0902924723', 'vuhongvinhkhang@gmail.com', '555 Vũng Tàu');
 
 -- 2. BẢNG KHÁCH HÀNG
 CREATE TABLE IF NOT EXISTS `KHACHHANG` (
