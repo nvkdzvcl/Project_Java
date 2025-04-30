@@ -204,12 +204,12 @@ public class ThemHoaDon extends JPanel {
 
     }
 
-    public static void main(String[] args) {
-        JFrame f = new JFrame();
-        f.add(new ThemHoaDon());
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setVisible(true);
-        f.setSize(1300, 700);
-        f.setLocationRelativeTo(null);
-    }
+//    public static void main(String[] args) {
+//        JFrame f = new JFrame();
+//        f.add(new ThemHoaDon());
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        f.setVisible(true);
+//        f.setSize(1300, 700);
+//        f.setLocationRelativeTo(null);
+//    }
 }
