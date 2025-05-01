@@ -2,30 +2,31 @@ package DTO;
 
 public class NhanVienDTO {
 
-    private String maNV;
+    private int maNV;
     private String hoTen;
     private String gioiTinh;
     private String ngaySinh;
     private String sdt;
     private String email;
-
+    private String diachi;
     public NhanVienDTO(){
 
     }
-    public NhanVienDTO(String maNV, String hoTen, String gioiTinh, String ngaySinh, String sdt,String email) {
+    public NhanVienDTO(int maNV, String hoTen, String gioiTinh, String ngaySinh, String sdt,String email, String diachi) {
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
         this.ngaySinh = ngaySinh;
         this.sdt = sdt;
         this.email = email;
+        this.diachi=diachi;
     }
 
-    public String getMaNV() {
+    public int getMaNV() {
         return maNV;
     }
 
-    public void setMaNV(String maNV) {
+    public void setMaNV(int maNV) {
         this.maNV = maNV;
     }
 
@@ -56,6 +57,12 @@ public class NhanVienDTO {
     public String getEmail() {
         return email;
     }
+    public String getDiachi(){
+        return diachi;
+    }
+    public void setDiachi(String diachi){
+        this.diachi=diachi;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -74,6 +81,7 @@ public class NhanVienDTO {
                 ", gioiTinh='" + gioiTinh + '\'' +
                 ", ngaySinh='" + ngaySinh + '\'' +
                 ", email='" + email + '\'' +
+                ", diachi='" + diachi + '\'' +
                 '}';
     }
 }
