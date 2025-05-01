@@ -11,14 +11,14 @@ public class NhanVienBLL {
         NhanVienDAO dao = new NhanVienDAO();
         nv=dao.getallnhanvien();
     }
-    public NhanVienBLL(int i){
+    public NhanVienBLL(int id){
         NhanVienDAO dao = new NhanVienDAO();
         nv=dao.gettennhanvien();
     }
     public ArrayList<NhanVienDTO> getlistnv() {
         return nv;
     }
-    public NhanVienDTO getonenv(String id) {
+    public NhanVienDTO getonenv(int id) {
         return NhanVienDAO.getonenhanvien(id);
     }
     public boolean insert(NhanVienDTO dto)
@@ -37,9 +37,9 @@ public class NhanVienBLL {
         }
         return NhanVienDAO.update(dto);
     }
-    public boolean delete(String id)
+    public boolean delete(int id)
     {
-        if(id ==null)
+        if(id <0)
         {
             return false;
         }
