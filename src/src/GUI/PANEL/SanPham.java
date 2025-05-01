@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import BLL.SanPhamBLL;
 import DTO.SanPhamDTO;
 import GUI.DIALOG.ThemSanPhamDialog;
 import GUI.DIALOG.SuaSanPhamDialog;
@@ -16,6 +17,8 @@ public class SanPham extends JPanel {
 
     JTable bangsp;
     DefaultTableModel model;
+
+    SanPhamBLL sanPhamBLL = new SanPhamBLL();
 
     public SanPham() {
         setLayout(new BorderLayout(10, 10));
@@ -57,6 +60,12 @@ public class SanPham extends JPanel {
         btnlm.setFocusPainted(false);
         btnlm.setVerticalTextPosition(SwingConstants.CENTER);
         btnlm.setHorizontalTextPosition(SwingConstants.RIGHT);
+        btnlm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadDataToTable(sanPhamBLL.getlístsp());
+            }
+        });
 
 
         P1.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -84,7 +93,7 @@ public class SanPham extends JPanel {
         bangsp=new JTable();
         model=new DefaultTableModel(collum,0);
         bangsp.setModel(model);
-
+        loadDataToTable(sanPhamBLL.getlístsp());
 
 
         JScrollPane scrollPane = new JScrollPane(bangsp);
@@ -95,7 +104,7 @@ public class SanPham extends JPanel {
 
         btnThem.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            ThemSanPhamDialog dlgThemSanPham = new ThemSanPhamDialog(parent);
+            ThemSanPhamDialog dlgThemSanPham = new ThemSanPhamDialog(parent, this);
             dlgThemSanPham.setVisible(true);
         });
 
@@ -123,7 +132,7 @@ public class SanPham extends JPanel {
         return button;
     }
 
-    private void loadDataToTable(ArrayList<SanPhamDTO> danhSachSanPham){
+    public void loadDataToTable(ArrayList<SanPhamDTO> danhSachSanPham){
         model.setRowCount(0);
         for(SanPhamDTO sanPham : danhSachSanPham){
             model.addRow(new String[]{

@@ -9,11 +9,14 @@ import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
 public class SanPhamBLL {
-    public ArrayList<SanPhamDTO> sp;
+
+    private static ArrayList<SanPhamDTO> sp;
+    private SanPhamDAO dao = new SanPhamDAO();
+
     public SanPhamBLL(){
-        SanPhamDAO dao = new SanPhamDAO();
-        sp=dao.getallsanpham();
+        sp = dao.getallsanpham();
     }
+
     public ArrayList<SanPhamDTO> getlístsp(){
         return sp;
     }
@@ -23,7 +26,7 @@ public class SanPhamBLL {
     }
     public boolean insert(SanPhamDTO dto)
     {
-        SanPhamDAO dao = new SanPhamDAO();
+        //SanPhamDAO dao = new SanPhamDAO();
         sp.add(dto);
         return dao.insert(dto);
 

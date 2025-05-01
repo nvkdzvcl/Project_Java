@@ -1,6 +1,8 @@
 package GUI.DIALOG;
 
+import BLL.SanPhamBLL;
 import DTO.SanPhamDTO;
+import GUI.PANEL.SanPham;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,10 +22,15 @@ public class ThemSanPhamDialog extends JDialog {
     private JLabel lbHinhAnhSP;
     private JButton btnHinhAnhSP, btnThem, btnHuy;
 
+    final Color[] selectedColor = {null};
+    final String[] selectedColorName = {null};
+
     JFileChooser chooser;
     File file;
 
-    public ThemSanPhamDialog(Frame owner) {
+    SanPhamBLL sanPhamBLL = new SanPhamBLL();
+
+    public ThemSanPhamDialog(Frame owner, SanPham sanPhamPanel) {
         super(owner,"Thêm Sản Phẩm",true);
         setSize(900,500);
         setTitle("Thêm Sản Phẩm");
@@ -87,8 +94,8 @@ public class ThemSanPhamDialog extends JDialog {
         String[] colorNames = {
                 "Đen", "Be", "Nâu", "Xám nhạt", "Hồng nhạt", "Xanh rêu", "Xanh biển đậm", "Trắng", "Đỏ", "Olive", "Xanh biển nhạt", "Navy", "Rượu vang", "Be đậm"
         };
-        final Color[] selectedColor = {null};
-        final String[] selectedColorName = {null};
+        //selectedColor = {null};
+        //final String[] selectedColorName = {null};
         for (int i = 0; i < palette.length; i++) {
             Color color = palette[i];
             String name = colorNames[i];
@@ -207,8 +214,12 @@ public class ThemSanPhamDialog extends JDialog {
                 return;
             }
 
-            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, xuatSu, (String)cbMauSac.getSelectedItem(), (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong));
-
+            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, xuatSu, selectedColorName[0], (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong));
+            if(sanPhamBLL.insert(sanPham)){
+                JOptionPane.showMessageDialog(this, "Thêm sản phẩm thaành công");
+                sanPhamBLL = new SanPhamBLL();
+                sanPhamPanel.loadDataToTable(sanPhamBLL.getlístsp());
+            }
             dispose();
         });
 

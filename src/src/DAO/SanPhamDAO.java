@@ -2,21 +2,18 @@ package DAO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 import config.JDBCUtil;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SanPhamDAO {
-
 
     public ArrayList<SanPhamDTO> getallsanpham() {
         ArrayList<SanPhamDTO> list = new ArrayList<>();
         try (Connection conn = JDBCUtil.startConnection()) {
             String sql = "select * from sanpham where TRANGTHAI =1 ";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 SanPhamDTO dto = new SanPhamDTO();
                 dto.setMaSP(rs.getInt("MASP"));
@@ -26,6 +23,7 @@ public class SanPhamDAO {
                 dto.setMauSac(rs.getString("MAUSAC"));
                 dto.setKichThuoc(rs.getString("KICHTHUOC"));
                 dto.setSoLuong(rs.getInt("SOLUONG"));
+                dto.setTrangThai(rs.getInt("TRANGTHAI"));
                 list.add(dto);
             }
 
@@ -37,16 +35,15 @@ public class SanPhamDAO {
     }
 
     public boolean insert(SanPhamDTO DTO) {
-        String sql = "INSERT INTO SanPham(MASP, TENSP, THUONGHIEU, XUATXU,MAUSAC, KICHTHUOC, SOLUONG) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO SanPham(TENSP, THUONGHIEU, XUATXU,MAUSAC, KICHTHUOC, SOLUONG) VALUES (?,?,?,?,?,?)";
         try (Connection conn = JDBCUtil.startConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, DTO.getMaSP());
-            ps.setString(2, DTO.getTenSP());
-            ps.setString(3, DTO.getThuongHieu());
-            ps.setString(4, DTO.getXuatXu());
-            ps.setString(5, DTO.getMauSac());
-            ps.setString(6, DTO.getKichThuoc());
-            ps.setInt(7, DTO.getSoLuong());
+            ps.setString(1, DTO.getTenSP());
+            ps.setString(2, DTO.getThuongHieu());
+            ps.setString(3, DTO.getXuatXu());
+            ps.setString(4, DTO.getMauSac());
+            ps.setString(5, DTO.getKichThuoc());
+            ps.setInt(6, DTO.getSoLuong());
             int result = ps.executeUpdate();
             if (result > 0)
                 return true;
