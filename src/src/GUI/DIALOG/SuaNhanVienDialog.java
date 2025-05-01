@@ -1,20 +1,26 @@
 package GUI.DIALOG;
+import BLL.NhanVienBLL;
+import DTO.NhanVienDTO;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SuaNhanVienDialog extends JDialog {
-    private JTextField txtHoVaTen, txtEmail, txtSDT;
+    private JTextField txtHoVaTen, txtEmail, txtSDT,txtdc;
     private JRadioButton btnNam, btnNu;
     private JDateChooser ngaySinh;
     private JButton btnSua, btnHuy;
-
-    public SuaNhanVienDialog(Frame owner) {
+    private int id;
+    public SuaNhanVienDialog(Frame owner,int id) {
         super(owner);
+        this.id=id;
         setTitle("Sửa Nhân Viên");
-        setSize(400, 600);
+        setSize(400, 650);
         setLocationRelativeTo(owner);
         setLayout(null);
 
@@ -66,9 +72,17 @@ public class SuaNhanVienDialog extends JDialog {
         ngaySinh.setBounds(70,410,250,25);
         add(ngaySinh);
 
+        JLabel lbdc = new JLabel("Địa Chỉ");
+        lbdc.setBounds(70, 450, 250, 25);
+        add(lbdc);
+        txtdc = new JTextField();
+        txtdc.setBounds(70,480,250,25);
+        add(txtdc);
+
+        loadtabledata(id);
         //Nút thêm, hủy
         btnSua = new JButton("Sửa Nhân Viên");
-        btnSua.setBounds(50, 500, 150, 40);
+        btnSua.setBounds(50, 520, 150, 40);
         btnSua.setBackground(new Color(56,168,223));
         add(btnSua);
         btnSua.addActionListener(e -> {
@@ -111,22 +125,52 @@ public class SuaNhanVienDialog extends JDialog {
                 return;
             }
 
-            if (!btnNam.isSelected() || !btnNu.isSelected()) {
+            if (!btnNam.isSelected() && !btnNu.isSelected()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng chọn Giới tính!","Lỗi", JOptionPane.ERROR_MESSAGE);
             }
             if (ngaySinh.getDate() == null) {
                 JOptionPane.showMessageDialog(this,"Vui lòng chọn Ngày sinh!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 ngaySinh.requestFocusInWindow();
             }
+            Date utilDate = ngaySinh.getDate(); // hoặc java.sql.Date cũng được
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng tùy theo bạn cần
+            String ngaysinh = sdf.format(utilDate);
+            String gioiTinh = "";
+            if (btnNam.isSelected()) {
+                gioiTinh = "Nam";
+            } else if (btnNu.isSelected()) {
+                gioiTinh = "Nữ";
+            }
+            String diachi=txtdc.getText();
+            NhanVienDTO tmp= new NhanVienDTO(id,hoVaTen,gioiTinh,ngaysinh,sdt,email,diachi);
+            NhanVienBLL bll= new NhanVienBLL();
+            bll.update(tmp);
             dispose();
         });
 
         btnHuy = new JButton("Hủy");
-        btnHuy.setBounds(200, 500, 150, 40);
+        btnHuy.setBounds(200, 520, 150, 40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
         btnHuy.addActionListener(e -> {
             dispose();
         });
+    }
+    public void loadtabledata(int id){
+        NhanVienBLL bll= new NhanVienBLL();
+        NhanVienDTO tmp=bll.getonenv(id);
+        txtHoVaTen.setText(tmp.getHoTen());
+        txtSDT.setText(tmp.getSdt());
+        txtEmail.setText(tmp.getEmail());
+        if (tmp.getGioiTinh().equalsIgnoreCase("Nam")) {
+            btnNam.setSelected(true);
+        } else if (tmp.getGioiTinh().equalsIgnoreCase("Nữ")) {
+            btnNu.setSelected(true);
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.sql.Date sqlDate = java.sql.Date.valueOf(tmp.getNgaySinh());
+        ngaySinh.setDate(sqlDate);
+        txtdc.setText(tmp.getDiachi());
+
     }
 }

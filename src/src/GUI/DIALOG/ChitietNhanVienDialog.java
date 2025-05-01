@@ -1,20 +1,24 @@
 package GUI.DIALOG;
+import BLL.NhanVienBLL;
+import DTO.NhanVienDTO;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 public class ChitietNhanVienDialog extends JDialog {
-    private JTextField txtHoVaTen, txtEmail, txtSDT;
+    private JTextField txtHoVaTen, txtEmail, txtSDT,txtdc;
     private JRadioButton btnNam, btnNu;
     private JDateChooser ngaySinh;
     private JButton btnDong;
-
-    public ChitietNhanVienDialog(Frame owner) {
+    private int id;
+    public ChitietNhanVienDialog(Frame owner,int id) {
         super(owner);
+        this.id=id;
         setTitle("Xem Nhân Viên");
-        setSize(400, 600);
+        setSize(400, 650);
         setLocationRelativeTo(owner);
         setLayout(null);
 
@@ -73,13 +77,37 @@ public class ChitietNhanVienDialog extends JDialog {
         ((JTextField) ngaySinh.getDateEditor().getUiComponent()).setEditable(false);
         add(ngaySinh);
 
+        JLabel lbdc = new JLabel("Địa Chỉ");
+        lbdc.setBounds(70, 450, 250, 25);
+        add(lbdc);
+        txtdc = new JTextField();
+        txtdc.setBounds(70,480,250,25);
+        add(txtdc);
+        txtdc.setEnabled(false);
+        loadtabledata(id);
         //Nút Đóng
         btnDong = new JButton("Đóng");
-        btnDong.setBounds(125, 500, 150, 25);
+        btnDong.setBounds(125, 520, 150, 25);
         btnDong.setBackground(new Color(56,168,223));
         add(btnDong);
         btnDong.addActionListener(e -> {
            dispose();
         });
+    }
+    public void loadtabledata(int id){
+        NhanVienBLL bll= new NhanVienBLL();
+        NhanVienDTO tmp=bll.getonenv(id);
+        txtHoVaTen.setText(tmp.getHoTen());
+        txtSDT.setText(tmp.getSdt());
+        txtEmail.setText(tmp.getEmail());
+        if (tmp.getGioiTinh().equalsIgnoreCase("Nam")) {
+            btnNam.setSelected(true);
+        } else if (tmp.getGioiTinh().equalsIgnoreCase("Nữ")) {
+            btnNu.setSelected(true);
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.sql.Date sqlDate = java.sql.Date.valueOf(tmp.getNgaySinh());
+        ngaySinh.setDate(sqlDate);
+        txtdc.setText(tmp.getDiachi());
     }
 }

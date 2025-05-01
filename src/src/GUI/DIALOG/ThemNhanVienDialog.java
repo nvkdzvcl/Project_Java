@@ -1,13 +1,16 @@
 package GUI.DIALOG;
+import BLL.NhanVienBLL;
 import DTO.NhanVienDTO;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ThemNhanVienDialog extends JDialog {
-    private JTextField txtHoVaTen, txtEmail, txtSDT;
+    private JTextField txtHoVaTen, txtEmail, txtSDT, txtdc;
     private JRadioButton btnNam, btnNu;
     private JDateChooser ngaySinh;
     private JButton btnThem, btnHuy;
@@ -15,7 +18,7 @@ public class ThemNhanVienDialog extends JDialog {
     public ThemNhanVienDialog(Frame owner) {
         super(owner);
         setTitle("Thêm Nhân Viên");
-        setSize(400, 600);
+        setSize(400, 650);
         setLocationRelativeTo(owner);
         setLayout(null);
 
@@ -67,9 +70,16 @@ public class ThemNhanVienDialog extends JDialog {
         ngaySinh.setBounds(70,410,250,25);
         add(ngaySinh);
 
+        JLabel lbdc = new JLabel("Địa Chỉ");
+        lbdc.setBounds(70, 450, 250, 25);
+        add(lbdc);
+        txtdc = new JTextField();
+        txtdc.setBounds(70,480,250,25);
+        add(txtdc);
+
         //Nút thêm, hủy
         btnThem = new JButton("Thêm Nhân Viên");
-        btnThem.setBounds(50, 500, 150, 40);
+        btnThem.setBounds(50, 520, 150, 40);
         btnThem.setBackground(new Color(56,168,223));
         add(btnThem);
         btnThem.addActionListener(e -> {
@@ -113,24 +123,37 @@ public class ThemNhanVienDialog extends JDialog {
                 return;
             }
 
-            if (!btnNam.isSelected() || !btnNu.isSelected()) {
+            if (!btnNam.isSelected() && !btnNu.isSelected()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng chọn Giới tính!","Lỗi", JOptionPane.ERROR_MESSAGE);
             }
             if (ngaySinh.getDate() == null) {
                 JOptionPane.showMessageDialog(this,"Vui lòng chọn Ngày sinh!","Lỗi", JOptionPane.ERROR_MESSAGE);
                 ngaySinh.requestFocusInWindow();
             }
-//            NhanVienDTO nhv = new NhanVienDTO(0,hoVaTen,gi);
-//  lbGioiTinh
+            Date utilDate = ngaySinh.getDate(); // hoặc java.sql.Date cũng được
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng tùy theo bạn cần
+            String ngaysinh = sdf.format(utilDate);
+            String gioiTinh = "";
+            if (btnNam.isSelected()) {
+                gioiTinh = "Nam";
+            } else if (btnNu.isSelected()) {
+                gioiTinh = "Nữ";
+            }
+            String diachi=txtdc.getText();
+            NhanVienDTO tmp= new NhanVienDTO(0,hoVaTen,gioiTinh,ngaysinh,sdt,email,diachi);
+            NhanVienBLL bll= new NhanVienBLL();
+            bll.insert(tmp);
             dispose();
         });
 
         btnHuy = new JButton("Hủy");
-        btnHuy.setBounds(200, 500, 150, 40);
+        btnHuy.setBounds(200, 520, 150, 40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
         btnHuy.addActionListener(e -> {
             dispose();
         });
     }
+
 }
+
