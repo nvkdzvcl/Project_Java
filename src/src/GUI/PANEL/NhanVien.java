@@ -123,19 +123,29 @@ public class NhanVien extends JPanel {
             });
         });
         btnsua.addActionListener(e -> {
-            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            SuaNhanVienDialog dlgSuaNhanVien = new SuaNhanVienDialog(parent, (int) bangnv.getValueAt(bangnv.getSelectedRow(), 0));
-            dlgSuaNhanVien.setVisible(true);
-            dlgSuaNhanVien.addWindowListener(new WindowAdapter() {
-                public void windowClosed(WindowEvent e) {
-                    loadtabledata(model);
-                }
-            });
+            if(bangnv.getSelectedRow()!=-1) {
+                Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+                SuaNhanVienDialog dlgSuaNhanVien = new SuaNhanVienDialog(parent, (int) bangnv.getValueAt(bangnv.getSelectedRow(), 0));
+                dlgSuaNhanVien.setVisible(true);
+                dlgSuaNhanVien.addWindowListener(new WindowAdapter() {
+                    public void windowClosed(WindowEvent e) {
+                        loadtabledata(model);
+                    }
+                });
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Nhân Viên");
+            }
         });
         btnct.addActionListener(e -> {
-            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            ChitietNhanVienDialog dlgChitietNhanVien = new ChitietNhanVienDialog(parent, (int) bangnv.getValueAt(bangnv.getSelectedRow(), 0));
-            dlgChitietNhanVien.setVisible(true);
+            if(bangnv.getSelectedRow()!=-1) {
+                Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
+                ChitietNhanVienDialog dlgChitietNhanVien = new ChitietNhanVienDialog(parent, (int) bangnv.getValueAt(bangnv.getSelectedRow(), 0));
+                dlgChitietNhanVien.setVisible(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Nhân Viên");
+            }
         });
         btnxoa.addActionListener(new ActionListener() {
 
@@ -157,6 +167,9 @@ public class NhanVien extends JPanel {
                         bl.delete(maNV);
                         loadtabledata(model);
                     }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Nhân Viên");
                 }
             }
         });
