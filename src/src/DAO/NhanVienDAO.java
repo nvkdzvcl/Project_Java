@@ -1,8 +1,4 @@
-package DAO;
-
-import DTO.NhanVienDTO;
-import com.mysql.cj.jdbc.JdbcConnection;
-import config.JDBCUtil;
+package com.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,118 +6,135 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.DTO.NhanVienDTO;
+import com.config.JDBCConnection;
+
 public class NhanVienDAO {
-    public NhanVienDAO() {
 
-    }
-
-    public ArrayList<NhanVienDTO> getallnhanvien() {
+    public static ArrayList<NhanVienDTO> getAllNhanVien() {
         ArrayList<NhanVienDTO> list = new ArrayList<>();
-        try (Connection conn = JDBCUtil.startConnection()) {
-            String sql = "select * from NhanVien ";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT * FROM NhanVien";
+
+        try (Connection conn = JDBCConnection.getJDBCConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                NhanVienDTO dto = new NhanVienDTO();
-                dto.setMaNV(rs.getString("MANV"));
-                dto.setHoTen(rs.getString("HOTENNV"));
-                dto.setGioiTinh(rs.getString("GIOITINH"));
-                dto.setNgaySinh(rs.getString("NGAYSINH"));
-                dto.setEmail(rs.getString("EMAIL"));
-                list.add(dto);
+                NhanVienDTO nv = new NhanVienDTO();
+                nv.setMaNV(rs.getInt("maNhanVien"));
+                nv.setTenNV(rs.getString("tenNhanVien"));
+                nv.setNgaySinh(rs.getDate("ngaySinh"));
+                nv.setGioiTinh(rs.getString("gioiTinh")); // INT theo DTO
+                nv.setDiaChi(rs.getString("diaChi"));
+                nv.setSdt(rs.getString("sdt"));
+                nv.setEmail(rs.getString("email"));
+                nv.setChucVu(rs.getString("chucVu"));
+                nv.setTrangThai(rs.getInt("trangThai"));
+
+                list.add(nv);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
 
-    }
-
-    public ArrayList<NhanVienDTO> gettennhanvien() {
-        ArrayList<NhanVienDTO> list = new ArrayList<>();
-        try (Connection conn = JDBCUtil.startConnection()) {
-            String sql = "select HOTENNV from NhanVien ";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                NhanVienDTO dto = new NhanVienDTO();
-                dto.setHoTen(rs.getString("HOTENNV"));
-                list.add(dto);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return list;
     }
-    
-    public boolean insert(NhanVienDTO DTO) {
-        String sql = "insert into NhanVien values(?,?,?,?,?)";
-        try (Connection conn = JDBCUtil.startConnection()) {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, DTO.getMaNV());
-            ps.setString(2, DTO.getHoTen());
-            ps.setString(3, DTO.getGioiTinh());
-            ps.setString(4, DTO.getNgaySinh());
-            ps.setString(5, DTO.getEmail());
-            int result = ps.executeUpdate();
-            if (result > 0)
-                return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public static boolean update(NhanVienDTO DTO) {
-        String sql="Update NhanVien SET HOTENNV =? and GIOITINH =? and NGAYSINH =? and EMAIL =? where MANV =?";
-        try(Connection conn = JDBCUtil.startConnection())
-        {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(2,DTO.getHoTen());
-            ps.setString(1,DTO.getGioiTinh());
-            ps.setString(3,DTO.getNgaySinh());
-            ps.setString(4,DTO.getEmail());
-            return ps.executeUpdate()>0;
 
+    public static NhanVienDTO getNhanVienById(int id) {
+        String sql = "SELECT * FROM NhanVien WHERE maNhanVien = ?";
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public static boolean delete(String id) {
-        String sql = "UPDATE nhanvien SET Trangthai=0 from NhanVien where MANV =?";
-        try (Connection conn = JDBCUtil.startConnection())
-        {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,id);
-            return ps.executeUpdate(sql) >0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public static NhanVienDTO getonenhanvien(String id)
-    {
-        String sql = "select * from NhanVien where MANV =?";
-        try (Connection conn=JDBCUtil.startConnection())
-        {
-            PreparedStatement ps=conn.prepareStatement(sql);
-            ps.setString(1,id);
-            try(ResultSet rs=ps.executeQuery())
-            {
-                NhanVienDTO DTO = new NhanVienDTO();
-                DTO.setMaNV(rs.getString("MANV"));
-                DTO.setHoTen(rs.getString("HOTENNV"));
-                DTO.setGioiTinh(rs.getString("GIOITINH"));
-                DTO.setNgaySinh(rs.getString("NGAYSINH"));
-                DTO.setEmail(rs.getString("EMAIL"));
-                return DTO;
+        try (Connection conn = JDBCConnection.getJDBCConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    NhanVienDTO nv = new NhanVienDTO();
+                    nv.setMaNV(rs.getInt("maNhanVien"));
+                    nv.setTenNV(rs.getString("tenNhanVien"));
+                    nv.setNgaySinh(rs.getDate("ngaySinh"));
+                    nv.setGioiTinh(rs.getString("gioiTinh"));
+                    nv.setDiaChi(rs.getString("diaChi"));
+                    nv.setSdt(rs.getString("sdt"));
+                    nv.setEmail(rs.getString("email"));
+                    nv.setChucVu(rs.getString("chucVu"));
+                    nv.setTrangThai(rs.getInt("trangThai"));
+                    return nv;
+                }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-return null;
+
+        return null;
+    }
+
+    public static boolean insertNhanVien(NhanVienDTO nv) {
+        String sql = "INSERT INTO NhanVien (tenNhanVien, ngaySinh, gioiTinh, diaChi, sdt, email, chucVu, trangThai) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = JDBCConnection.getJDBCConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nv.getTenNV());
+            ps.setDate(2, nv.getNgaySinh());
+            ps.setString(3, nv.getGioiTinh());
+            ps.setString(4, nv.getDiaChi());
+            ps.setString(5, nv.getSdt());
+            ps.setString(6, nv.getEmail());
+            ps.setString(7, nv.getChucVu());
+            ps.setInt(8, nv.getTrangThai());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean updateNhanVien(NhanVienDTO nv) {
+        String sql = "UPDATE NhanVien SET tenNhanVien=?, ngaySinh=?, gioiTinh=?, diaChi=?, sdt=?, email=?, chucVu=?, trangThai=? " +
+                     "WHERE maNhanVien=?";
+
+        try (Connection conn = JDBCConnection.getJDBCConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nv.getTenNV());
+            ps.setDate(2, nv.getNgaySinh());
+            ps.setString(3, nv.getGioiTinh());
+            ps.setString(4, nv.getDiaChi());
+            ps.setString(5, nv.getSdt());
+            ps.setString(6, nv.getEmail());
+            ps.setString(7, nv.getChucVu());
+            ps.setInt(8, nv.getTrangThai());
+            ps.setInt(9, nv.getMaNV());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean deleteNhanVien(int id) {
+        String sql = "DELETE FROM NhanVien WHERE maNhanVien = ?";
+
+        try (Connection conn = JDBCConnection.getJDBCConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
