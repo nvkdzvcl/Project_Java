@@ -26,8 +26,6 @@ public class NhanVienBLL {
         NhanVienDAO dao = new NhanVienDAO();
         nv.add(dto);
        return dao.insert(dto);
-
-
     }
     public boolean update(NhanVienDTO dto)
     {
