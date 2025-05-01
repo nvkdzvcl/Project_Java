@@ -1,5 +1,7 @@
 package GUI.DIALOG;
 
+import DTO.SanPhamDTO;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +19,9 @@ public class ThemSanPhamDialog extends JDialog {
     private JComboBox<String> cbMauSac, cbKichThuoc;
     private JLabel lbHinhAnhSP;
     private JButton btnHinhAnhSP, btnThem, btnHuy;
+
+    JFileChooser chooser;
+    File file;
 
     public ThemSanPhamDialog(Frame owner) {
         super(owner,"Thêm Sản Phẩm",true);
@@ -134,7 +139,7 @@ public class ThemSanPhamDialog extends JDialog {
         add(lbHinhAnhSP);
 
         btnHinhAnhSP.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
+            chooser = new JFileChooser();
             chooser.setDialogTitle("Chọn ảnh sản phẩm");
             chooser.setAcceptAllFileFilterUsed(false);
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Ảnh JPG, PNG, GIF", "jpg", "jpeg", "png", "gif");
@@ -142,7 +147,7 @@ public class ThemSanPhamDialog extends JDialog {
 
             int result = chooser.showOpenDialog(ThemSanPhamDialog.this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File file = chooser.getSelectedFile();
+                file = chooser.getSelectedFile();
                 try {
                     BufferedImage img = ImageIO.read(file);
                     Image scaled = img.getScaledInstance(lbHinhAnhSP.getWidth(),lbHinhAnhSP.getHeight(),Image.SCALE_SMOOTH);
@@ -202,6 +207,9 @@ public class ThemSanPhamDialog extends JDialog {
                 return;
             }
 
+            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, xuatSu, (String)cbMauSac.getSelectedItem(), (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong));
+
+            dispose();
         });
 
         btnHuy = new JButton(("Hủy bỏ"));

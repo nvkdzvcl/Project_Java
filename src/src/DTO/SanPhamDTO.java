@@ -14,6 +14,15 @@ public class SanPhamDTO {
 
     public SanPhamDTO(){
     }
+    public SanPhamDTO(String hinhAnh, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong) {
+        this.hinhAnh = hinhAnh;
+        this.tenSP = tenSP;
+        this.thuongHieu = thuongHieu;
+        this.xuatXu = xuatXu;
+        this.mauSac = mauSac;
+        this.kichThuoc = kichThuoc;
+        this.soLuong = soLuong;
+    }
     public SanPhamDTO(String hinhAnh, int maSP, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong, int trangThai) {
         this.hinhAnh = hinhAnh;
         this.maSP = maSP;

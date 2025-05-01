@@ -6,10 +6,17 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import DTO.SanPhamDTO;
 import GUI.DIALOG.ThemSanPhamDialog;
 import GUI.DIALOG.SuaSanPhamDialog;
 
 public class SanPham extends JPanel {
+
+    JTable bangsp;
+    DefaultTableModel model;
+
     public SanPham() {
         setLayout(new BorderLayout(10, 10));
 
@@ -73,9 +80,9 @@ public class SanPham extends JPanel {
         add(P, BorderLayout.NORTH);
 
 
-        String[] collum={"Mã SP","Tên SP","Thương Hiệu","Xuất Xứ","Màu Sắc","Kích Thước","Số Lượng"};
-        JTable bangsp=new JTable();
-        DefaultTableModel model=new DefaultTableModel(collum,0);
+        String[] collum={"Mã SP","Tên SP","Thương Hiệu","Xuất Xứ","Màu Sắc","Kích Thước","Số Lượng", "Trạng Thái"};
+        bangsp=new JTable();
+        model=new DefaultTableModel(collum,0);
         bangsp.setModel(model);
 
 
@@ -114,5 +121,21 @@ public class SanPham extends JPanel {
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
+    }
+
+    private void loadDataToTable(ArrayList<SanPhamDTO> danhSachSanPham){
+        model.setRowCount(0);
+        for(SanPhamDTO sanPham : danhSachSanPham){
+            model.addRow(new String[]{
+                    Integer.toString(sanPham.getMaSP()),
+                    sanPham.getTenSP(),
+                    sanPham.getThuongHieu(),
+                    sanPham.getXuatXu(),
+                    sanPham.getMauSac(),
+                    sanPham.getKichThuoc(),
+                    Integer.toString(sanPham.getSoLuong()),
+                    (sanPham.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động")
+            });
+        }
     }
 }
