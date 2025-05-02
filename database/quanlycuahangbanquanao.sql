@@ -50,18 +50,18 @@ CREATE TABLE IF NOT EXISTS `SANPHAM` (
     `XUATXU` VARCHAR(50) NOT NULL,
     `MAUSAC` VARCHAR(20) NOT NULL,
     `KICHTHUOC` VARCHAR(10) NOT NULL,
-    `SOLUONG` INT NOT NULL DEFAULT 0,
     `DONGIA` INT NOT NULL,
+    `SOLUONG` INT NOT NULL DEFAULT 0,
     `TRANGTHAI` TINYINT(1) NOT NULL DEFAULT 1, -- 1: Hoạt động, 0: Khóa
     PRIMARY KEY (`MASP`)
 ) ENGINE=InnoDB;
 
-INSERT INTO `SANPHAM` (`TENSP`, `THUONGHIEU`, `XUATXU`, `MAUSAC`, `KICHTHUOC`, `SOLUONG`, `DONGIA`) VALUES
-('Áo thun cổ tròn',  'Coolmate', 'Việt Nam',    'Đen',   'S',   50, 50000),
-('Quần jean nam',     'Lining',   'Thái Lan',   'Xanh',  'M',   30, 90000),
-('Áo khoác gió',      'Lining',   'Trung Quốc','Đỏ',    'X',   20, 100000),
-('Váy nữ dài',        'ADER ERROR','Hàn Quốc', 'Hồng',  '2XL', 40, 80000),
-('Áo sơ mi trắng',    'Coolmate', 'Việt Nam',  'Trắng','3XL', 60, 150000);
+INSERT INTO `SANPHAM` (`TENSP`, `THUONGHIEU`, `XUATXU`, `MAUSAC`, `KICHTHUOC`, `DONGIA`, `SOLUONG`) VALUES
+('Áo thun cổ tròn',  'Coolmate', 'Việt Nam',    'Đen',   'S',   50000, 50),
+('Quần jean nam',     'Lining',   'Thái Lan',   'Xanh',  'M',   90000, 30),
+('Áo khoác gió',      'Lining',   'Trung Quốc','Đỏ',    'X',   100000, 20),
+('Váy nữ dài',        'ADER ERROR','Hàn Quốc', 'Hồng',  '2XL', 80000, 40),
+('Áo sơ mi trắng',    'Coolmate', 'Việt Nam',  'Trắng','3XL', 150000, 60);
 
 -- 6. BẢNG PHIẾU NHẬP & CHI TIẾT
 CREATE TABLE IF NOT EXISTS `PHIEUNHAP` (
