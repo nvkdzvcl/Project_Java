@@ -1,11 +1,12 @@
 package GUI.DIALOG;
 
+import BLL.SanPhamBLL;
+import DTO.SanPhamDTO;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -13,13 +14,24 @@ import java.io.File;
 import java.io.IOException;
 
 public class SuaSanPhamDialog extends JDialog {
-    private JTextField txtTenSP, txtThuongHieu, txtXuatSu, txtSoLuong;
+    private JTextField txtTenSP, txtThuongHieu, txtXuatXu, txtSoLuong, txtDonGia;
     private JComboBox<String> cbMauSac, cbKichThuoc;
     private JLabel lbHinhAnhSP;
-    private JButton btnHinhAnhSP, btnThem, btnHuy;
+    private JButton btnHinhAnhSP, btnLuu, btnHuy;
 
-    public SuaSanPhamDialog(Frame owner) {
+    private JPanel colorPanel;
+    private Color[] palette;
+    private String[] colorNames;
+    private String selectedColorName;
+
+    private SanPhamDTO currentDTO;
+    private SanPhamBLL sanPhamBLL = new SanPhamBLL();
+
+    private GUI.PANEL.SanPham parentPanel;
+
+    public SuaSanPhamDialog(Frame owner,GUI.PANEL.SanPham parentPanel) {
         super(owner,"Sửa Sản Phẩm",true);
+        this.parentPanel = parentPanel;
         setSize(900,500);
         setTitle("Sửa Sản Phẩm");
         setLocationRelativeTo(null);
@@ -49,21 +61,27 @@ public class SuaSanPhamDialog extends JDialog {
         txtThuongHieu.setBounds(50,180,200,25);
         add(txtThuongHieu);
 
-        JLabel lbXuatSu = new JLabel("Xuất Xứ:");
-        lbXuatSu.setBounds(50,220,200,25);
-        add(lbXuatSu);
-        txtXuatSu = new JTextField();
-        txtXuatSu.setBounds(50,250,200,25);
-        add(txtXuatSu);
+        JLabel lbXuatXu = new JLabel("Xuất Xứ:");
+        lbXuatXu.setBounds(50,220,200,25);
+        add(lbXuatXu);
+        txtXuatXu = new JTextField();
+        txtXuatXu.setBounds(50,250,200,25);
+        add(txtXuatXu);
 
+        JLabel lbDonGia = new JLabel("Đơn giá:");
+        lbDonGia.setBounds(50,290,200,25);
+        add(lbDonGia);
+        txtDonGia = new JTextField();
+        txtDonGia.setBounds(50,320,200,25);
+        add(txtDonGia);
 
         //Cột 2
         JLabel lbMauSac = new JLabel("Màu Sắc:");
         lbMauSac.setBounds(300,220,200,25);
         add(lbMauSac);
-        JPanel colorPanel = new JPanel(new GridLayout(2,7,5,5));
+        colorPanel = new JPanel(new GridLayout(2,7,5,5));
         colorPanel.setBounds(300,250,200,50);
-        Color[] palette = {
+        palette = new Color[] {
                 new Color( 40,  42,  43),  //#282A2B Đen
                 new Color(219, 209, 188),  //#DBD1BC Be
                 new Color(144, 113,  59),  //#90713B Nâu
@@ -79,11 +97,9 @@ public class SuaSanPhamDialog extends JDialog {
                 new Color( 57,  29,  43),  //#391D2B Rượu vang
                 new Color(181, 191, 108)   //#B5BF6C Be đậm
         };
-        String[] colorNames = {
+        colorNames = new String[] {
                 "Đen", "Be", "Nâu", "Xám nhạt", "Hồng nhạt", "Xanh rêu", "Xanh biển đậm", "Trắng", "Đỏ", "Olive", "Xanh biển nhạt", "Navy", "Rượu vang", "Be đậm"
         };
-        final Color[] selectedColor = {null};
-        final String[] selectedColorName = {null};
         for (int i = 0; i < palette.length; i++) {
             Color color = palette[i];
             String name = colorNames[i];
@@ -95,8 +111,7 @@ public class SuaSanPhamDialog extends JDialog {
             swatch.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    selectedColor[0] = color;
-                    selectedColorName[0] = name;
+                    selectedColorName = name;
                     for (Component component : colorPanel.getComponents()) {
                         ((JPanel)component).setBorder(BorderFactory.createLineBorder(Color.GRAY));
                     }
@@ -156,15 +171,16 @@ public class SuaSanPhamDialog extends JDialog {
 
 
         //Nút thêm, hủy
-        btnThem = new JButton("Thêm Sản Phẩm");
-        btnThem.setBounds(250,400,200,40);
-        btnThem.setBackground(new Color(56,168,223));
-        add(btnThem);
-        btnThem.addActionListener(e -> {
+        btnLuu = new JButton("Lưu Sản Phẩm");
+        btnLuu.setBounds(250,400,200,40);
+        btnLuu.setBackground(new Color(56,168,223));
+        add(btnLuu);
+        btnLuu.addActionListener(e -> {
             String tenSP = txtTenSP.getText().trim();
             String thuongHieu = txtThuongHieu.getText().trim();
-            String xuatSu = txtXuatSu.getText().trim();
+            String XuatXu = txtXuatXu.getText().trim();
             String soLuong = txtSoLuong.getText().trim();
+            String donGia = txtDonGia.getText().trim();
 
             if (tenSP.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập Tên SP!","Lỗi",JOptionPane.ERROR_MESSAGE);
@@ -178,15 +194,15 @@ public class SuaSanPhamDialog extends JDialog {
                 return;
             }
 
-            if (xuatSu.isEmpty()) {
+            if (XuatXu.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập Xuất sứ!","Lỗi",JOptionPane.ERROR_MESSAGE);
-                txtXuatSu.requestFocusInWindow();
+                txtXuatXu.requestFocusInWindow();
                 return;
             }
-            String xuatSuRegex = "^[\\p{L}\\s']+$";
-            if (!xuatSu.matches(xuatSuRegex)) {
+            String XuatXuRegex = "^[\\p{L}\\s']+$";
+            if (!XuatXu.matches(XuatXuRegex)) {
                 JOptionPane.showMessageDialog(this,"Xuất sứ không hợp lệ!","Lỗi",JOptionPane.ERROR_MESSAGE);
-                txtXuatSu.requestFocusInWindow();
+                txtXuatXu.requestFocusInWindow();
                 return;
             }
 
@@ -195,13 +211,40 @@ public class SuaSanPhamDialog extends JDialog {
                 txtSoLuong.requestFocusInWindow();
                 return;
             }
-            String soLuongRegex = "^[1-9]\\d*$";
-            if (!soLuong.matches(soLuongRegex)) {
+            String numRegex = "^[1-9]\\d*$";
+            if (!soLuong.matches(numRegex)) {
                 JOptionPane.showMessageDialog(this,"Số lượng không hợp lệ! Vui lòng nhập số nguyên dương.", "Lỗi",JOptionPane.ERROR_MESSAGE);
                 txtSoLuong.requestFocusInWindow();
                 return;
             }
 
+            if (donGia.isEmpty()) {
+                JOptionPane.showMessageDialog(this,"Vui lòng nhập Đơn giá!","Lỗi",JOptionPane.ERROR_MESSAGE);
+                txtDonGia.requestFocusInWindow();
+                return;
+            }
+            if (!donGia.matches(numRegex)) {
+                JOptionPane.showMessageDialog(this,"Đơn giá không hợp lệ! Vui lòng nhập số nguyên dương.", "Lỗi",JOptionPane.ERROR_MESSAGE);
+                txtDonGia.requestFocusInWindow();
+                return;
+            }
+
+            currentDTO.setTenSP(txtTenSP.getText().trim());
+            currentDTO.setThuongHieu(txtThuongHieu.getText().trim());
+            currentDTO.setXuatXu(txtXuatXu.getText().trim());
+            currentDTO.setMauSac(selectedColorName);
+            currentDTO.setKichThuoc(cbKichThuoc.getSelectedItem().toString());
+            currentDTO.setSoLuong(Integer.parseInt(soLuong));
+            currentDTO.setDonGia(Integer.parseInt(txtDonGia.getText().trim()));
+
+            boolean check = sanPhamBLL.update(currentDTO);
+            if (check) {
+                JOptionPane.showMessageDialog(this,"Cập nhật thành công");
+                parentPanel.loadDataToTable(sanPhamBLL.getlistsp());
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại","Lỗi",JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         btnHuy = new JButton(("Hủy bỏ"));
@@ -211,5 +254,35 @@ public class SuaSanPhamDialog extends JDialog {
         btnHuy.addActionListener(e -> {
             dispose();
         });
+    }
+
+    public void setSanPham(SanPhamDTO dto) {
+        txtTenSP.setText(dto.getTenSP());
+        txtThuongHieu.setText(dto.getThuongHieu());
+        txtXuatXu.setText(dto.getXuatXu());
+        txtSoLuong.setText(String.valueOf(dto.getSoLuong()));
+        cbKichThuoc.setSelectedItem(dto.getKichThuoc());
+        txtDonGia.setText(String.valueOf(dto.getDonGia()));
+        this.currentDTO = dto;
+
+        for (Component component : colorPanel.getComponents()) {
+            JPanel swatch = (JPanel) component;
+            String name = (String)swatch.getClientProperty("colorName");
+            if (dto.getMauSac().equals(name)) {
+                swatch.setBorder(BorderFactory.createLineBorder(Color.RED,2));
+                selectedColorName = name;
+            } else {
+                swatch.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            }
+        }
+
+        try {
+            BufferedImage img = ImageIO.read(new File(dto.getHinhAnh()));
+            Image scaled = img.getScaledInstance(lbHinhAnhSP.getWidth(), lbHinhAnhSP.getHeight(), Image.SCALE_SMOOTH);
+            lbHinhAnhSP.setIcon(new ImageIcon(scaled));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,"Không thể tải hình ảnh","Lỗi",JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

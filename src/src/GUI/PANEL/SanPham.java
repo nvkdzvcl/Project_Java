@@ -63,7 +63,7 @@ public class SanPham extends JPanel {
         btnlm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loadDataToTable(sanPhamBLL.getlístsp());
+                loadDataToTable(sanPhamBLL.getlistsp());
             }
         });
 
@@ -93,7 +93,7 @@ public class SanPham extends JPanel {
         bangsp=new JTable();
         model=new DefaultTableModel(collum,0);
         bangsp.setModel(model);
-        loadDataToTable(sanPhamBLL.getlístsp());
+        loadDataToTable(sanPhamBLL.getlistsp());
 
 
         JScrollPane scrollPane = new JScrollPane(bangsp);
@@ -109,8 +109,18 @@ public class SanPham extends JPanel {
         });
 
         btnSua.addActionListener(e -> {
-            Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
-            SuaSanPhamDialog dlgSuaSanPham = new SuaSanPhamDialog(parent);
+            int row = bangsp.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa", "Thông báo",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int maSP = Integer.parseInt(model.getValueAt(row,0).toString());
+            SanPhamDTO dto = sanPhamBLL.getonesp(maSP);
+
+            Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+            SuaSanPhamDialog dlgSuaSanPham = new SuaSanPhamDialog(parentFrame,this);
+            dlgSuaSanPham.setSanPham(dto);
             dlgSuaSanPham.setVisible(true);
         });
         setVisible(true);

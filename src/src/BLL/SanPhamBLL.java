@@ -1,24 +1,21 @@
 package BLL;
 
 
-import DAO.NhanVienDAO;
 import DAO.SanPhamDAO;
-import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 
 import java.util.ArrayList;
 
 public class SanPhamBLL {
 
-    private static ArrayList<SanPhamDTO> sp;
-    private SanPhamDAO dao = new SanPhamDAO();
+    private SanPhamDAO dao;
 
     public SanPhamBLL(){
-        sp = dao.getallsanpham();
+        dao = new SanPhamDAO();
     }
 
-    public ArrayList<SanPhamDTO> getlístsp(){
-        return sp;
+    public ArrayList<SanPhamDTO> getlistsp(){
+        return dao.getallsanpham();
     }
     public SanPhamDTO getonesp(int id)
     {
@@ -26,10 +23,7 @@ public class SanPhamBLL {
     }
     public boolean insert(SanPhamDTO dto)
     {
-        //SanPhamDAO dao = new SanPhamDAO();
-        sp.add(dto);
         return dao.insert(dto);
-
     }
     public boolean update(SanPhamDTO dto)
     {

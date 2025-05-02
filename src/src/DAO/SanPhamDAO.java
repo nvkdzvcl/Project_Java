@@ -25,6 +25,8 @@ public class SanPhamDAO {
                 dto.setDonGia(rs.getInt("DONGIA"));
                 dto.setSoLuong(rs.getInt("SOLUONG"));
                 dto.setTrangThai(rs.getInt("TRANGTHAI"));
+                //mới thêm
+                dto.setHinhAnh(rs.getString("HINHANH"));
                 list.add(dto);
             }
 
@@ -36,7 +38,7 @@ public class SanPhamDAO {
     }
 
     public boolean insert(SanPhamDTO DTO) {
-        String sql = "INSERT INTO SanPham(TENSP, THUONGHIEU, XUATXU,MAUSAC, KICHTHUOC, DONGIA, SOLUONG) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO SanPham(TENSP, THUONGHIEU, XUATXU, MAUSAC, KICHTHUOC, DONGIA, SOLUONG) VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = JDBCUtil.startConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, DTO.getTenSP());
@@ -55,7 +57,7 @@ public class SanPhamDAO {
         return false;
     }
     public static boolean update(SanPhamDTO DTO) {
-        String sql = "Update sanpham SET TENSP =? , THUONGHIEU =? , XUATXU =? , MAUSAC =? ,KICHTHUOC =? , SOLUONG =? where MANV =?";
+        String sql = "Update sanpham SET TENSP =? , THUONGHIEU =? , XUATXU =? , MAUSAC =? ,KICHTHUOC =? , DONGIA = ? , SOLUONG =? , where MASP =?";
         try (Connection conn = JDBCUtil.startConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -64,8 +66,9 @@ public class SanPhamDAO {
             ps.setString(3, DTO.getXuatXu());
             ps.setString(4, DTO.getMauSac());
             ps.setString(5, DTO.getKichThuoc());
-            ps.setInt(6, DTO.getSoLuong());
-            ps.setInt(7, DTO.getMaSP());
+            ps.setInt(6, DTO.getDonGia());
+            ps.setInt(7, DTO.getSoLuong());
+            ps.setInt(8, DTO.getMaSP());
             return ps.executeUpdate() > 0;
 
 
@@ -100,6 +103,8 @@ public class SanPhamDAO {
                     dto.setMauSac(rs.getString("MAUSAC"));
                     dto.setKichThuoc(rs.getString("KICHTHUOC"));
                     dto.setSoLuong(rs.getInt("SOLUONG"));
+                    //mới thêm
+                    dto.setHinhAnh(rs.getString("HINHANH"));
                     return dto;
                 }
             }

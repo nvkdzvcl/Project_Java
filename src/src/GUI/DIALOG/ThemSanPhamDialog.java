@@ -8,8 +8,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -17,8 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class ThemSanPhamDialog extends JDialog {
-    private JTextField txtTenSP, txtThuongHieu, txtXuatSu, txtSoLuong, txtDonGia;
-    private JComboBox<String> cbMauSac, cbKichThuoc;
+    private JTextField txtTenSP, txtThuongHieu, txtXuatXu, txtSoLuong, txtDonGia;
+    private JComboBox<String> cbKichThuoc;
     private JLabel lbHinhAnhSP;
     private JButton btnHinhAnhSP, btnThem, btnHuy;
 
@@ -61,12 +59,12 @@ public class ThemSanPhamDialog extends JDialog {
         txtThuongHieu.setBounds(50,180,200,25);
         add(txtThuongHieu);
 
-        JLabel lbXuatSu = new JLabel("Xuất Xứ:");
-        lbXuatSu.setBounds(50,220,200,25);
-        add(lbXuatSu);
-        txtXuatSu = new JTextField();
-        txtXuatSu.setBounds(50,250,200,25);
-        add(txtXuatSu);
+        JLabel lbXuatXu = new JLabel("Xuất Xứ:");
+        lbXuatXu.setBounds(50,220,200,25);
+        add(lbXuatXu);
+        txtXuatXu = new JTextField();
+        txtXuatXu.setBounds(50,250,200,25);
+        add(txtXuatXu);
 
         JLabel lbDonGia = new JLabel("Đơn giá:");
         lbDonGia.setBounds(50,290,200,25);
@@ -182,7 +180,7 @@ public class ThemSanPhamDialog extends JDialog {
         btnThem.addActionListener(e -> {
             String tenSP = txtTenSP.getText().trim();
             String thuongHieu = txtThuongHieu.getText().trim();
-            String xuatSu = txtXuatSu.getText().trim();
+            String xuatXu = txtXuatXu.getText().trim();
             String soLuong = txtSoLuong.getText().trim();
             String donGia = txtDonGia.getText().trim();
 
@@ -198,15 +196,15 @@ public class ThemSanPhamDialog extends JDialog {
                 return;
             }
 
-            if (xuatSu.isEmpty()) {
+            if (xuatXu.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập Xuất sứ!","Lỗi",JOptionPane.ERROR_MESSAGE);
-                txtXuatSu.requestFocusInWindow();
+                txtXuatXu.requestFocusInWindow();
                 return;
             }
-            String xuatSuRegex = "^[\\p{L}\\s']+$";
-            if (!xuatSu.matches(xuatSuRegex)) {
+            String XuatXuRegex = "^[\\p{L}\\s']+$";
+            if (!XuatXu.matches(XuatXuRegex)) {
                 JOptionPane.showMessageDialog(this,"Xuất sứ không hợp lệ!","Lỗi",JOptionPane.ERROR_MESSAGE);
-                txtXuatSu.requestFocusInWindow();
+                txtXuatXu.requestFocusInWindow();
                 return;
             }
 
@@ -215,20 +213,40 @@ public class ThemSanPhamDialog extends JDialog {
                 txtSoLuong.requestFocusInWindow();
                 return;
             }
-            String soLuongRegex = "^[1-9]\\d*$";
-            if (!soLuong.matches(soLuongRegex)) {
+            String numRegex = "^[1-9]\\d*$";
+            if (!soLuong.matches(numRegex)) {
                 JOptionPane.showMessageDialog(this,"Số lượng không hợp lệ! Vui lòng nhập số nguyên dương.", "Lỗi",JOptionPane.ERROR_MESSAGE);
                 txtSoLuong.requestFocusInWindow();
                 return;
             }
 
-            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, xuatSu, selectedColorName[0], (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong), Integer.parseInt(donGia));
-            if(sanPhamBLL.insert(sanPham)){
-                JOptionPane.showMessageDialog(this, "Thêm sản phẩm thaành công");
-                sanPhamBLL = new SanPhamBLL();
-                sanPhamPanel.loadDataToTable(sanPhamBLL.getlístsp());
+            if (donGia.isEmpty()) {
+                JOptionPane.showMessageDialog(this,"Vui lòng nhập Đơn giá!","Lỗi",JOptionPane.ERROR_MESSAGE);
+                txtDonGia.requestFocusInWindow();
+                return;
             }
-            dispose();
+            if (!donGia.matches(numRegex)) {
+                JOptionPane.showMessageDialog(this,"Đơn giá không hợp lệ! Vui lòng nhập số nguyên dương.","Lỗi",JOptionPane.ERROR_MESSAGE);
+                txtDonGia.requestFocusInWindow();
+                return;
+            }
+
+            if (selectedColorName[0] == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Vui lòng chọn màu sắc!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+
+            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, XuatXu, selectedColorName[0], (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong), Integer.parseInt(donGia));
+            if(sanPhamBLL.insert(sanPham)){
+                JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
+                sanPhamPanel.loadDataToTable(sanPhamBLL.getlistsp());
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this,"Thêm thất bại","Lỗi",JOptionPane.ERROR_MESSAGE);
+            }
+
         });
 
         btnHuy = new JButton(("Hủy bỏ"));
