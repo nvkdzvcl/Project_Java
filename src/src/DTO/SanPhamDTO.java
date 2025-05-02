@@ -2,7 +2,6 @@ package DTO;
 
 public class SanPhamDTO {
 
-    private String hinhAnh;
     private int maSP;
     private String tenSP;
     private String thuongHieu;
@@ -15,35 +14,33 @@ public class SanPhamDTO {
 
     public SanPhamDTO(){
     }
-    public SanPhamDTO(String hinhAnh, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong, int donGia) {
-        this.hinhAnh = hinhAnh;
+    public SanPhamDTO(String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int donGia, int soLuong) {
         this.tenSP = tenSP;
         this.thuongHieu = thuongHieu;
         this.xuatXu = xuatXu;
         this.mauSac = mauSac;
         this.kichThuoc = kichThuoc;
-        this.soLuong = soLuong;
         this.donGia = donGia;
+        this.soLuong = soLuong;
     }
-    public SanPhamDTO(String hinhAnh, int maSP, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong, int donGia, int trangThai) {
-        this.hinhAnh = hinhAnh;
+    public SanPhamDTO(int maSP, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int donGia, int soLuong, int trangThai) {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.thuongHieu = thuongHieu;
         this.xuatXu = xuatXu;
         this.mauSac = mauSac;
         this.kichThuoc = kichThuoc;
-        this.soLuong = soLuong;
         this.donGia = donGia;
+        this.soLuong = soLuong;
         this.trangThai = trangThai;
     }
 
-    public String getHinhAnh() {
-        return hinhAnh;
-    }
-    public void setHinhAnh(String hinhAnh) {
-        this.hinhAnh = hinhAnh;
-    }
+//    public String getHinhAnh() {
+//        return hinhAnh;
+//    }
+//    public void setHinhAnh(String hinhAnh) {
+//        this.hinhAnh = hinhAnh;
+//    }
 
     public int getMaSP() {
         return maSP;
@@ -111,7 +108,7 @@ public class SanPhamDTO {
     @Override
     public String toString() {
         return "SanPhamDTO{" +
-                "hinhAnh='" + hinhAnh + '\'' +
+//                "hinhAnh='" + hinhAnh + '\'' +
                 ", maSP=" + maSP +
                 ", tenSP='" + tenSP + '\'' +
                 ", thuongHieu='" + thuongHieu + '\'' +

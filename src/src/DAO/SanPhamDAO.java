@@ -25,8 +25,7 @@ public class SanPhamDAO {
                 dto.setDonGia(rs.getInt("DONGIA"));
                 dto.setSoLuong(rs.getInt("SOLUONG"));
                 dto.setTrangThai(rs.getInt("TRANGTHAI"));
-                //mới thêm
-                dto.setHinhAnh(rs.getString("HINHANH"));
+
                 list.add(dto);
             }
 
@@ -103,8 +102,7 @@ public class SanPhamDAO {
                     dto.setMauSac(rs.getString("MAUSAC"));
                     dto.setKichThuoc(rs.getString("KICHTHUOC"));
                     dto.setSoLuong(rs.getInt("SOLUONG"));
-                    //mới thêm
-                    dto.setHinhAnh(rs.getString("HINHANH"));
+
                     return dto;
                 }
             }

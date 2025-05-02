@@ -202,7 +202,7 @@ public class ThemSanPhamDialog extends JDialog {
                 return;
             }
             String XuatXuRegex = "^[\\p{L}\\s']+$";
-            if (!XuatXu.matches(XuatXuRegex)) {
+            if (!xuatXu.matches(XuatXuRegex)) {
                 JOptionPane.showMessageDialog(this,"Xuất sứ không hợp lệ!","Lỗi",JOptionPane.ERROR_MESSAGE);
                 txtXuatXu.requestFocusInWindow();
                 return;
@@ -238,7 +238,7 @@ public class ThemSanPhamDialog extends JDialog {
             }
 
 
-            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, XuatXu, selectedColorName[0], (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong), Integer.parseInt(donGia));
+            SanPhamDTO sanPham = new SanPhamDTO(tenSP, thuongHieu, xuatXu, selectedColorName[0], (String)cbKichThuoc.getSelectedItem(),Integer.parseInt(txtDonGia.getText().trim()), Integer.parseInt(soLuong));
             if(sanPhamBLL.insert(sanPham)){
                 JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
                 sanPhamPanel.loadDataToTable(sanPhamBLL.getlistsp());

@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class SuaSanPhamDialog extends JDialog {
     private JTextField txtTenSP, txtThuongHieu, txtXuatXu, txtSoLuong, txtDonGia;
-    private JComboBox<String> cbMauSac, cbKichThuoc;
+    private JComboBox<String> cbKichThuoc;
     private JLabel lbHinhAnhSP;
     private JButton btnHinhAnhSP, btnLuu, btnHuy;
 
@@ -234,8 +234,9 @@ public class SuaSanPhamDialog extends JDialog {
             currentDTO.setXuatXu(txtXuatXu.getText().trim());
             currentDTO.setMauSac(selectedColorName);
             currentDTO.setKichThuoc(cbKichThuoc.getSelectedItem().toString());
-            currentDTO.setSoLuong(Integer.parseInt(soLuong));
             currentDTO.setDonGia(Integer.parseInt(txtDonGia.getText().trim()));
+            currentDTO.setSoLuong(Integer.parseInt(soLuong));
+
 
             boolean check = sanPhamBLL.update(currentDTO);
             if (check) {
@@ -276,13 +277,13 @@ public class SuaSanPhamDialog extends JDialog {
             }
         }
 
-        try {
-            BufferedImage img = ImageIO.read(new File(dto.getHinhAnh()));
-            Image scaled = img.getScaledInstance(lbHinhAnhSP.getWidth(), lbHinhAnhSP.getHeight(), Image.SCALE_SMOOTH);
-            lbHinhAnhSP.setIcon(new ImageIcon(scaled));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this,"Không thể tải hình ảnh","Lỗi",JOptionPane.ERROR_MESSAGE);
-        }
+//        try {
+//            BufferedImage img = ImageIO.read(new File(dto.getHinhAnh()));
+//            Image scaled = img.getScaledInstance(lbHinhAnhSP.getWidth(), lbHinhAnhSP.getHeight(), Image.SCALE_SMOOTH);
+//            lbHinhAnhSP.setIcon(new ImageIcon(scaled));
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//            JOptionPane.showMessageDialog(this,"Không thể tải hình ảnh","Lỗi",JOptionPane.ERROR_MESSAGE);
+//        }
     }
 }
