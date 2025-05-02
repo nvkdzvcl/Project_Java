@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ThemSanPhamDialog extends JDialog {
-    private JTextField txtTenSP, txtThuongHieu, txtXuatSu, txtSoLuong;
+    private JTextField txtTenSP, txtThuongHieu, txtXuatSu, txtSoLuong, txtDonGia;
     private JComboBox<String> cbMauSac, cbKichThuoc;
     private JLabel lbHinhAnhSP;
     private JButton btnHinhAnhSP, btnThem, btnHuy;
@@ -67,6 +67,13 @@ public class ThemSanPhamDialog extends JDialog {
         txtXuatSu = new JTextField();
         txtXuatSu.setBounds(50,250,200,25);
         add(txtXuatSu);
+
+        JLabel lbDonGia = new JLabel("Đơn giá:");
+        lbDonGia.setBounds(50,290,200,25);
+        add(lbDonGia);
+        txtDonGia = new JTextField();
+        txtDonGia.setBounds(50,320,200,25);
+        add(txtDonGia);
 
 
         //Cột 2
@@ -177,6 +184,7 @@ public class ThemSanPhamDialog extends JDialog {
             String thuongHieu = txtThuongHieu.getText().trim();
             String xuatSu = txtXuatSu.getText().trim();
             String soLuong = txtSoLuong.getText().trim();
+            String donGia = txtDonGia.getText().trim();
 
             if (tenSP.isEmpty()) {
                 JOptionPane.showMessageDialog(this,"Vui lòng nhập Tên SP!","Lỗi",JOptionPane.ERROR_MESSAGE);
@@ -214,7 +222,7 @@ public class ThemSanPhamDialog extends JDialog {
                 return;
             }
 
-            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, xuatSu, selectedColorName[0], (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong));
+            SanPhamDTO sanPham = new SanPhamDTO(file.getAbsolutePath(), tenSP, thuongHieu, xuatSu, selectedColorName[0], (String)cbKichThuoc.getSelectedItem(), Integer.parseInt(soLuong), Integer.parseInt(donGia));
             if(sanPhamBLL.insert(sanPham)){
                 JOptionPane.showMessageDialog(this, "Thêm sản phẩm thaành công");
                 sanPhamBLL = new SanPhamBLL();

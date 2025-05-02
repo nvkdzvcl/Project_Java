@@ -89,7 +89,7 @@ public class SanPham extends JPanel {
         add(P, BorderLayout.NORTH);
 
 
-        String[] collum={"Mã SP","Tên SP","Thương Hiệu","Xuất Xứ","Màu Sắc","Kích Thước","Số Lượng", "Trạng Thái"};
+        String[] collum={"Mã SP","Tên SP","Thương Hiệu","Xuất Xứ","Màu Sắc","Kích Thước","Số Lượng", "Đơn Giá", "Trạng Thái"};
         bangsp=new JTable();
         model=new DefaultTableModel(collum,0);
         bangsp.setModel(model);
@@ -143,6 +143,7 @@ public class SanPham extends JPanel {
                     sanPham.getMauSac(),
                     sanPham.getKichThuoc(),
                     Integer.toString(sanPham.getSoLuong()),
+                    Integer.toString(sanPham.getDonGia()),
                     (sanPham.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động")
             });
         }

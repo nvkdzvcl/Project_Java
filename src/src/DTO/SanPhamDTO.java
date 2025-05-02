@@ -10,11 +10,12 @@ public class SanPhamDTO {
     private String mauSac;
     private String kichThuoc;
     private int soLuong;
+    private int donGia;
     private int trangThai;
 
     public SanPhamDTO(){
     }
-    public SanPhamDTO(String hinhAnh, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong) {
+    public SanPhamDTO(String hinhAnh, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong, int donGia) {
         this.hinhAnh = hinhAnh;
         this.tenSP = tenSP;
         this.thuongHieu = thuongHieu;
@@ -22,8 +23,9 @@ public class SanPhamDTO {
         this.mauSac = mauSac;
         this.kichThuoc = kichThuoc;
         this.soLuong = soLuong;
+        this.donGia = donGia;
     }
-    public SanPhamDTO(String hinhAnh, int maSP, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong, int trangThai) {
+    public SanPhamDTO(String hinhAnh, int maSP, String tenSP, String thuongHieu, String xuatXu, String mauSac, String kichThuoc, int soLuong, int donGia, int trangThai) {
         this.hinhAnh = hinhAnh;
         this.maSP = maSP;
         this.tenSP = tenSP;
@@ -32,6 +34,7 @@ public class SanPhamDTO {
         this.mauSac = mauSac;
         this.kichThuoc = kichThuoc;
         this.soLuong = soLuong;
+        this.donGia = donGia;
         this.trangThai = trangThai;
     }
 
@@ -89,6 +92,13 @@ public class SanPhamDTO {
     }
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
+    }
+
+    public int getDonGia() {
+        return donGia;
+    }
+    public void setDonGia(int donGia) {
+        this.donGia = donGia;
     }
 
     public int getTrangThai() {

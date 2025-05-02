@@ -23,6 +23,7 @@ public class SanPhamDAO {
                 dto.setMauSac(rs.getString("MAUSAC"));
                 dto.setKichThuoc(rs.getString("KICHTHUOC"));
                 dto.setSoLuong(rs.getInt("SOLUONG"));
+                dto.setDonGia(rs.getInt("DONGIA"));
                 dto.setTrangThai(rs.getInt("TRANGTHAI"));
                 list.add(dto);
             }
@@ -35,7 +36,7 @@ public class SanPhamDAO {
     }
 
     public boolean insert(SanPhamDTO DTO) {
-        String sql = "INSERT INTO SanPham(TENSP, THUONGHIEU, XUATXU,MAUSAC, KICHTHUOC, SOLUONG) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO SanPham(TENSP, THUONGHIEU, XUATXU,MAUSAC, KICHTHUOC, SOLUONG, DONGIA) VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = JDBCUtil.startConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, DTO.getTenSP());
@@ -44,6 +45,7 @@ public class SanPhamDAO {
             ps.setString(4, DTO.getMauSac());
             ps.setString(5, DTO.getKichThuoc());
             ps.setInt(6, DTO.getSoLuong());
+            ps.setInt(7, DTO.getDonGia());
             int result = ps.executeUpdate();
             if (result > 0)
                 return true;
