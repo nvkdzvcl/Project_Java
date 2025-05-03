@@ -8,10 +8,6 @@ import java.util.ArrayList;
 
 public class TaiKhoanDAO {
 
-    public static TaiKhoanDAO getInstance() {
-        return new TaiKhoanDAO();
-    }
-
     public int insert(TaiKhoanDTO taiKhoan) {
         String sql = "INSERT INTO taikhoan (TENNGUOIDUNG, MATKHAU, CHUCVU, MANV) VALUES (?,?,?,?)";
         try (Connection conn = JDBCUtil.startConnection();
