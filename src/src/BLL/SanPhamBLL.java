@@ -41,4 +41,59 @@ public class SanPhamBLL {
         }
         return SanPhamDAO.delete(id);
     }
+
+    public ArrayList<SanPhamDTO> search(String txt, String type){
+        ArrayList<SanPhamDTO> result = new ArrayList<>();
+        txt = txt.toLowerCase();
+        switch (type){
+            case "Tất Cả" -> {
+                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                    if(Integer.toString(sanPhamDTO.getMaSP()).equals(txt) ||
+                            sanPhamDTO.getTenSP().toLowerCase().contains(txt) ||
+                            sanPhamDTO.getXuatXu().toLowerCase().contains(txt) ||
+                            sanPhamDTO.getThuongHieu().toLowerCase().contains(txt) ||
+                            sanPhamDTO.getMauSac().toLowerCase().contains(txt)){
+                        result.add(sanPhamDTO);
+                    }
+                }
+            }
+            case "Mã SP" -> {
+                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                    if(Integer.toString(sanPhamDTO.getMaSP()).equals(txt)){
+                        result.add(sanPhamDTO);
+                    }
+                }
+            }
+            case "Tên SP" -> {
+                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                    if(sanPhamDTO.getTenSP().toLowerCase().contains(txt)){
+                        result.add(sanPhamDTO);
+                    }
+                }
+            }
+            case "Xuất Xứ" -> {
+                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                    if(sanPhamDTO.getXuatXu().toLowerCase().contains(txt)){
+                        result.add(sanPhamDTO);
+                    }
+                }
+            }
+            case "Thương Hiệu" -> {
+                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                    if(sanPhamDTO.getThuongHieu().toLowerCase().contains(txt)){
+                        result.add(sanPhamDTO);
+                    }
+                }
+            }
+            case "Màu Sắc" -> {
+                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                    if(sanPhamDTO.getMauSac().toLowerCase().contains(txt)){
+                        result.add(sanPhamDTO);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 }

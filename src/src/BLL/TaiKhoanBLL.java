@@ -9,7 +9,7 @@ public class TaiKhoanBLL {
     private TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
 
     public TaiKhoanBLL(){
-        this.listTaiKhoan = TaiKhoanDAO.getInstance().selectAll();
+        listTaiKhoan = taiKhoanDAO.selectAll();
     }
 
     public ArrayList<TaiKhoanDTO> getListTaiKhoan() {
