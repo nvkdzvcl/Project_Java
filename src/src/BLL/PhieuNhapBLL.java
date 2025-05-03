@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PhieuNhapBLL {
-
+    private final PhieuNhapDAO dao = PhieuNhapDAO.getInstance();
     private ArrayList<PhieuNhapDTO> danhSachPhieuNhap;
 
     public PhieuNhapBLL() {
+        refresh();
+    }
+
+    public void refresh() {
         this.danhSachPhieuNhap = PhieuNhapDAO.getInstance().selectAll();
     }
 
@@ -17,87 +21,36 @@ public class PhieuNhapBLL {
         return danhSachPhieuNhap;
     }
 
-    public PhieuNhapDTO getPhieuNhap(int maPhieuNhap) {
-        for (PhieuNhapDTO pn : danhSachPhieuNhap) {
-            if (pn.getMaPhieuNhap() == maPhieuNhap) {
-                return pn;
-            }
-        }
-        return null;
+    public int insertPhieuNhap(PhieuNhapDTO phieuNhap) {
+        int newId = PhieuNhapDAO.getInstance().insert(phieuNhap);
+        if (newId > 0) refresh();
+        return newId;
     }
 
-    public int getIndexByMaPhieuNhap(int maPhieuNhap) {
-        for (int i = 0; i < danhSachPhieuNhap.size(); i++) {
-            if (danhSachPhieuNhap.get(i).getMaPhieuNhap() == maPhieuNhap) {
-                return i;
-            }
-        }
-        return -1;
+    public boolean updatePhieuNhap(PhieuNhapDTO phieuNhap) {
+        boolean ok = PhieuNhapDAO.getInstance().update(phieuNhap);
+        if (ok) refresh();
+        return ok;
     }
 
-    public void insertPhieuNhap(PhieuNhapDTO phieuNhap) {
-        danhSachPhieuNhap.add(phieuNhap);
-        PhieuNhapDAO.getInstance().insert(phieuNhap);
+    public boolean deletePhieuNhap(int maPhieuNhap) {
+        boolean ok = PhieuNhapDAO.getInstance().delete(maPhieuNhap);
+        if (ok) refresh();
+        return ok;
     }
 
-    public void updatePhieuNhap(int viTri, PhieuNhapDTO phieuNhap) {
-        danhSachPhieuNhap.set(viTri, phieuNhap);
-        PhieuNhapDAO.getInstance().update(phieuNhap);
+    public boolean restorePhieuNhap(int maPhieuNhap) {
+        boolean ok = PhieuNhapDAO.getInstance().restore(maPhieuNhap);
+        if (ok) refresh();
+        return ok;
     }
 
-    public void deletePhieuNhap(int maPhieuNhap) {
-        int viTri = getIndexByMaPhieuNhap(maPhieuNhap);
-        if (viTri != -1) {
-            danhSachPhieuNhap.get(viTri).setTrangthai(0);
-            PhieuNhapDAO.getInstance().update(danhSachPhieuNhap.get(viTri));
-        }
+    public ArrayList<PhieuNhapDTO> filterPhieuNhap(Integer nhanVienId, Date from, Date to,
+                                              Integer minTien, Integer maxTien) {
+        return PhieuNhapDAO.getInstance().filter(nhanVienId, from, to, minTien, maxTien);
     }
 
-    public void restorePhieuNhap(int maPhieuNhap) {
-        int viTri = getIndexByMaPhieuNhap(maPhieuNhap);
-        if (viTri != -1) {
-            danhSachPhieuNhap.get(viTri).setTrangthai(1);
-            PhieuNhapDAO.getInstance().update(danhSachPhieuNhap.get(viTri));
-        }
-    }
-
-    public ArrayList<PhieuNhapDTO> searchPhieuNhap(String text, String type) {
-        ArrayList<PhieuNhapDTO> ketQua = new ArrayList<>();
-        text = text.toLowerCase();
-
-        switch (type) {
-            case "Tất cả" -> {
-                for (PhieuNhapDTO pn : danhSachPhieuNhap) {
-                    if (String.valueOf(pn.getMaPhieuNhap()).contains(text) ||
-                            pn.getNhaCungCap().toLowerCase().contains(text) ||
-                            String.valueOf(pn.getNhanVienNhap()).contains(text)) {
-                            ketQua.add(pn);
-                    }
-                }
-            }
-            case "Mã Phiếu Nhập" -> {
-                for (PhieuNhapDTO pn : danhSachPhieuNhap) {
-                    if (String.valueOf(pn.getMaPhieuNhap()).contains(text)) {
-                        ketQua.add(pn);
-                    }
-                }
-            }
-            case "Nhà Cung Cấp" -> {
-                for (PhieuNhapDTO pn : danhSachPhieuNhap) {
-                    if (pn.getNhaCungCap().toLowerCase().contains(text)) {
-                        ketQua.add(pn);
-                    }
-                }
-            }
-            case "Nhân Viên Nhập" -> {
-                for (PhieuNhapDTO pn : danhSachPhieuNhap) {
-                    if (String.valueOf(pn.getNhanVienNhap()).contains(text)) {
-                        ketQua.add(pn);
-                    }
-                }
-            }
-        }
-
-        return ketQua;
+    public int getNextMaPhieuNhap() {
+        return dao.getNextMaPhieuNhap();
     }
 }

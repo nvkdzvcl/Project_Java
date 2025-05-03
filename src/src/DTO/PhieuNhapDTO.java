@@ -8,17 +8,17 @@ public class PhieuNhapDTO {
     private int nhanVienNhap;
     private Date ngay;
     private int tongTien;
-    private int trangthai;
+    private int trangThai;
     public PhieuNhapDTO(){
 
     }
-    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,int nhanVienNhap,Date ngay,int tongTien,int trangthai){
+    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,int nhanVienNhap,Date ngay,int tongTien,int trangThai){
         this.maPhieuNhap = maPhieuNhap;
         this.nhaCungCap = nhaCungCap;
         this.nhanVienNhap = nhanVienNhap;
         this.ngay = ngay;
         this.tongTien = tongTien;
-        this.trangthai = trangthai;
+        this.trangThai = trangThai;
     }
     public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,int nhanVienNhap,Date ngay,int tongTien){
         this.maPhieuNhap = maPhieuNhap;
@@ -68,12 +68,12 @@ public class PhieuNhapDTO {
         this.tongTien = tongTien;
     }
 
-    public int getTrangthai() {
-        return trangthai;
+    public int getTrangThai() {
+        return trangThai;
     }
 
-    public void setTrangthai(int trangthai) {
-        this.trangthai = trangthai;
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class PhieuNhapDTO {
                 ", nhanVienNhap='" + nhanVienNhap + '\'' +
                 ", ngay=" + ngay +
                 ", tongTien=" + tongTien +
-                ", trangthai=" + trangthai +
+                ", trangThai=" + trangThai +
                 '}';
     }
 }

@@ -56,7 +56,7 @@ public class SanPhamDAO {
         return false;
     }
     public static boolean update(SanPhamDTO DTO) {
-        String sql = "Update sanpham SET TENSP =? , THUONGHIEU =? , XUATXU =? , MAUSAC =? ,KICHTHUOC =? , DONGIA = ? , SOLUONG =? , where MASP =?";
+        String sql = "Update sanpham SET TENSP =? , THUONGHIEU =? , XUATXU =? , MAUSAC =? ,KICHTHUOC =? , DONGIA = ? , SOLUONG =?  where MASP =?";
         try (Connection conn = JDBCUtil.startConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -101,6 +101,7 @@ public class SanPhamDAO {
                     dto.setXuatXu(rs.getString("XUATXU"));
                     dto.setMauSac(rs.getString("MAUSAC"));
                     dto.setKichThuoc(rs.getString("KICHTHUOC"));
+                    dto.setDonGia(rs.getInt("DONGIA"));
                     dto.setSoLuong(rs.getInt("SOLUONG"));
 
                     return dto;
