@@ -133,6 +133,7 @@ public class TaiKhoan extends JPanel {
                 int maNV_Sua = Integer.parseInt(model.getValueAt(bangkh.getSelectedRow(), 0).toString());
                 if(JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xoá tài khoản " + maNV_Sua + " không?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION){
                     taiKhoanBLL.deleteAccount(maNV_Sua);
+                    taiKhoanBLL = new TaiKhoanBLL();
                     loadDataToTable(taiKhoanBLL.getListTaiKhoan());
                 }
             }

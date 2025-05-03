@@ -1,6 +1,8 @@
 package GUI.PANEL;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
@@ -102,6 +104,22 @@ public class SanPham extends JPanel {
 
         add(scrollPane,BorderLayout.CENTER);
 
+        tf.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadDataToTable(sanPhamBLL.search(tf.getText(), pl.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadDataToTable(sanPhamBLL.search(tf.getText(), pl.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadDataToTable(sanPhamBLL.search(tf.getText(), pl.getSelectedItem().toString()));
+            }
+        });
         btnThem.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
             ThemSanPhamDialog dlgThemSanPham = new ThemSanPhamDialog(parent, this);
