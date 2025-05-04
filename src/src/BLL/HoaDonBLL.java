@@ -6,6 +6,7 @@ import DTO.HoaDonDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HoaDonBLL {
     private final HoaDonDAO dao;
@@ -23,6 +24,18 @@ public class HoaDonBLL {
     /** Lấy tất cả hóa đơn đang hoạt động */
     public ArrayList<HoaDonDTO> getDanhSachHoaDon() {
         return dao.selectAll();
+    }
+
+    public List<HoaDonDTO> filterHoaDon(
+            Integer khId,
+            Integer nvId,
+            Date from,
+            Date to,
+            Integer minTien,
+            Integer maxTien
+    ) {
+        // Gọi DAO để lấy kết quả đã lọc
+        return dao.selectFiltered(khId, nvId, from, to, minTien, maxTien);
     }
 
     /** Lấy hóa đơn theo ID */

@@ -6,6 +6,7 @@ import config.JDBCUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HoaDonDAO {
     private static final HoaDonDAO INSTANCE = new HoaDonDAO();
@@ -179,6 +180,58 @@ public class HoaDonDAO {
     public ArrayList<HoaDonDTO> selectByCustomerName(String tenKH) {
         // TODO: implement JOIN với bảng KhachHang
         return new ArrayList<>();
+    }
+
+    public List<HoaDonDTO> selectFiltered(
+            Integer khId,
+            Integer nvId,
+            Date from,
+            Date to,
+            Integer minTien,
+            Integer maxTien
+    ) {
+        List<HoaDonDTO> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("""
+            SELECT * FROM hoadon
+             WHERE TRANGTHAI <> 0
+            """);
+
+        // xây dựng điều kiện động
+        if (khId != null)    sql.append(" AND MAKHACHHANG = ?");
+        if (nvId != null)    sql.append(" AND MANV = ?");
+        if (from != null)    sql.append(" AND THOIGIAN >= ?");
+        if (to != null)      sql.append(" AND THOIGIAN <= ?");
+        if (minTien != null) sql.append(" AND TONGTIEN >= ?");
+        if (maxTien != null) sql.append(" AND TONGTIEN <= ?");
+
+        try (Connection conn = JDBCUtil.startConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            int idx = 1;
+            if (khId != null)    ps.setInt(idx++, khId);
+            if (nvId != null)    ps.setInt(idx++, nvId);
+            if (from != null)    ps.setTimestamp(idx++, new Timestamp(from.getTime()));
+            if (to != null)      ps.setTimestamp(idx++, new Timestamp(to.getTime()));
+            if (minTien != null) ps.setInt(idx++, minTien);
+            if (maxTien != null) ps.setInt(idx++, maxTien);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new HoaDonDTO(
+                            rs.getInt("MAHOADON"),
+                            rs.getInt("MAKHACHHANG"),
+                            rs.getInt("MANV"),
+                            rs.getTimestamp("THOIGIAN"),
+                            rs.getString("DIACHI"),
+                            rs.getInt("TONGTIEN"),
+                            rs.getInt("TRANGTHAI")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi lọc hóa đơn: " + e.getMessage());
+        }
+        return list;
     }
 
     /** Lấy Auto_increment tiếp theo */

@@ -256,59 +256,56 @@ public class HoaDon extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 0;
 
-        // 1. Combo Khách hàng
+        // --- 1) Khách hàng ---
         gbc.gridy = 0;
         leftPanel.add(new JLabel("Khách hàng:"), gbc);
         gbc.gridy = 1;
         gbc.weightx = 1.0;
-        JComboBox<String> cbKhachHang = new JComboBox<>();
-        cbKhachHang.addItem("Tất cả");
-        // Lấy danh sách khách hàng từ BLL
-        KhachHangBLL khBLL = new KhachHangBLL();
-        ArrayList<KhachHangDTO> listKH = khBLL.getlistkh();
-        for (KhachHangDTO kh : listKH) {
-            cbKhachHang.addItem(kh.getTenKhachHang());
+        JComboBox<String> cbKH = new JComboBox<>();
+        cbKH.addItem("Tất cả");
+        java.util.List<KhachHangDTO> khList = new KhachHangBLL().getlistkh();
+        for (KhachHangDTO kh : khList) {
+            cbKH.addItem(kh.getTenKhachHang());
         }
-        leftPanel.add(cbKhachHang, gbc);
+        leftPanel.add(cbKH, gbc);
         gbc.weightx = 0;
 
-        // 2. Combo Nhân viên bán
+        // --- 2) Nhân viên bán ---
         gbc.gridy = 2;
         leftPanel.add(new JLabel("Nhân viên bán:"), gbc);
         gbc.gridy = 3;
         gbc.weightx = 1.0;
-        JComboBox<String> cbNhanVienBan = new JComboBox<>();
-        cbNhanVienBan.addItem("Tất cả");
-        NhanVienBLL nvBLL = new NhanVienBLL();
-        ArrayList<NhanVienDTO> listNV = nvBLL.getlistnv();
-        for (NhanVienDTO nv : listNV) {
-            cbNhanVienBan.addItem(nv.getHoTen());
+        JComboBox<String> cbNV = new JComboBox<>();
+        cbNV.addItem("Tất cả");
+        java.util.List<NhanVienDTO> nvList = new NhanVienBLL().getlistnv();
+        for (NhanVienDTO nv : nvList) {
+            cbNV.addItem(nv.getHoTen());
         }
-        leftPanel.add(cbNhanVienBan, gbc);
+        leftPanel.add(cbNV, gbc);
         gbc.weightx = 0;
 
-        // 3. Từ ngày / Đến ngày (giữ nguyên của bạn)
+        // --- 3) Từ ngày / Đến ngày ---
         gbc.gridy = 4;
         leftPanel.add(new JLabel("Từ ngày:"), gbc);
         gbc.gridy = 5;
         gbc.weightx = 1.0;
-        JDateChooser dateChooserTu = new JDateChooser();
-        dateChooserTu.setDateFormatString("dd/MM/yyyy");
-        leftPanel.add(dateChooserTu, gbc);
+        JDateChooser dcFrom = new JDateChooser();
+        dcFrom.setDateFormatString("dd/MM/yyyy");
+        leftPanel.add(dcFrom, gbc);
         gbc.weightx = 0;
 
         gbc.gridy = 6;
         leftPanel.add(new JLabel("Đến ngày:"), gbc);
         gbc.gridy = 7;
         gbc.weightx = 1.0;
-        JDateChooser dateChooserDen = new JDateChooser();
-        dateChooserDen.setDateFormatString("dd/MM/yyyy");
-        leftPanel.add(dateChooserDen, gbc);
+        JDateChooser dcTo = new JDateChooser();
+        dcTo.setDateFormatString("dd/MM/yyyy");
+        leftPanel.add(dcTo, gbc);
         gbc.weightx = 0;
 
-        // 4. Từ tiền / Đến tiền (giữ nguyên của bạn)
+        // --- 4) Từ tiền / Đến tiền ---
         gbc.gridy = 8;
-        leftPanel.add(new JLabel("Từ số tiền (VND):"), gbc);
+        leftPanel.add(new JLabel("Từ tiền (VNĐ):"), gbc);
         gbc.gridy = 9;
         gbc.weightx = 1.0;
         JTextField tfMin = new JTextField();
@@ -316,20 +313,74 @@ public class HoaDon extends JPanel {
         gbc.weightx = 0;
 
         gbc.gridy = 10;
-        leftPanel.add(new JLabel("Đến số tiền (VND):"), gbc);
+        leftPanel.add(new JLabel("Đến tiền (VNĐ):"), gbc);
         gbc.gridy = 11;
         gbc.weightx = 1.0;
         JTextField tfMax = new JTextField();
         leftPanel.add(tfMax, gbc);
         gbc.weightx = 0;
 
-        // 5. Giữ khoảng trống xuống dưới
+        // --- 5) Nút Áp dụng & Xóa ---
         gbc.gridy = 12;
+        gbc.weightx = 1.0;
+        JButton btnApply = new JButton("Áp dụng");
+        leftPanel.add(btnApply, gbc);
+
+        gbc.gridy = 13;
+        JButton btnClear = new JButton("Xóa bộ lọc");
+        leftPanel.add(btnClear, gbc);
+
+        // Khoảng trống đẩy nút xuống dưới
+        gbc.gridy = 14;
         gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.VERTICAL;
         leftPanel.add(new JLabel(), gbc);
 
-        leftPanel.setPreferredSize(new Dimension(220, leftPanel.getPreferredSize().height));
+        // --- Logic cho 2 nút ---
+        btnApply.addActionListener(e -> {
+            // Lấy điều kiện
+            Integer khId = null, nvId = null;
+            if (cbKH.getSelectedIndex() > 0) {
+                khId = khList.get(cbKH.getSelectedIndex() - 1).getMaKhachHang();
+            }
+            if (cbNV.getSelectedIndex() > 0) {
+                nvId = nvList.get(cbNV.getSelectedIndex() - 1).getMaNV();
+            }
+            java.util.Date from = dcFrom.getDate();
+            java.util.Date to   = dcTo.getDate();
+
+            Integer minTien = null, maxTien = null;
+            try {
+                String sMin = tfMin.getText().trim();
+                if (!sMin.isEmpty()) minTien = Integer.parseInt(sMin);
+                String sMax = tfMax.getText().trim();
+                if (!sMax.isEmpty()) maxTien = Integer.parseInt(sMax);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Giá trị tiền phải là số nguyên!",
+                        "Lỗi",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            // Gọi BLL để lọc và nạp lại bảng
+            java.util.List<HoaDonDTO> filtered =
+                    bll.filterHoaDon(khId, nvId, from, to, minTien, maxTien);
+            loadDataToTable(filtered);
+        });
+
+        btnClear.addActionListener(e -> {
+            cbKH.setSelectedIndex(0);
+            cbNV.setSelectedIndex(0);
+            dcFrom.setDate(null);
+            dcTo.setDate(null);
+            tfMin.setText("");
+            tfMax.setText("");
+            reloadTable();
+        });
+
+        leftPanel.setPreferredSize(new Dimension(240, leftPanel.getPreferredSize().height));
         return leftPanel;
     }
 
