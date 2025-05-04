@@ -1,48 +1,76 @@
 package BLL;
 
 import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
 import DTO.KhachHangDTO;
-import DTO.NhanVienDTO;
 
 import java.util.ArrayList;
 
 public class KhachHangBLL {
-    public ArrayList<KhachHangDTO> kh;
-    public KhachHangBLL(){
-        KhachHangDAO dao = new KhachHangDAO();
-        kh=dao.getallkhachhang();
+    private final KhachHangDAO dao;
+    private final ArrayList<KhachHangDTO> khList;
+
+    public KhachHangBLL() {
+        // Lấy instance của DAO
+        this.dao = KhachHangDAO.getInstance();
+        // Tải lên danh sách khách hàng ban đầu
+        this.khList = dao.getallkhachhang();
     }
+
+    /**
+     * Trả về danh sách khách hàng (đã load từ DAO)
+     */
     public ArrayList<KhachHangDTO> getlistkh() {
-        return kh;
+        return khList;
     }
+
+    /**
+     * Lấy 1 khách hàng theo ID (reload trực tiếp từ DB)
+     */
     public KhachHangDTO getonekh(int id) {
-        return KhachHangDAO.getonekhachhang(id);
+        return dao.selectById(id);
     }
-    public boolean insert(KhachHangDTO dto)
-    {
-        KhachHangDAO dao = new KhachHangDAO();
-        kh.add(dto);
-        return dao.insertkhachhang(dto);
 
+    /**
+     * Thêm mới khách hàng
+     * – Thêm vào DB, nếu thành công thì push vào list
+     */
+    public boolean insert(KhachHangDTO dto) {
+        boolean ok = dao.insertkhachhang(dto);
+        if (ok) {
+            khList.add(dto);
+        }
+        return ok;
+    }
 
-    }
-    public boolean update(KhachHangDTO dto)
-    {
-        if(dto == null)
-        {
-            return false;
+    /**
+     * Cập nhật khách hàng
+     * – Cập nhật DB; nếu thành công thì cũng cập nhật trong list
+     */
+    public boolean update(KhachHangDTO dto) {
+        if (dto == null) return false;
+        boolean ok = dao.updatekhachhang(dto);
+        if (ok) {
+            // Tìm trong list và thay thế
+            for (int i = 0; i < khList.size(); i++) {
+                if (khList.get(i).getMaKhachHang() == dto.getMaKhachHang()) {
+                    khList.set(i, dto);
+                    break;
+                }
+            }
         }
-        return KhachHangDAO.updatekhachhang(dto);
+        return ok;
     }
-    public boolean delete(int id)
-    {
-        if(id <0)
-        {
-            return false;
+
+    /**
+     * Xóa mềm khách hàng
+     * – Cập nhật DB; nếu thành công thì cũng remove khỏi list
+     */
+    public boolean delete(int id) {
+        if (id < 0) return false;
+        boolean ok = dao.deletekhachhang(id);
+        if (ok) {
+            khList.removeIf(kh -> kh.getMaKhachHang() == id);
         }
-        return KhachHangDAO.deletekhachhang(id);
+        return ok;
     }
 }
-
-

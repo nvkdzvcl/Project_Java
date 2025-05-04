@@ -159,7 +159,10 @@ public class PhieuNhap extends JPanel {
             }
         });
 
-        btnlm.addActionListener(e -> reloadTable());
+        btnlm.addActionListener(e -> {
+            reloadTable();
+            ((SanPham) parent.getPanel("sanpham")).reloadTable();
+        });
 
         // Khi gõ search hoặc chọn filter, bạn có thể gọi:
         // List<PhieuNhapDTO> filtered = bll.filterPhieuNhap(...);

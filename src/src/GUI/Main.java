@@ -45,7 +45,7 @@ public class Main extends JFrame {
         addCard("phieunhap",     new PhieuNhap(this));
         addCard("themphieunhap", new ThemPhieuNhap(this));
         addCard("hoadon",        new HoaDon(this));
-        addCard("themhoadon",    new ThemHoaDon());
+        addCard("themhoadon",    new ThemHoaDon(this));
         addCard("khachhang",     new KhachHang());
         addCard("nhanvien",      new NhanVien());
         addCard("taikhoan",      new TaiKhoan());
@@ -70,6 +70,12 @@ public class Main extends JFrame {
         //nếu đang chuyển sang bảng phiếu nhập thì reload dữ liệu
         if ("phieunhap".equals(cardName)) {
             ((PhieuNhap)panels.get("phieunhap")).reloadTable();
+        }
+        if ("themhoadon".equals(cardName)) {
+            ((ThemHoaDon)panels.get("themhoadon")).resetForm();
+        }
+        if ("hoadon".equals(cardName)) {
+            ((HoaDon)panels.get("hoadon")).reloadTable();
         }
         //cuối cùng mới hiển thị panel
         cardLayout.show(contentPanel, cardName);

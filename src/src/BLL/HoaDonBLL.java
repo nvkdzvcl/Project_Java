@@ -1,92 +1,77 @@
 package BLL;
 
+import DAO.CTHoaDonDAO;
 import DAO.HoaDonDAO;
 import DTO.HoaDonDTO;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HoaDonBLL {
+    private final HoaDonDAO dao;
+    private ArrayList<HoaDonDTO> danhSach;
 
-    private ArrayList<HoaDonDTO> danhSachHoaDon;
-
-    public HoaDonBLL(){
-        this.danhSachHoaDon = HoaDonDAO.getInstance().selectAll();
+    public HoaDonBLL() {
+        this.dao = HoaDonDAO.getInstance();
+        this.danhSach = dao.selectAll();
     }
 
-    public ArrayList<HoaDonDTO> getDanhSachHoaDon(){
-        return danhSachHoaDon;
+    public void refresh() {
+        this.danhSach = dao.selectAll();
     }
 
-    public HoaDonDTO getHoaDon(int maHoaDon){
-        return danhSachHoaDon.get(maHoaDon);
+    /** Lấy tất cả hóa đơn đang hoạt động */
+    public ArrayList<HoaDonDTO> getDanhSachHoaDon() {
+        return dao.selectAll();
     }
 
-    public int getTaiKhoanByMaHoaDon(int maHoaDon){
-        int i = 0;
-        int viTri = -1;
-        while(i < danhSachHoaDon.size() && viTri == -1){
-            if(danhSachHoaDon.get(i).getMaHoaDon() == maHoaDon){
-                viTri = i;
+    /** Lấy hóa đơn theo ID */
+    public HoaDonDTO getHoaDonById(int maHD) {
+        for (HoaDonDTO hd : danhSach) {
+            if (hd.getMaHoaDon() == maHD) return hd;
+        }
+        return null;
+    }
+
+    /** Tạo hóa đơn mới, trả về ID hoặc -1 */
+    public int insert(HoaDonDTO hd) {
+        int id = dao.insert(hd);
+        if (id > 0) danhSach.add(hd);
+        return id;
+    }
+
+    public boolean updateHoaDon(HoaDonDTO hd) {
+        boolean ok = dao.update(hd);
+        if (ok) {
+            for (int i = 0; i < danhSach.size(); i++) {
+                if (danhSach.get(i).getMaHoaDon() == hd.getMaHoaDon()) {
+                    danhSach.set(i, hd);
+                    break;
+                }
             }
-            else{
-                i++;
-            }
         }
-
-        return viTri;
+        return ok;
     }
 
-    public void insertHoaDon(HoaDonDTO hoaDon){
-        danhSachHoaDon.add(hoaDon);
+    public boolean deleteHoaDon(int maHD) {
+        boolean ok = dao.delete(maHD);
+        if (ok) danhSach.removeIf(hd -> hd.getMaHoaDon() == maHD);
+        return ok;
     }
 
-    public void updateHoaDon(int viTri, HoaDonDTO hoaDon){
-        danhSachHoaDon.set(viTri, hoaDon);
+    public ArrayList<HoaDonDTO> getHoaDonByDateRange(Date from, Date to) {
+        return dao.selectByDateRange(from, to);
     }
 
-    public void deleteHoaDon(int maHoaDon){
-        int viTri = getTaiKhoanByMaHoaDon(maHoaDon);
-        if(viTri != -1){
-            danhSachHoaDon.remove(viTri);
-        }
+    public ArrayList<HoaDonDTO> getHoaDonByCustomerName(String tenKH) {
+        return dao.selectByCustomerName(tenKH);
     }
 
-    public ArrayList<HoaDonDTO> searchHoaDon(String text, String type){
-        ArrayList<HoaDonDTO> danhSachKetQua = new ArrayList<>();
-        text = text.toLowerCase();
-        switch (type){
-            case "Tất cả":
-                for(HoaDonDTO hoaDon : danhSachHoaDon){
-                    if(Integer.toString(hoaDon.getMaHoaDon()).contains(text)
-                            || Integer.toString(hoaDon.getKhachhang()).contains(text)
-                            || Integer.toString(hoaDon.getNhanVienBan()).contains(text)){
-                        danhSachKetQua.add(hoaDon);
-                    }
-                }
-                break;
-            case "Mã hoá đơn":
-                for(HoaDonDTO hoaDon : danhSachHoaDon){
-                    if(Integer.toString(hoaDon.getMaHoaDon()).contains(text)){
-                        danhSachKetQua.add(hoaDon);
-                    }
-                }
-                break;
-            case "Khách hàng":
-                for(HoaDonDTO hoaDon : danhSachHoaDon){
-                    if(Integer.toString(hoaDon.getKhachhang()).contains(text)){
-                        danhSachKetQua.add(hoaDon);
-                    }
-                }
-                break;
-            case "Nhân viên bán":
-                for(HoaDonDTO hoaDon : danhSachHoaDon){
-                    if(Integer.toString(hoaDon.getNhanVienBan()).contains(text)){
-                        danhSachKetQua.add(hoaDon);
-                    }
-                }
-                break;
-        }
+    public int getNextMaHoaDon() {
+        return dao.getNextMaHoaDon();
+    }
 
-        return danhSachKetQua;
+    public boolean insertChiTiet(int maHD, int maSP, int donGia, int soLuong) {
+        return CTHoaDonDAO.getInstance().insert(maHD, maSP, donGia, soLuong);
     }
 }

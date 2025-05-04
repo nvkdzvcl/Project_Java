@@ -4,28 +4,25 @@ import java.util.Date;
 
 public class HoaDonDTO {
     private int maHoaDon;
-    private int  khachhang;
+    private int khachHang;
     private int nhanVienBan;
-    private Date thoigian;
+    private Date thoiGian;
+    private String diaChi;
     private int tongTien;
-    private int trangthai;
+    private int trangThai;
 
-    public HoaDonDTO(){
+    public HoaDonDTO() {
+
     }
-    public HoaDonDTO(int maHoaDon, int khachhang, int nhanVienBan, Date thoigian, int tongTien) {
+
+    public HoaDonDTO(int maHoaDon, int khachHang, int nhanVienBan, Date thoiGian, String diaChi, int tongTien, int trangThai) {
         this.maHoaDon = maHoaDon;
-        this.khachhang = khachhang;
+        this.khachHang = khachHang;
         this.nhanVienBan = nhanVienBan;
-        this.thoigian = thoigian;
+        this.thoiGian = thoiGian;
+        this.diaChi = diaChi;
         this.tongTien = tongTien;
-    }
-    public HoaDonDTO(int maHoaDon, int khachhang, int nhanVienBan, Date thoigian, int tongTien, int trangthai){
-        this.maHoaDon = maHoaDon;
-        this.khachhang = khachhang;
-        this.nhanVienBan = nhanVienBan;
-        this.thoigian = thoigian;
-        this.tongTien = tongTien;
-        this.trangthai = trangthai;
+        this.trangThai = trangThai;
     }
 
     public int getMaHoaDon() {
@@ -36,12 +33,12 @@ public class HoaDonDTO {
         this.maHoaDon = maHoaDon;
     }
 
-    public int getKhachhang() {
-        return khachhang;
+    public int getKhachHang() {
+        return khachHang;
     }
 
-    public void setKhachhang(int khachhang) {
-        this.khachhang = khachhang;
+    public void setKhachHang(int khachHang) {
+        this.khachHang = khachHang;
     }
 
     public int getNhanVienBan() {
@@ -52,12 +49,20 @@ public class HoaDonDTO {
         this.nhanVienBan = nhanVienBan;
     }
 
-    public Date getThoigian() {
-        return thoigian;
+    public Date getThoiGian() {
+        return thoiGian;
     }
 
-    public void setThoigian(Date thoigian) {
-        this.thoigian = thoigian;
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+
+    public void setThoiGian(Date thoiGian) {
+        this.thoiGian = thoiGian;
     }
 
     public int getTongTien() {
@@ -68,23 +73,23 @@ public class HoaDonDTO {
         this.tongTien = tongTien;
     }
 
-    public int getTrangthai() {
-        return trangthai;
+    public int getTrangThai() {
+        return trangThai;
     }
 
-    public void setTrangthai(int trangthai) {
-        this.trangthai = trangthai;
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
     }
 
     @Override
     public String toString() {
         return "HoaDonDTO{" +
                 "maHoaDon=" + maHoaDon +
-                ", khachhang='" + khachhang + '\'' +
-                ", nhanVienBan='" + nhanVienBan + '\'' +
-                ", thoigian=" + thoigian +
+                ", khachHang=" + khachHang +
+                ", nhanVienBan=" + nhanVienBan +
+                ", thoiGian=" + thoiGian +
                 ", tongTien=" + tongTien +
-                ", trangthai=" + trangthai +
+                ", trangThai=" + trangThai +
                 '}';
     }
 }

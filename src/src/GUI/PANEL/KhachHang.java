@@ -205,7 +205,7 @@ public class KhachHang extends JPanel {
             String diachi=dto.getDiachi();
             String sdt=dto.getSoDienThoai();
 
-            Object[] row= new Object[]{makh,tenkh,diachi,sdt};
+            Object[] row= new Object[]{makh,tenkh,sdt,diachi};
             model.addRow(row);
         }
     }

@@ -100,4 +100,8 @@ public class SanPhamBLL {
     public boolean increaseStock(int maSP, int soLuong) {
         return dao.increaseStock(maSP, soLuong);
     }
+
+    public boolean decreaseStock(int maSP, int soLuong) {
+        return dao.decreaseStock(maSP, soLuong);
+    }
 }

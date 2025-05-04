@@ -70,14 +70,13 @@ public class ChitietKhachHangDialog extends JDialog {
             dispose();
         });
     }
-    public void loadtabledata(int id)
-    {
-        KhachHangDTO DTO=new KhachHangDTO();
-        KhachHangDAO DAO=new KhachHangDAO();
-        DTO=DAO.getonekhachhang(id);
-        txtHoVaTen.setText(DTO.getTenKhachHang());
-        txtSDT.setText(DTO.getSoDienThoai());
-        txtDiaChi.setText(DTO.getDiachi());
-
+    private void loadtabledata(int id) {
+        KhachHangDTO dto = KhachHangDAO.getInstance().selectById(id);
+        if (dto != null) {
+            txtHoVaTen.setText(dto.getTenKhachHang());
+            txtSDT     .setText(dto.getSoDienThoai());
+            txtDiaChi  .setText(dto.getDiachi());
+        }
     }
+
 }

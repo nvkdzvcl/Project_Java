@@ -461,7 +461,7 @@ public class ThemPhieuNhap extends JPanel {
         txtMaSP.setText(String.valueOf(sp.getMaSP()));
         txtTenSP.setText(String.valueOf(sp.getTenSP()));
 //        txtSoLuong.setText(String.valueOf(sp.getSoLuong()));
-        txtGiaNhap.setText(String.valueOf(sp.getDonGia()));
+//        txtGiaNhap.setText(String.valueOf(sp.getDonGia()));
         cbKichThuoc.setSelectedItem(sp.getKichThuoc());
         cbThuongHieu.setSelectedItem(sp.getThuongHieu());
         cbXuatXu.setSelectedItem(sp.getXuatXu());
