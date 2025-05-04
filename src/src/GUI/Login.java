@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+
+import BLL.TaiKhoanBLL;
 import config.JDBCUtil;
 
 public class Login extends JFrame {
@@ -11,6 +13,8 @@ public class Login extends JFrame {
     private JPasswordField txtPassword;
     private JLabel lblShowHide;
     private boolean isPasswordVisible = false;
+
+    TaiKhoanBLL taiKhoanBLL = new TaiKhoanBLL();
 
     public Login() {
         setTitle("Đăng nhập");
@@ -23,7 +27,9 @@ public class Login extends JFrame {
         add(initLeftPanel());
         add(initRightPanel());
 
-        loadDefaultAccount();
+        //loadDefaultAccount();
+        txtUsername.setText("admin");
+        txtPassword.setText("12345678");
 
         setVisible(true);
     }
@@ -98,28 +104,35 @@ public class Login extends JFrame {
                     return;
                 }
 
-                try (Connection conn = JDBCUtil.startConnection()) {
-                    String sql = "SELECT * FROM TAIKHOAN WHERE TENNGUOIDUNG = ? AND MATKHAU = ? AND TRANGTHAI = 1";
-                    PreparedStatement stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, username);
-                    stmt.setString(2, password);
-
-                    System.out.println("Login attempt → user: ["+ username +"], pass: ["+ password +"]");
-                    System.out.println("Prepared SQL: " + stmt);
-
-                    ResultSet rs = stmt.executeQuery();
-
-                    if (rs.next()) {
-                        dispose();
-                        new Main(username);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng!");
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(Login.this, "Lỗi khi kết nối hoặc truy vấn cơ sở dữ liệu!");
+                if(taiKhoanBLL.checkLogin(username, password)){
+                    dispose();
+                    new Main(username);
                 }
+                else {
+                    JOptionPane.showMessageDialog(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng!");
+                }
+//                try (Connection conn = JDBCUtil.startConnection()) {
+//                    String sql = "SELECT * FROM TAIKHOAN WHERE TENNGUOIDUNG = ? AND MATKHAU = ? AND TRANGTHAI = 1";
+//                    PreparedStatement stmt = conn.prepareStatement(sql);
+//                    stmt.setString(1, username);
+//                    stmt.setString(2, password);
+//
+//                    System.out.println("Login attempt → user: ["+ username +"], pass: ["+ password +"]");
+//                    System.out.println("Prepared SQL: " + stmt);
+//
+//                    ResultSet rs = stmt.executeQuery();
+//
+//                    if (rs.next()) {
+//                        dispose();
+//                        new Main(username);
+//                    }
+//                    else {
+//                        JOptionPane.showMessageDialog(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng!");
+//                    }
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                    JOptionPane.showMessageDialog(Login.this, "Lỗi khi kết nối hoặc truy vấn cơ sở dữ liệu!");
+//                }
             }
         });
 
@@ -138,24 +151,24 @@ public class Login extends JFrame {
         isPasswordVisible = !isPasswordVisible;
     }
 
-    private void loadDefaultAccount() {
-        String sql = """
-                SELECT TENNGUOIDUNG, MATKHAU
-                FROM TAIKHOAN
-                WHERE TRANGTHAI = 1
-                ORDER BY TENNGUOIDUNG LIMIT 1
-                """;
-        try (Connection conn = JDBCUtil.startConnection();
-            PreparedStatement prst = conn.prepareStatement(sql);
-            ResultSet rs = prst.executeQuery()) {
-            if (rs.next()) {
-                txtUsername.setText(rs.getString("TENNGUOIDUNG"));
-                txtPassword.setText(rs.getString("MATKHAU"));
-            }
-        } catch (SQLException sqlException) {
-            System.out.println("Không thể load tài khoản mặc định: " + sqlException.getMessage());
-        }
-    }
+//    private void loadDefaultAccount() {
+//        String sql = """
+//                SELECT TENNGUOIDUNG, MATKHAU
+//                FROM TAIKHOAN
+//                WHERE TRANGTHAI = 1
+//                ORDER BY TENNGUOIDUNG LIMIT 1
+//                """;
+//        try (Connection conn = JDBCUtil.startConnection();
+//            PreparedStatement prst = conn.prepareStatement(sql);
+//            ResultSet rs = prst.executeQuery()) {
+//            if (rs.next()) {
+//                txtUsername.setText(rs.getString("TENNGUOIDUNG"));
+//                txtPassword.setText(rs.getString("MATKHAU"));
+//            }
+//        } catch (SQLException sqlException) {
+//            System.out.println("Không thể load tài khoản mặc định: " + sqlException.getMessage());
+//        }
+//    }
 
     public static void main(String[] args) {
         new Login();

@@ -11,7 +11,7 @@ public class SanPhamDAO {
     public ArrayList<SanPhamDTO> getallsanpham() {
         ArrayList<SanPhamDTO> list = new ArrayList<>();
         try (Connection conn = JDBCUtil.startConnection()) {
-            String sql = "select * from sanpham where TRANGTHAI =1 ";
+            String sql = "select * from sanpham";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -76,8 +76,8 @@ public class SanPhamDAO {
         }
         return false;
     }
-    public static boolean delete(int id) {
-        String sql = "UPDATE sanpham SET Trangthai= 0  where MASP =?";
+    public boolean delete(int id) {
+        String sql = "UPDATE sanpham SET TRANGTHAI= 0  where MASP =?";
         try (Connection conn = JDBCUtil.startConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);

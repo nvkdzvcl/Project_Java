@@ -105,30 +105,21 @@ public class TaiKhoanDAO {
     }
 
 
-    public TaiKhoanDTO selectByTENNGUOIDUNG(String tenNguoiDung){
-        String sql = """
-                SELECT TENNGUOIDUNG, MATKHAU, CHUCVU, TRANGTHAI, MANV
-                FROM taikhoan
-                WHERE TENNGUOIDUNG = ?
-                """;
+    public Boolean checkLogin(String username, String password){
+        String sql = "SELECT * FROM TAIKHOAN WHERE TENNGUOIDUNG = ? AND MATKHAU = ? AND TRANGTHAI = 1";
         try (Connection conn = JDBCUtil.startConnection();
             PreparedStatement prst = conn.prepareStatement(sql)) {
-            prst.setString(1, tenNguoiDung);
+            prst.setString(1, username);
+            prst.setString(2, password);
             try (ResultSet rs = prst.executeQuery()) {
                 if (rs.next()) {
-                    return new TaiKhoanDTO(
-                            rs.getString("TENNGUOIDUNG"),
-                            rs.getString("MATKHAU"),
-                            rs.getString("CHUCVU"),
-                            rs.getInt("TRANGTHAI"),
-                            rs.getInt("MANV")
-                    );
+                    return true;
                 }
             }
         } catch (SQLException sqlException) {
-            System.out.println("Lỗi tìm tài khoản theo TENNGUOIDUNG: " + sqlException.getMessage());
+            System.out.println("Lỗi đăng nhập: " + sqlException.getMessage());
         }
-        return null;
+        return false;
     }
 
 }

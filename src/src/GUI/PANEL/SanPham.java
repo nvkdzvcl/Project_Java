@@ -141,6 +141,20 @@ public class SanPham extends JPanel {
             dlgSuaSanPham.setSanPham(dto);
             dlgSuaSanPham.setVisible(true);
         });
+
+        btnxoa.addActionListener(e -> {
+            if(bangsp.getSelectedRow() != -1){
+                int maSP_Xoa = Integer.parseInt(model.getValueAt(bangsp.getSelectedRow(), 0).toString());
+                if(JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá sản phẩm " + maSP_Xoa + " không?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION){
+                    sanPhamBLL.delete(maSP_Xoa);
+                    sanPhamBLL = new SanPhamBLL();
+                    loadDataToTable(sanPhamBLL.getlistsp());
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Chưa chọn sản phẩm nào để xoá");
+            }
+        });
         setVisible(true);
     }
     public ImageIcon resizeimg(ImageIcon img)

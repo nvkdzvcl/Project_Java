@@ -20,6 +20,13 @@ public class TaiKhoanBLL {
         return listTaiKhoan.get(maNV);
     }
 
+    public Boolean checkLogin(String username, String password){
+        if(taiKhoanDAO.checkLogin(username, password)){
+            return true;
+        }
+        return false;
+    }
+
     public int getTaiKhoanByMaNV(int maNV) {
         int i = 0;
         int pos = -1;

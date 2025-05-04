@@ -39,7 +39,7 @@ public class SanPhamBLL {
         {
             return false;
         }
-        return SanPhamDAO.delete(id);
+        return dao.delete(id);
     }
 
     public ArrayList<SanPhamDTO> search(String txt, String type){
