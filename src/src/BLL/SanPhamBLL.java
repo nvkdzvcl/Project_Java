@@ -7,15 +7,15 @@ import DTO.SanPhamDTO;
 import java.util.ArrayList;
 
 public class SanPhamBLL {
-
-    private SanPhamDAO dao;
+    private static ArrayList<SanPhamDTO> listSP;
+    private SanPhamDAO dao = new SanPhamDAO();
 
     public SanPhamBLL(){
-        dao = new SanPhamDAO();
+        listSP = dao.getallsanpham();
     }
 
     public ArrayList<SanPhamDTO> getlistsp(){
-        return dao.getallsanpham();
+        return listSP;
     }
     public SanPhamDTO getonesp(int id)
     {
@@ -47,8 +47,8 @@ public class SanPhamBLL {
         txt = txt.toLowerCase();
         switch (type){
             case "Tất Cả" -> {
-                for(SanPhamDTO sanPhamDTO : getlistsp()){
-                    if(Integer.toString(sanPhamDTO.getMaSP()).equals(txt) ||
+                for(SanPhamDTO sanPhamDTO : listSP){
+                    if(Integer.toString(sanPhamDTO.getMaSP()).contains(txt) ||
                             sanPhamDTO.getTenSP().toLowerCase().contains(txt) ||
                             sanPhamDTO.getXuatXu().toLowerCase().contains(txt) ||
                             sanPhamDTO.getThuongHieu().toLowerCase().contains(txt) ||
@@ -58,35 +58,35 @@ public class SanPhamBLL {
                 }
             }
             case "Mã SP" -> {
-                for(SanPhamDTO sanPhamDTO : getlistsp()){
-                    if(Integer.toString(sanPhamDTO.getMaSP()).equals(txt)){
+                for(SanPhamDTO sanPhamDTO : listSP){
+                    if(Integer.toString(sanPhamDTO.getMaSP()).contains(txt)){
                         result.add(sanPhamDTO);
                     }
                 }
             }
             case "Tên SP" -> {
-                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                for(SanPhamDTO sanPhamDTO : listSP){
                     if(sanPhamDTO.getTenSP().toLowerCase().contains(txt)){
                         result.add(sanPhamDTO);
                     }
                 }
             }
             case "Xuất Xứ" -> {
-                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                for(SanPhamDTO sanPhamDTO : listSP){
                     if(sanPhamDTO.getXuatXu().toLowerCase().contains(txt)){
                         result.add(sanPhamDTO);
                     }
                 }
             }
             case "Thương Hiệu" -> {
-                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                for(SanPhamDTO sanPhamDTO : listSP){
                     if(sanPhamDTO.getThuongHieu().toLowerCase().contains(txt)){
                         result.add(sanPhamDTO);
                     }
                 }
             }
             case "Màu Sắc" -> {
-                for(SanPhamDTO sanPhamDTO : getlistsp()){
+                for(SanPhamDTO sanPhamDTO : listSP){
                     if(sanPhamDTO.getMauSac().toLowerCase().contains(txt)){
                         result.add(sanPhamDTO);
                     }
