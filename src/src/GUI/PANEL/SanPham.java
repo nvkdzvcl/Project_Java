@@ -190,4 +190,8 @@ public class SanPham extends JPanel {
             });
         }
     }
+
+    public void reloadTable(){
+        loadDataToTable(sanPhamBLL.getlistsp());
+    }
 }

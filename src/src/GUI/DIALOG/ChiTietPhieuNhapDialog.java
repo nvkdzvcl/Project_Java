@@ -1,12 +1,24 @@
 package GUI.DIALOG;
 
+import BLL.NhanVienBLL;
+import BLL.PhieuNhapBLL;
+import BLL.SanPhamBLL;
+import DAO.CTPhieuNhapDAO;
+import DTO.CTPhieuNhapDTO;
+import DTO.PhieuNhapDTO;
+import DTO.SanPhamDTO;
+import GUI.PANEL.PhieuNhap;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 
 public class ChiTietPhieuNhapDialog extends JDialog {
     private JTextField txtMaPN, txtTenNV_Nhap, txtThoiGian, txtTongTien;
     private JTable tblChiTietPN;
+
+    private DefaultTableModel detailModel;
 
     public ChiTietPhieuNhapDialog(Frame owner) {
         super(owner,"Chi Tiet Phieu Nhap",true);
@@ -53,10 +65,45 @@ public class ChiTietPhieuNhapDialog extends JDialog {
         add(txtTongTien);
 
         tblChiTietPN = new JTable(new DefaultTableModel(new Object[] {"STT","Mã SP","Màu sắc","Kích thước","Thương hiệu","Xuất xứ","Giá nhập","Số lượng"},0));
+        detailModel = (DefaultTableModel) tblChiTietPN.getModel();
         JScrollPane scrtblChiTietPN = new JScrollPane(tblChiTietPN);
         scrtblChiTietPN.setBounds(10,150,865,300);
         add(scrtblChiTietPN);
 
+    }
+
+    public ChiTietPhieuNhapDialog(Frame owner,int maPN) {
+        this(owner);
+        initData(maPN);
+    }
+
+    private void initData(int maPN) {
+        PhieuNhapDTO pn = new PhieuNhapBLL().getById(maPN);
+        if (pn == null) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy phiếu " + maPN, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        txtMaPN.setText(String.valueOf(pn.getMaPhieuNhap()));
+        txtTenNV_Nhap .setText(new NhanVienBLL().getonenv(pn.getNhanVienNhap()).getHoTen());
+        txtThoiGian .setText(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(pn.getNgay()));
+        txtTongTien .setText(String.valueOf(pn.getTongTien()));
+
+        detailModel.setRowCount(0);
+        int stt = 1;
+        for (CTPhieuNhapDTO ct : CTPhieuNhapDAO.getInstance().getByMaPhieuNhap(maPN)) {
+            SanPhamDTO sp = new SanPhamBLL().getonesp(ct.getMaSP());
+            detailModel.addRow(new Object[] {
+                    stt++,
+                    ct.getMaSP(),
+                    // nếu DTO sp có thêm thuộc tính mauSac/kichThuoc, dùng sp.getMauSac()...
+                    sp.getMauSac(),
+                    sp.getKichThuoc(),
+                    sp.getThuongHieu(),
+                    sp.getXuatXu(),
+                    ct.getDonGia(),
+                    ct.getSoLuong()
+            });
+        }
     }
 
 }

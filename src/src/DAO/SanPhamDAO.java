@@ -112,4 +112,17 @@ public class SanPhamDAO {
         }
         return null;
     }
+
+    public boolean increaseStock(int maSP, int soLuong) {
+        String sql = "UPDATE sanpham SET SOLUONG = SOLUONG + ? WHERE MASP = ?";
+        try (Connection conn = JDBCUtil.startConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,soLuong);
+            ps.setInt(2,maSP);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Lỗi tăng stock SP #" + maSP + ": " + e.getMessage());
+            return false;
+        }
+    }
 }

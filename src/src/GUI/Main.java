@@ -2,6 +2,8 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import GUI.PANEL.*;
 import GUI.PANEL.ThongKe.*;
@@ -10,6 +12,8 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 public class Main extends JFrame {
     private CardLayout cardLayout;
     private JPanel contentPanel;
+    private Map<String, JPanel> panels = new HashMap<>();
+
     private String currentUser;
     private JLabel userLabel;   // đưa ra thành field để cập nhật
 
@@ -17,11 +21,6 @@ public class Main extends JFrame {
     public Main(String username) {
         this.currentUser = username;
         initUI();
-    }
-
-    // Không cần constructor không tham số nữa, hoặc chỉ để test
-    public Main() {
-        this("Khách");  // gọi qua constructor chính với tên mặc định
     }
 
     // Tất cả logic khởi tạo giao diện gom vào đây
@@ -36,32 +35,50 @@ public class Main extends JFrame {
         JPanel menuPanel = createMenuPanel();
 
         // Content chính dùng CardLayout
-        contentPanel = new JPanel();
-        cardLayout = new CardLayout();
-        contentPanel.setLayout(cardLayout);
+        contentPanel = new JPanel(new CardLayout(0,0));
+        cardLayout = (CardLayout)contentPanel.getLayout();
 
         // Thêm các card vào
-        contentPanel.add(new TrangChu(),"trangchu");
-        contentPanel.add(new SanPham(),"sanpham");
-        contentPanel.add(new PhieuNhap(this),"phieunhap");
-        contentPanel.add(new ThemPhieuNhap(),"themphieunhap");
-        contentPanel.add(new HoaDon(this),"hoadon");
-        contentPanel.add(new ThemHoaDon(),"themhoadon");
-        contentPanel.add(new KhachHang(),"khachhang");
-        contentPanel.add(new NhanVien(),"nhanvien");
-        contentPanel.add(new TaiKhoan(),"taikhoan");
-        contentPanel.add(new JLabel("Thống kê"), "thongke");
-        contentPanel.add(new JLabel("Đăng xuất"),"dangxuat");
+        // Khởi tạo các panel
+        addCard("trangchu",      new TrangChu());
+        addCard("sanpham",       new SanPham());
+        addCard("phieunhap",     new PhieuNhap(this));
+        addCard("themphieunhap", new ThemPhieuNhap(this));
+        addCard("hoadon",        new HoaDon(this));
+        addCard("themhoadon",    new ThemHoaDon());
+        addCard("khachhang",     new KhachHang());
+        addCard("nhanvien",      new NhanVien());
+        addCard("taikhoan",      new TaiKhoan());
+        addCard("thongke",       new ThongKe());
+//        addCard("dangxuat",      new JLabel("Đăng xuất"));
 
         add(menuPanel, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
-
-        // Hiển thị window
         setVisible(true);
     }
 
+    private void addCard(String name, JPanel panel) {
+        panels.put(name, panel);
+        contentPanel.add(panel, name);
+    }
+
     public void showPanel(String cardName) {
+        //nếu đang chuyển sang form thêm thì reset form
+        if ("themphieunhap".equals(cardName)) {
+            ((ThemPhieuNhap)panels.get("themphieunhap")).resetForm();
+        }
+        //nếu đang chuyển sang bảng phiếu nhập thì reload dữ liệu
+        if ("phieunhap".equals(cardName)) {
+            ((PhieuNhap)panels.get("phieunhap")).reloadTable();
+        }
+        //cuối cùng mới hiển thị panel
         cardLayout.show(contentPanel, cardName);
+    }
+
+
+
+    public JPanel getPanel(String name) {
+        return panels.get(name);
     }
 
     private JPanel createMenuPanel() {
@@ -113,10 +130,19 @@ public class Main extends JFrame {
 
         btn.addActionListener(e -> {
             if ("dangxuat".equals(cardName)) {
-                dispose();             // đóng Main
-                new Login().setVisible(true); // quay về Login
+                int ans = JOptionPane.showConfirmDialog(
+                        this,
+                        "Bạn có chắc chắn muốn đăng xuất?",
+                        "Xác nhận đăng xuất",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
+                if (ans == JOptionPane.YES_OPTION) {
+                    dispose();                   // đóng cửa sổ Main
+                    new Login().setVisible(true);// mở lại Login
+                }
             } else {
-                cardLayout.show(contentPanel, cardName);
+                showPanel(cardName);
             }
         });
         btn.addMouseListener(new java.awt.event.MouseAdapter() {

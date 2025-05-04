@@ -96,4 +96,8 @@ public class SanPhamBLL {
 
         return result;
     }
+
+    public boolean increaseStock(int maSP, int soLuong) {
+        return dao.increaseStock(maSP, soLuong);
+    }
 }

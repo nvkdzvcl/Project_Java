@@ -4,26 +4,26 @@ import java.util.Date;
 
 public class PhieuNhapDTO {
     private int maPhieuNhap;
-    private String nhaCungCap;
     private int nhanVienNhap;
+    private String tenNhanVien;
     private Date ngay;
     private int tongTien;
     private int trangThai;
     public PhieuNhapDTO(){
 
     }
-    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,int nhanVienNhap,Date ngay,int tongTien,int trangThai){
+    public PhieuNhapDTO(int maPhieuNhap,int nhanVienNhap,String tenNhanVien ,Date ngay,int tongTien,int trangThai){
         this.maPhieuNhap = maPhieuNhap;
-        this.nhaCungCap = nhaCungCap;
         this.nhanVienNhap = nhanVienNhap;
+        this.tenNhanVien = tenNhanVien;
         this.ngay = ngay;
         this.tongTien = tongTien;
         this.trangThai = trangThai;
     }
-    public PhieuNhapDTO(int maPhieuNhap,String nhaCungCap,int nhanVienNhap,Date ngay,int tongTien){
+    public PhieuNhapDTO(int maPhieuNhap,int nhanVienNhap,String tenNhanVien ,Date ngay,int tongTien){
         this.maPhieuNhap = maPhieuNhap;
-        this.nhaCungCap = nhaCungCap;
         this.nhanVienNhap = nhanVienNhap;
+        this.tenNhanVien = tenNhanVien;
         this.ngay = ngay;
         this.tongTien = tongTien;
 
@@ -36,13 +36,6 @@ public class PhieuNhapDTO {
     public void setMaPhieuNhap(int maPhieuNhap) {
         this.maPhieuNhap = maPhieuNhap;
     }
-    public String getNhaCungCap(){
-        return nhaCungCap;
-    }
-
-    public void setNhaCungCap(String nhaCungCap) {
-        this.nhaCungCap = nhaCungCap;
-    }
 
     public int getNhanVienNhap() {
         return nhanVienNhap;
@@ -50,6 +43,14 @@ public class PhieuNhapDTO {
 
     public void setNhanVienNhap(int nhanVienNhap) {
         this.nhanVienNhap = nhanVienNhap;
+    }
+
+    public String getTenNhanVien() {
+        return tenNhanVien;
+    }
+
+    public void setTenNhanVien(String ten) {
+        tenNhanVien = ten;
     }
 
     public Date getNgay() {
@@ -80,7 +81,6 @@ public class PhieuNhapDTO {
     public String toString() {
         return "PhieuNhapDTO{" +
                 "maPhieuNhap=" + maPhieuNhap +
-                ", nhaCungCap='" + nhaCungCap + '\'' +
                 ", nhanVienNhap='" + nhanVienNhap + '\'' +
                 ", ngay=" + ngay +
                 ", tongTien=" + tongTien +

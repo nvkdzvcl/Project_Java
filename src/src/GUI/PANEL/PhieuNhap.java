@@ -1,20 +1,35 @@
 package GUI.PANEL;
 
+import BLL.NhanVienBLL;
+import BLL.PhieuNhapBLL;
+import DAO.PhieuNhapDAO;
+import DTO.NhanVienDTO;
+import DTO.PhieuNhapDTO;
 import GUI.DIALOG.ChiTietPhieuNhapDialog;
 import GUI.Main;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 
 public class PhieuNhap extends JPanel {
-    private Main parent;
+    private final Main parent;
+    private final PhieuNhapBLL bll = new PhieuNhapBLL();
+    private final PhieuNhapDAO dao = PhieuNhapDAO.getInstance();
+    private final DefaultTableModel model = new DefaultTableModel(new Object[]{"STT","Mã PN","NV Nhập","Thời gian","Tổng tiền","Trạng thái"}, 0);
+    private final JTable table = new JTable(model);
 
     public PhieuNhap(Main parent) {
         this.parent = parent;
@@ -67,7 +82,7 @@ public class PhieuNhap extends JPanel {
 
         // Panel chứa công cụ tìm kiếm (bên phải của thanh chức năng)
         JPanel P2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        String[] cb = {"Tất Cả", "Mã phiếu nhập", "Nhân viên nhập"};
+        String[] cb = {"Tất Cả", "STT", "Mã PN"};
         JComboBox<String> pl = new JComboBox<>(cb);
         pl.setPreferredSize(new Dimension(100, 40));
         JTextField tf = new JTextField(20);
@@ -91,62 +106,113 @@ public class PhieuNhap extends JPanel {
         JPanel filterPanel = createLeftFilterPanel();
         centerPanel.add(filterPanel, BorderLayout.WEST);
 
-        // Ví dụ: Thêm bảng dữ liệu vào phần CENTER (bạn có thể thay bảng mẫu này bằng bảng của bạn)
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("STT");
-        model.addColumn("Mã PN");
-        model.addColumn("NV Nhập");
-        model.addColumn("Thời gian");
-        model.addColumn("Tổng tiền");
-
-
-        JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         centerPanel.add(scrollPane, BorderLayout.CENTER);
 
 
         add(centerPanel, BorderLayout.CENTER);
-        btnthem.addActionListener(e -> parent.showPanel("themphieunhap"));
-        btnchitiet.addActionListener(e -> {
-            Frame p = (Frame) SwingUtilities.getWindowAncestor(this);
-            ChiTietPhieuNhapDialog dlgChiTietPhieuNhap = new ChiTietPhieuNhapDialog(p);
-            dlgChiTietPhieuNhap.setVisible(true);
+        btnthem.addActionListener(e -> {
+            ThemPhieuNhap themPn = (ThemPhieuNhap) parent.getPanel("themphieunhap");
+            themPn.resetForm();
+            parent.showPanel("themphieunhap");
         });
-        btnhuyphieu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow == -1) {
-                    // Không có dòng nào được chọn
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Vui lòng chọn phiếu cần hủy trước!",
-                            "Lỗi",
-                            JOptionPane.WARNING_MESSAGE
-                    );
-                    return;
-                }
+        btnchitiet.addActionListener(e -> {
+            int viewRow = table.getSelectedRow();
+            if (viewRow < 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Vui lòng chọn phiếu cần xem chi tiết",
+                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            // Nếu bạn kích hoạt sorting/filtering, convert index:
+            int modelRow = table.convertRowIndexToModel(viewRow);
+            int maPN = Integer.parseInt(
+                    model.getValueAt(modelRow, 1).toString()
+            );
+            Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
+            new ChiTietPhieuNhapDialog(owner, maPN).setVisible(true);
+        });
 
-                String maPhieu = table.getValueAt(selectedRow, 0).toString(); // Giả sử mã phiếu nằm ở cột đầu tiên
-
-                int result = JOptionPane.showConfirmDialog(
-                        null,
-                        "Bạn có chắc chắn muốn hủy phiếu \"" + maPhieu + "\"?\nThao tác này không thể hoàn tác nên hãy suy nghĩ kĩ!",
-                        "Hủy phiếu",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-
-                if (result == JOptionPane.OK_OPTION) {
-                    // TODO: Gọi controller/xử lý logic hủy phiếu
-                    JOptionPane.showMessageDialog(null, "Đã hủy phiếu: " + maPhieu);
+        btnhuyphieu.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Vui lòng chọn phiếu cần hủy!",
+                        "Lỗi", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            int maPN = (int) model.getValueAt(row, 1);
+            int ans = JOptionPane.showConfirmDialog(this,
+                    "Bạn có chắc chắn muốn hủy phiếu #" + maPN + "?",
+                    "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (ans == JOptionPane.YES_OPTION) {
+                if (bll.deletePhieuNhap(maPN)) {
+                    JOptionPane.showMessageDialog(this,
+                            "Đã hủy phiếu #" + maPN,
+                            "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                    reloadTable();
                 } else {
-                    System.out.println("Người dùng đã hủy thao tác.");
+                    JOptionPane.showMessageDialog(this,
+                            "Hủy phiếu thất bại!",
+                            "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
+        btnlm.addActionListener(e -> reloadTable());
 
+        // Khi gõ search hoặc chọn filter, bạn có thể gọi:
+        // List<PhieuNhapDTO> filtered = bll.filterPhieuNhap(...);
+        // loadDataToTable(filtered);
+
+        // ==== khởi tạo dữ liệu lên table lần đầu ====
+        reloadTable();
+
+        //Tìm kiếm
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+
+        tf.getDocument().addDocumentListener(new DocumentListener() {
+            private void applyFilter() {
+                String text = tf.getText().trim();
+                if (text.isEmpty()) {
+                    sorter.setRowFilter(null);
+                    return;
+                }
+                int idx = pl.getSelectedIndex();
+                try {
+                    switch (idx) {
+                        case 0 -> {
+                            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + Pattern.quote(text), 0,1));
+                        }
+                        case 1 -> {
+                            int stt = Integer.parseInt(text);
+                            sorter.setRowFilter(RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL,stt,0));
+                        }
+                        case 2 -> {
+                            int mpn = Integer.parseInt(text);
+                            sorter.setRowFilter(RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL,mpn,1));
+                        }
+                    }
+                } catch (NumberFormatException ex) {
+                    sorter.setRowFilter(null);
+                }
+            }
+            public void insertUpdate(DocumentEvent e) {
+                applyFilter();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                applyFilter();
+            }
+            public void changedUpdate(DocumentEvent e) {
+                applyFilter();
+            }
+        });
+
+        pl.addActionListener(e -> {
+            tf.setText("");
+            sorter.setRowFilter(null);
+        });
 
 
         setVisible(true);
@@ -170,8 +236,7 @@ public class PhieuNhap extends JPanel {
     }
 
     private JPanel createLeftFilterPanel() {
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new GridBagLayout());
+        JPanel leftPanel = new JPanel(new GridBagLayout());
         leftPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("Bộ lọc tìm kiếm"),
                 new EmptyBorder(5, 5, 5, 10)
@@ -182,80 +247,115 @@ public class PhieuNhap extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 0;
+
+        // --- 1. Nhân viên nhập ---
         gbc.gridy = 0;
-
-        // Nhà cung cấp
-//        leftPanel.add(new JLabel("Nhà cung cấp:"), gbc);
-//        gbc.gridy = 1;
-//        gbc.weightx = 1.0;
-//        JComboBox<String> cbNhaCungCap = new JComboBox<>(new String[]{
-//                "Tất cả", "LouisVuitton", "Gucci","Chanel"
-//        });
-//        leftPanel.add(cbNhaCungCap, gbc);
-//        gbc.weightx = 0;
-
-        // Nhân viên nhập
-        gbc.gridy = 2;
         leftPanel.add(new JLabel("Nhân viên nhập:"), gbc);
-        gbc.gridy = 3;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
-        JComboBox<String> cbNhanVien = new JComboBox<>(new String[]{
-                "Tất cả", "Vũ Hồng Vĩnh Khang", "Nguyễn Văn Khanh", "Hàn Gia Hào"
-        });
+        JComboBox<String> cbNhanVien = new JComboBox<>();
+        cbNhanVien.addItem("Tất cả");
+        // load danh sách nhân viên từ BLL
+        ArrayList<NhanVienDTO> listNV = new NhanVienBLL().getlistnv();
+        for (NhanVienDTO nv : listNV) {
+            cbNhanVien.addItem(nv.getHoTen());
+        }
         leftPanel.add(cbNhanVien, gbc);
         gbc.weightx = 0;
 
-        // Từ ngày
-        gbc.gridy = 4;
+        // --- 2. Từ ngày / Đến ngày ---
+        gbc.gridy = 2;
         leftPanel.add(new JLabel("Từ ngày:"), gbc);
+        gbc.gridy = 3;
+        gbc.weightx = 1.0;
+        JDateChooser dateChooserTu = new JDateChooser();
+        dateChooserTu.setDateFormatString("dd/MM/yyyy");
+        leftPanel.add(dateChooserTu, gbc);
+        gbc.weightx = 0;
+
+        gbc.gridy = 4;
+        leftPanel.add(new JLabel("Đến ngày:"), gbc);
         gbc.gridy = 5;
         gbc.weightx = 1.0;
-        JPanel datePanelTu = new JPanel(new BorderLayout(5, 0));
-        JDateChooser dateChooserTu = new JDateChooser(); // Đây là lịch
-        dateChooserTu.setDateFormatString("dd/MM/yyyy"); // Định dạng ngày
-        datePanelTu.add(dateChooserTu, BorderLayout.CENTER);
-        leftPanel.add(datePanelTu, gbc);
+        JDateChooser dateChooserDen = new JDateChooser();
+        dateChooserDen.setDateFormatString("dd/MM/yyyy");
+        leftPanel.add(dateChooserDen, gbc);
         gbc.weightx = 0;
 
-        // Đến ngày
+        // --- 3. Từ số tiền / Đến số tiền ---
         gbc.gridy = 6;
-        leftPanel.add(new JLabel("Đến ngày:"), gbc);
+        leftPanel.add(new JLabel("Từ số tiền (VND):"), gbc);
         gbc.gridy = 7;
         gbc.weightx = 1.0;
-        JPanel datePanelDen = new JPanel(new BorderLayout(5, 0));
-        JDateChooser dateChooserDen = new JDateChooser(); // Đây là lịch
-        dateChooserDen.setDateFormatString("dd/MM/yyyy"); // Định dạng ngày
-        datePanelDen.add(dateChooserDen, BorderLayout.CENTER);
-        leftPanel.add(datePanelDen, gbc);
+        JTextField tfMinTien = new JTextField();
+        leftPanel.add(tfMinTien, gbc);
         gbc.weightx = 0;
 
-        // Từ số tiền (VND)
         gbc.gridy = 8;
-        leftPanel.add(new JLabel("Từ số tiền (VND):"), gbc);
+        leftPanel.add(new JLabel("Đến số tiền (VND):"), gbc);
         gbc.gridy = 9;
         gbc.weightx = 1.0;
-        leftPanel.add(new JTextField(), gbc);
+        JTextField tfMaxTien = new JTextField();
+        leftPanel.add(tfMaxTien, gbc);
         gbc.weightx = 0;
 
-        // Đến số tiền (VND)
+        // --- 4. Nút Áp dụng và Xóa bộ lọc ---
         gbc.gridy = 10;
-        leftPanel.add(new JLabel("Đến số tiền (VND):"), gbc);
-        gbc.gridy = 11;
         gbc.weightx = 1.0;
-        leftPanel.add(new JTextField(), gbc);
-        gbc.weightx = 0;
+        JButton btnApply = new JButton("Áp dụng");
+        leftPanel.add(btnApply, gbc);
 
-        // Để trống dòng cuối, chiếm không gian dọc
+        gbc.gridy = 11;
+        JButton btnClear = new JButton("Xóa bộ lọc");
+        leftPanel.add(btnClear, gbc);
+
+        // --- 5. Hành động cho 2 nút ---
+        btnApply.addActionListener(e -> {
+            // Lấy điều kiện
+            Integer nvId = null;
+            if (cbNhanVien.getSelectedIndex() > 0) {
+                // vì vị trí 0 là "Tất cả", nên index-1 tương ứng listNV
+                nvId = listNV.get(cbNhanVien.getSelectedIndex() - 1).getMaNV();
+            }
+            java.util.Date from = dateChooserTu.getDate();
+            java.util.Date to   = dateChooserDen.getDate();
+            Integer minTien = null, maxTien = null;
+            try {
+                String s1 = tfMinTien.getText().trim();
+                if (!s1.isEmpty()) minTien = Integer.parseInt(s1);
+                String s2 = tfMaxTien.getText().trim();
+                if (!s2.isEmpty()) maxTien = Integer.parseInt(s2);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Giá trị số tiền phải là số nguyên!",
+                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            // Gọi BLL để lọc
+            java.util.List<PhieuNhapDTO> filtered =
+                    bll.filterPhieuNhap(nvId, from, to, minTien, maxTien);
+            // Nạp lại table
+            loadDataToTable(filtered);
+        });
+
+        btnClear.addActionListener(e -> {
+            cbNhanVien.setSelectedIndex(0);
+            dateChooserTu.setDate(null);
+            dateChooserDen.setDate(null);
+            tfMinTien.setText("");
+            tfMaxTien.setText("");
+            reloadTable();
+        });
+
+        // Để chiếm khoảng trống cuối
         gbc.gridy = 12;
         gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.VERTICAL;
         leftPanel.add(new JLabel(), gbc);
 
-        // Đặt kích thước ưu tiên cho bộ lọc tìm kiếm
         leftPanel.setPreferredSize(new Dimension(220, leftPanel.getPreferredSize().height));
-
         return leftPanel;
     }
+
 
     // Phương thức tải icon từ đường dẫn và thay đổi kích thước (20x20)
     private ImageIcon loadIcon(String path) {
@@ -269,5 +369,40 @@ public class PhieuNhap extends JPanel {
             System.err.println("Không thể tải icon: " + path);
             return null;
         }
+    }
+
+    public void loadDataToTable(java.util.List<PhieuNhapDTO> danhSach) {
+        model.setRowCount(0);
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        int stt = 1;
+        for (PhieuNhapDTO pn : danhSach) {
+            // Lấy tên NV từ BLL hoặc DTO nếu đã có sẵn
+            String tenNV = new NhanVienBLL()
+                    .getonenv(pn.getNhanVienNhap())
+                    .getHoTen();
+            String trangThai = switch (pn.getTrangThai()) {
+                case 2 -> "Hoàn thành";
+                case 3 -> "Hủy";
+                default -> "Chờ";
+            };
+            model.addRow(new Object[]{
+                    stt++,
+                    pn.getMaPhieuNhap(),
+                    tenNV,
+                    fmt.format(pn.getNgay()),
+                    pn.getTongTien(),
+                    trangThai
+            });
+        }
+    }
+
+    public PhieuNhapDTO getById(int maPN) {
+        return dao.selectById(maPN);
+    }
+
+    public void reloadTable() {
+        bll.refresh();
+        ArrayList<PhieuNhapDTO> list = bll.getDanhSachPhieuNhap();
+        loadDataToTable(list);
     }
 }

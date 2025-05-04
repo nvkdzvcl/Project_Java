@@ -4,13 +4,16 @@ import BLL.NhanVienBLL;
 import BLL.PhieuNhapBLL;
 import BLL.SanPhamBLL;
 import DTO.NhanVienDTO;
+import DTO.PhieuNhapDTO;
 import DTO.SanPhamDTO;
+import GUI.Main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,25 +21,28 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 
 public class ThemPhieuNhap extends JPanel {
+    private final Main parent;
+    private final PhieuNhapBLL bll = new PhieuNhapBLL();
+    private final SanPhamBLL sanPhamBLL = new SanPhamBLL();
+    private final NhanVienBLL nhanVienBLL = new NhanVienBLL();
+    private java.util.ArrayList<NhanVienDTO> listNhanVien;
+
     private JTable tblSanPham, tblChiTietNhapHang;
+    private DefaultTableModel modelSanPham, modelChiTietNhapHang;
     private JTextField txtTimKiem, txtMaSP, txtTenSP, txtGiaNhap, txtSoLuong, txtMaPN;
-    private JComboBox<String> cbKichThuoc, cbThuongHieu, cbXuatXu, cbNhanVien_Nhap;
+    private JComboBox<String> cbKichThuoc, cbThuongHieu, cbXuatXu, cbNhanVien_Nhap, cbTrangThai;
     private JButton btnThemSP, btnSuaSP, btnXoaSP, btnNhapExcel, btnThemPN;
     private JLabel lbTongTien;
     private JPanel colorPanel;
     private final Color[] selectedColor = {null};
     private final String[] selectedColorName = {null};
 
-    private SanPhamBLL sanPhamBLL = new SanPhamBLL();
-    private DefaultTableModel modelSanPham;
     private PhieuNhapBLL phieuNhapBLL = new PhieuNhapBLL();
-
-    private java.util.List<NhanVienDTO> listNhanVien;
-    private NhanVienBLL nhanVienBLL = new NhanVienBLL();
 
     private int editingRow = -1;
 
-    public ThemPhieuNhap() {
+    public ThemPhieuNhap(Main parent) {
+        this.parent = parent;
         setLayout(null);
         setBackground(Color.WHITE);
 
@@ -206,6 +212,13 @@ public class ThemPhieuNhap extends JPanel {
             cbNhanVien_Nhap.addItem(nv.getHoTen());
         }
 
+        lb = new JLabel("Trạng thái");
+        lb.setBounds(750,120,120,25);
+        add(lb);
+        cbTrangThai = new JComboBox<>(new String[] {"Chờ","Hoàn thành"});
+        cbTrangThai.setBounds(860,120,220,25);
+        add(cbTrangThai);
+
         lb = new JLabel("Tổng tiền:");
         lb.setBounds(750,320,100,25);
         add(lb);
@@ -219,7 +232,7 @@ public class ThemPhieuNhap extends JPanel {
         btnThemSP.setBounds(10,365,170,40);
         add(btnThemSP);
         //-----------------
-        DefaultTableModel modelChiTiet = (DefaultTableModel) tblChiTietNhapHang.getModel();
+        modelChiTietNhapHang = (DefaultTableModel) tblChiTietNhapHang.getModel();
         btnThemSP.addActionListener(e -> {
             try {
                 String maSP = txtMaSP.getText().trim();
@@ -231,14 +244,14 @@ public class ThemPhieuNhap extends JPanel {
                 int donGia = Integer.parseInt(txtGiaNhap.getText().trim());
                 int soLuong = Integer.parseInt(txtSoLuong.getText().trim());
 
-                int stt = modelChiTiet.getRowCount() + 1;
+                int stt = modelChiTietNhapHang.getRowCount() + 1;
 
-                modelChiTiet.addRow(new Object[] {stt,maSP,tenSP,thuong_Hieu,xuat_Xu,mauSac,kichThuoc,donGia,soLuong});
+                modelChiTietNhapHang.addRow(new Object[] {stt,maSP,tenSP,thuong_Hieu,xuat_Xu,mauSac,kichThuoc,donGia,soLuong});
 
                 int tong = 0;
-                for (int i = 0; i < modelChiTiet.getRowCount(); i++) {
-                    int dg = (int)modelChiTiet.getValueAt(i,7);
-                    int sl = (int)modelChiTiet.getValueAt(i,8);
+                for (int i = 0; i < modelChiTietNhapHang.getRowCount(); i++) {
+                    int dg = (int)modelChiTietNhapHang.getValueAt(i,7);
+                    int sl = (int)modelChiTietNhapHang.getValueAt(i,8);
                     tong += dg * sl;
                 }
                 lbTongTien.setText(tong + " VNĐ");
@@ -283,14 +296,14 @@ public class ThemPhieuNhap extends JPanel {
             }
             editingRow = row;
 
-            String maSP = modelChiTiet.getValueAt(row, 1).toString();
-            String tenSP = modelChiTiet.getValueAt(row, 2).toString();
-            String thuong_Hieu = modelChiTiet.getValueAt(row, 3).toString();
-            String xuat_Xu = modelChiTiet.getValueAt(row, 4).toString();
-            String mauSac = modelChiTiet.getValueAt(row, 5).toString();
-            String kichThuoc = modelChiTiet.getValueAt(row, 6).toString();
-            String donGia = modelChiTiet.getValueAt(row, 7).toString();
-            String soLuong = modelChiTiet.getValueAt(row, 8).toString();
+            String maSP = modelChiTietNhapHang.getValueAt(row, 1).toString();
+            String tenSP = modelChiTietNhapHang.getValueAt(row, 2).toString();
+            String thuong_Hieu = modelChiTietNhapHang.getValueAt(row, 3).toString();
+            String xuat_Xu = modelChiTietNhapHang.getValueAt(row, 4).toString();
+            String mauSac = modelChiTietNhapHang.getValueAt(row, 5).toString();
+            String kichThuoc = modelChiTietNhapHang.getValueAt(row, 6).toString();
+            String donGia = modelChiTietNhapHang.getValueAt(row, 7).toString();
+            String soLuong = modelChiTietNhapHang.getValueAt(row, 8).toString();
 
             txtMaSP.setText(maSP);
             txtTenSP.setText(tenSP);
@@ -327,6 +340,7 @@ public class ThemPhieuNhap extends JPanel {
         btnXoaSP.setBounds(535,365,170,40);
         add(btnXoaSP);
         btnXoaSP.addActionListener(e -> {
+            DefaultTableModel model = (DefaultTableModel) tblChiTietNhapHang.getModel();
             int row = tblChiTietNhapHang.getSelectedRow();
             if (row < 0) {
                 JOptionPane.showMessageDialog(this,"Vui lòng chọn sản phẩm cần xóa","Thông báo",JOptionPane.WARNING_MESSAGE);
@@ -334,8 +348,9 @@ public class ThemPhieuNhap extends JPanel {
             }
             int confirm = JOptionPane.showConfirmDialog(this,"Bạn có chắc muốn xóa sản phẩm này?","Xác nhận xóa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
             if (confirm == JOptionPane.YES_OPTION) {
-                for (int i = 0; i < modelChiTiet.getRowCount(); i++) {
-                    modelChiTiet.setValueAt(i+1,i,0);
+                model.removeRow(row);
+                for (int i = 0; i < modelChiTietNhapHang.getRowCount(); i++) {
+                    modelChiTietNhapHang.setValueAt(i+1,i,0);
                 }
                 recalcTotal();
                 if (editingRow == row) {
@@ -350,8 +365,83 @@ public class ThemPhieuNhap extends JPanel {
         btnThemPN.setBackground(new Color(93,163,113));
         btnThemPN.setBounds(750,365,330,40);
         add(btnThemPN);
+        btnThemPN.addActionListener(e -> {
+            // 1. Kiểm tra xem có SP nào chưa
+            if (modelChiTietNhapHang.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Chưa có sản phẩm nào để nhập",
+                        "Lỗi",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
+            // 2. Xác nhận tạo phiếu
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Bạn có chắc chắn muốn tạo phiếu nhập này?",
+                    "Xác nhận tạo phiếu",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+            );
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
 
+            try {
+                // 3. Chuẩn bị DTO phiếu nhập
+                PhieuNhapDTO pn = new PhieuNhapDTO();
+                int idxNV = cbNhanVien_Nhap.getSelectedIndex();
+                pn.setNhanVienNhap(listNhanVien.get(idxNV).getMaNV());
+                pn.setNgay(new Date());
+                // Lấy tổng tiền (loại bỏ " VNĐ")
+                String raw = lbTongTien.getText().replace(" VNĐ", "").trim();
+                pn.setTongTien(Integer.parseInt(raw));
+                int trangThai = cbTrangThai.getSelectedIndex() == 1 ? 2 : 1;
+                pn.setTrangThai(trangThai);
+
+                // 4. Gọi BLL để insert
+                int newId = bll.insertPhieuNhap(pn);
+                if (newId < 0) {
+                    throw new RuntimeException("Lỗi khi thêm phiếu nhập");
+                }
+
+                //kiểm tra phiếu nhập nào hoàn thành thì tăng số lượng sản phẩm lên
+                boolean isCompleted = pn.getTrangThai() == 2;
+
+                // 5. Insert chi tiết
+                for (int i = 0; i < modelChiTietNhapHang.getRowCount(); i++) {
+                    int maSP   = Integer.parseInt(modelChiTietNhapHang.getValueAt(i, 1).toString());
+                    int donGia = (int) modelChiTietNhapHang.getValueAt(i, 7);
+                    int soLuong= (int) modelChiTietNhapHang.getValueAt(i, 8);
+                    bll.insertChiTiet(newId, maSP, donGia, soLuong);
+
+                    if (isCompleted) {
+                        sanPhamBLL.increaseStock(maSP, soLuong);
+                    }
+                }
+
+                // 6. Thông báo và quay về panel Phiếu nhập
+                JOptionPane.showMessageDialog(this, "Tạo phiếu nhập thành công");
+                parent.showPanel("phieunhap");
+
+                // 7. Làm mới dữ liệu bảng ở panel Phiếu nhập
+                PhieuNhap pnPanel = (PhieuNhap) parent.getPanel("phieunhap");
+                pnPanel.reloadTable();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Lỗi khi tạo phiếu nhập:\n" + ex.getMessage(),
+                        "Lỗi",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+
+            SanPham spPanel = (SanPham) parent.getPanel("sanpham");
+            spPanel.reloadTable();
+        });
     }
 
     private void loadSanPhamToTable() {
@@ -387,6 +477,8 @@ public class ThemPhieuNhap extends JPanel {
                 swatch.setBorder(BorderFactory.createLineBorder(Color.GRAY));
             }
         }
+
+
     }
 
     private void commitEdit() {
@@ -429,5 +521,27 @@ public class ThemPhieuNhap extends JPanel {
             total += dg * sl;
         }
         lbTongTien.setText(total + " VNĐ");
+    }
+
+    public void resetForm() {
+        modelChiTietNhapHang.setRowCount(0);
+        txtMaSP.setText("");
+        txtTenSP.setText("");
+        txtGiaNhap.setText("");
+        txtSoLuong.setText("");
+        cbKichThuoc.setSelectedIndex(0);
+        cbThuongHieu.setSelectedIndex(0);
+        cbXuatXu.setSelectedIndex(0);
+        for (Component c : colorPanel.getComponents()) {
+            ((JPanel)c).setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        }
+        selectedColorName[0] = null;
+        cbNhanVien_Nhap.setSelectedIndex(0);
+        cbTrangThai.setSelectedIndex(0);
+        editingRow = -1;
+        int nextId = phieuNhapBLL.getNextMaPhieuNhap();
+        txtMaPN.setText(nextId > 0 ? String.valueOf(nextId) : "-");
+        lbTongTien.setText("0 VNĐ");
+        clearForm();
     }
 }

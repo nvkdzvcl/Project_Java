@@ -1,4 +1,6 @@
 package GUI.PANEL.ThongKe;
 
-public class ThongKe {
+import javax.swing.*;
+
+public class ThongKe extends JPanel {
 }
