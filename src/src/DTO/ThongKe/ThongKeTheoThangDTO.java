@@ -1,16 +1,20 @@
-
 package DTO.ThongKe;
+
+import java.util.Objects; // Thêm import Objects để dùng trong equals/hashCode nếu cần
+
 public class ThongKeTheoThangDTO {
     private int thang;
-    private int chiphi;
-    private int doanhthu;
-    private int loinhuan;
+    // Đã sửa: int thành long
+    private long chiphi;
+    private long doanhthu;
+    private long loinhuan;
 
     public ThongKeTheoThangDTO(){
 
     }
 
-    public ThongKeTheoThangDTO(int thang, int chiphi, int doanhthu, int loinhuan){
+    // Constructor đã cập nhật kiểu dữ liệu
+    public ThongKeTheoThangDTO(int thang, long chiphi, long doanhthu, long loinhuan){
         this.thang = thang;
         this.chiphi = chiphi;
         this.doanhthu = doanhthu;
@@ -25,37 +29,43 @@ public class ThongKeTheoThangDTO {
         this.thang = thang;
     }
 
-    public int getChiphi() {
+    // Getter/Setter đã cập nhật kiểu dữ liệu
+    public long getChiphi() {
         return chiphi;
     }
 
-    public void setChiphi(int chiphi) {
+    public void setChiphi(long chiphi) {
         this.chiphi = chiphi;
     }
 
-    public int getDoanhthu() {
+    public long getDoanhthu() {
         return doanhthu;
     }
 
-    public void setDoanhthu(int doanhthu) {
+    public void setDoanhthu(long doanhthu) {
         this.doanhthu = doanhthu;
     }
 
-    public int getLoinhuan() {
+    public long getLoinhuan() {
         return loinhuan;
     }
 
-    public void setLoinhuan(int loinhuan) {
+    public void setLoinhuan(long loinhuan) {
         this.loinhuan = loinhuan;
     }
 
+    // Cập nhật hashCode và equals nếu cần thiết để xử lý kiểu long
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this.thang;
-        hash = 59 * hash + this.chiphi;
-        hash = 59 * hash + this.doanhthu;
-        hash = 59 * hash + this.loinhuan;
+        hash = 59 * hash + Objects.hashCode(this.chiphi); // Dùng Objects.hashCode cho kiểu Wrapper nếu là Long, nhưng ở đây là long nguyên thủy
+        hash = 59 * hash + Objects.hashCode(this.doanhthu);
+        hash = 59 * hash + Objects.hashCode(this.loinhuan);
+        // Hoặc cách khác cho long nguyên thủy:
+        // hash = 59 * hash + (int) (this.chiphi ^ (this.chiphi >>> 32));
+        // hash = 59 * hash + (int) (this.doanhthu ^ (this.doanhthu >>> 32));
+        // hash = 59 * hash + (int) (this.loinhuan ^ (this.loinhuan >>> 32));
         return hash;
     }
 

@@ -130,4 +130,5 @@ public class KhachHangDAO {
         }
         return false;
     }
+
 }

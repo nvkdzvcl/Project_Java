@@ -6,11 +6,13 @@ import java.util.Objects;
 
 public class ThongKeTungNgayTrongThangDTO{
     private Date ngay;
-    private int chiphi;
-    private int doanhthu;
-    private int loinhuan;
+    // Đã sửa: int thành long
+    private long chiphi;
+    private long doanhthu;
+    private long loinhuan;
 
-    public ThongKeTungNgayTrongThangDTO(Date ngay, int chiphi, int doanhthu, int loinhuan) {
+    // Constructor đã cập nhật kiểu dữ liệu
+    public ThongKeTungNgayTrongThangDTO(Date ngay, long chiphi, long doanhthu, long loinhuan) {
         this.ngay = ngay;
         this.chiphi = chiphi;
         this.doanhthu = doanhthu;
@@ -25,37 +27,42 @@ public class ThongKeTungNgayTrongThangDTO{
         this.ngay = ngay;
     }
 
-    public int getChiphi() {
+    // Getter/Setter đã cập nhật kiểu dữ liệu
+    public long getChiphi() {
         return chiphi;
     }
 
-    public void setChiphi(int chiphi) {
+    public void setChiphi(long chiphi) {
         this.chiphi = chiphi;
     }
 
-    public int getDoanhthu() {
+    public long getDoanhthu() {
         return doanhthu;
     }
 
-    public void setDoanhthu(int doanhthu) {
+    public void setDoanhthu(long doanhthu) {
         this.doanhthu = doanhthu;
     }
 
-    public int getLoinhuan() {
+    public long getLoinhuan() {
         return loinhuan;
     }
 
-    public void setLoinhuan(int loinhuan) {
+    public void setLoinhuan(long loinhuan) {
         this.loinhuan = loinhuan;
     }
 
+    // Cập nhật hashCode và equals nếu cần thiết
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 29 * hash + Objects.hashCode(this.ngay);
-        hash = 29 * hash + this.chiphi;
-        hash = 29 * hash + this.doanhthu;
-        hash = 29 * hash + this.loinhuan;
+        hash = 29 * hash + Objects.hashCode(this.chiphi); // Hoặc cách xử lý long nguyên thủy
+        hash = 29 * hash + Objects.hashCode(this.doanhthu);
+        hash = 29 * hash + Objects.hashCode(this.loinhuan);
+        // hash = 29 * hash + (int) (this.chiphi ^ (this.chiphi >>> 32));
+        // hash = 29 * hash + (int) (this.doanhthu ^ (this.doanhthu >>> 32));
+        // hash = 29 * hash + (int) (this.loinhuan ^ (this.loinhuan >>> 32));
         return hash;
     }
 
@@ -87,7 +94,4 @@ public class ThongKeTungNgayTrongThangDTO{
     public String toString() {
         return "ThongKeTungNgayTrongThangDTO{" + "ngay=" + ngay + ", chiphi=" + chiphi + ", doanhthu=" + doanhthu + ", loinhuan=" + loinhuan + '}';
     }
-
-
-
 }

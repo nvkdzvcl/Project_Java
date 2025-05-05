@@ -1,44 +1,26 @@
-// File: ThongKeBLL.java (Đã xóa phần liên quan đến Thống kê Tồn Kho và Khách Hàng)
-package BLL;
+// File: ThongKeBLL.java (Đổi tên từ ThongKeBLL.java)
+package BLL; // Đổi package thành BLL
 
 import DAO.ThongKeDAO;
 import DTO.ThongKe.ThongKeDoanhThuDTO;
-// import DTO.ThongKe.ThongKeKhachHangDTO; // Đã xóa
 import DTO.ThongKe.ThongKeTheoThangDTO;
-// import DTO.ThongKe.ThongKeTonKhoDTO; // Đã xóa
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 
 import java.util.ArrayList;
 import java.util.Date; // Sử dụng java.util.Date
-// import java.util.HashMap; // Không cần HashMap cho Tồn kho nữa
 
 
-public class ThongKeBLL {
+public class ThongKeBLL { // Đổi tên lớp
 
     // Sử dụng instance của ThongKeDAO cho các phương thức non-static
     private final ThongKeDAO thongkeDAO;
 
-    // Danh sách lưu trữ dữ liệu tạm thời (nếu cần)
-    // private ArrayList<ThongKeKhachHangDTO> listKhachHang; // Đã xóa
-    // private ArrayList<ThongKeTonKhoDTO> listTonKho; // Đã xóa
-
     /**
      * Constructor khởi tạo đối tượng ThongKeDAO.
-     * Có thể load dữ liệu mặc định ở đây nếu muốn.
      */
     public ThongKeBLL() {
         thongkeDAO = new ThongKeDAO(); // Khởi tạo DAO
-        // Các dòng load dữ liệu mặc định cho tồn kho và khách hàng đã được xóa
     }
-
-    // ==================== Thống kê Khách hàng ====================
-    // ** Phần Thống kê Khách hàng đã được xóa hoàn toàn **
-
-
-    // ==================== Thống kê Tồn Kho ====================
-    // ** Phần Thống kê Tồn kho đã được xóa hoàn toàn **
-    // ** Bao gồm cả phương thức getTongSoLuongTonKho **
-
 
     // ==================== Thống kê Doanh thu/Chi phí theo thời gian ====================
 
@@ -81,9 +63,37 @@ public class ThongKeBLL {
      * @return ArrayList<ThongKeTungNgayTrongThangDTO>
      */
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(Date start, Date end) {
+        // Thêm kiểm tra null cho start/end nếu cần
+        if (start == null || end == null) {
+            // Hoặc trả về list rỗng, hoặc throw exception tùy logic mong muốn
+            return new ArrayList<>();
+        }
         // Gọi phương thức non-static của instance DAO
         return thongkeDAO.getThongKeTuNgayDenNgay(start, end);
     }
+
+    /**
+     * Lấy thống kê doanh thu/chi phí trong một khoảng ngày cụ thể (dùng cho GUI cũ nếu nó truyền String).
+     * Cần đảm bảo GUI mới truyền java.util.Date. Nếu không, cần thêm hàm này
+     * hoặc sửa GUI để truyền Date.
+     *
+     * @param start Ngày bắt đầu (String yyyy-MM-dd).
+     * @param end Ngày kết thúc (String yyyy-MM-dd).
+     * @return ArrayList<ThongKeTungNgayTrongThangDTO>
+     */
+    // public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(String start, String end) {
+    //     try {
+    //         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    //         Date startDate = formatter.parse(start);
+    //         Date endDate = formatter.parse(end);
+    //         return thongkeDAO.getThongKeTuNgayDenNgay(startDate, endDate);
+    //     } catch (java.text.ParseException e) {
+    //         // Xử lý lỗi parse ngày nếu cần
+    //         Logger.getLogger(ThongKeBLL.class.getName()).log(Level.SEVERE, "Error parsing date strings", e);
+    //         return new ArrayList<>(); // Trả về rỗng nếu lỗi
+    //     }
+    // }
+
 
     /**
      * Lấy thống kê doanh thu/chi phí của 7 ngày gần nhất.
