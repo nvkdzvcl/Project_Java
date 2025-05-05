@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class SuaSanPhamDialog extends JDialog {
     private JTextField txtTenSP, txtThuongHieu, txtXuatXu, txtSoLuong, txtDonGia;
-    private JComboBox<String> cbKichThuoc;
+    private JComboBox<String> cbKichThuoc, cbTrangThai;
     private JLabel lbHinhAnhSP;
     private JButton btnHinhAnhSP, btnLuu, btnHuy;
 
@@ -136,6 +136,13 @@ public class SuaSanPhamDialog extends JDialog {
         txtSoLuong = new JTextField();
         txtSoLuong.setBounds(300,180,200,25);
         add(txtSoLuong);
+        JLabel lbTrangThai = new JLabel("Trạng Thái");
+        lbTrangThai.setBounds(300, 310, 200, 25);
+        add(lbTrangThai);
+        cbTrangThai = new JComboBox<>(new String[] {"Hoạt Động", "Ngừng Hoạt Động"});
+        cbTrangThai.setBounds(300,340, 200, 25);
+
+        add(cbTrangThai);
 
 
         //Cột 3
@@ -236,12 +243,12 @@ public class SuaSanPhamDialog extends JDialog {
             currentDTO.setKichThuoc(cbKichThuoc.getSelectedItem().toString());
             currentDTO.setDonGia(Integer.parseInt(txtDonGia.getText().trim()));
             currentDTO.setSoLuong(Integer.parseInt(soLuong));
-
+            String trangThai = cbTrangThai.getSelectedItem().toString();
+            currentDTO.setTrangThai(trangThai.equals("Hoạt Động") ? 1 : 0);
 
             boolean check = sanPhamBLL.update(currentDTO);
             if (check) {
                 JOptionPane.showMessageDialog(this,"Cập nhật thành công");
-                parentPanel.loadDataToTable(sanPhamBLL.getlistsp());
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại","Lỗi",JOptionPane.ERROR_MESSAGE);
@@ -264,6 +271,11 @@ public class SuaSanPhamDialog extends JDialog {
         txtSoLuong.setText(String.valueOf(dto.getSoLuong()));
         cbKichThuoc.setSelectedItem(dto.getKichThuoc());
         txtDonGia.setText(String.valueOf(dto.getDonGia()));
+        if(dto.getTrangThai()==1) {
+            cbTrangThai.setSelectedItem("Hoạt Động");
+        } else {
+            cbTrangThai.setSelectedItem("Ngừng Hoạt Động");
+        }
         this.currentDTO = dto;
 
         for (Component component : colorPanel.getComponents()) {
@@ -276,6 +288,7 @@ public class SuaSanPhamDialog extends JDialog {
                 swatch.setBorder(BorderFactory.createLineBorder(Color.GRAY));
             }
         }
+
 
 //        try {
 //            BufferedImage img = ImageIO.read(new File(dto.getHinhAnh()));
