@@ -1,6 +1,6 @@
 package GUI.PANEL.ThongKe; // Đảm bảo package đúng
 
-// import BUS.ThongKeBUS; // Thay thế
+
 import BLL.ThongKeBLL; // Import BLL
 import DTO.ThongKe.ThongKeDoanhThuDTO;
 // import GUI.Component.NumericDocumentFilter; // Bỏ
@@ -33,12 +33,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 // import javax.swing.text.PlainDocument; // Bỏ
 
-/**
- * Panel thống kê doanh thu theo từng năm trong một khoảng thời gian.
- * Đã loại bỏ biểu đồ, NumericFilter, TableSorter, Formater, JTableExporter, Validation.
- * Sử dụng NumberFormat và kiểm tra lỗi NumberFormatException.
- * @author GeminiAI Refactored
- */
+
 public final class ThongKeDoanhThuTungNam extends JPanel implements ActionListener {
 
     JPanel pnl_top;
@@ -188,7 +183,6 @@ public final class ThongKeDoanhThuTungNam extends JPanel implements ActionListen
             txtYearEnd.setText(String.valueOf(currentYear));
             loadData(defaultStartYear, currentYear);
         }
-        // Bỏ phần xử lý btnExport
-        // else if (source == btnExport) { ... }
+
     }
 }

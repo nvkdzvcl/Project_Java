@@ -31,12 +31,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-/**
- * Panel thống kê doanh thu từng ngày trong một tháng/năm cụ thể.
- * Đã loại bỏ biểu đồ, TableSorter, Formater, JTableExporter.
- * Sử dụng NumberFormat, SimpleDateFormat.
- * @author GeminiAI Refactored
- */
+
 public final class ThongKeDoanhThuTrongThang extends JPanel {
 
     JPanel pnl_top;

@@ -1,6 +1,6 @@
 package GUI.PANEL.ThongKe; // Đảm bảo package đúng
 
-// import BUS.ThongKeBUS; // Thay thế
+
 import BLL.ThongKeBLL;   // Import BLL
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 // import GUI.Component.TableSorter; // Bỏ
@@ -34,12 +34,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.util.Calendar;
 
-/**
- * Panel thống kê doanh thu theo một khoảng ngày tùy chọn.
- * Đã loại bỏ TableSorter, Formater, JTableExporter.
- * Sử dụng NumberFormat, SimpleDateFormat.
- * @author GeminiAI Refactored
- */
+
 public final class ThongKeDoanhThuTuNgayDenNgay extends JPanel {
 
     JPanel pnl_top;

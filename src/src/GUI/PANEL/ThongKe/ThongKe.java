@@ -7,11 +7,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-/**
- * Panel chính quản lý các tab thống kê.
- * Sử dụng ThongKeBLL.
- * @author GeminiAI Refactored
- */
+
 public final class ThongKe extends JPanel {
 
     JTabbedPane tabbedPane;

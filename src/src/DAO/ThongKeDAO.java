@@ -26,13 +26,7 @@ public class ThongKeDAO {
     }
     // ---------------------------------------------------
 
-    /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng năm. (ĐÃ SỬA)
-     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
-     * @param year_start Năm bắt đầu.
-     * @param year_end Năm kết thúc.
-     * @return Danh sách các đối tượng ThongKeDoanhThuDTO.
-     */
+
     public ArrayList<ThongKeDoanhThuDTO> getDoanhThuTheoTungNam(int year_start, int year_end) {
         ArrayList<ThongKeDoanhThuDTO> result = new ArrayList<>();
         Connection con = null;
@@ -105,12 +99,7 @@ public class ThongKeDAO {
     }
 
 
-    /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng tháng trong năm. (ĐÃ SỬA)
-     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
-     * @param nam Năm cần thống kê.
-     * @return Danh sách các đối tượng ThongKeTheoThangDTO.
-     */
+
     public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(int nam) {
         ArrayList<ThongKeTheoThangDTO> result = new ArrayList<>();
         Connection con = null;
@@ -178,13 +167,7 @@ public class ThongKeDAO {
         return result;
     }
 
-    /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng ngày trong tháng. (ĐÃ SỬA)
-     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
-     * @param thang Tháng cần thống kê (1-12).
-     * @param nam Năm cần thống kê.
-     * @return Danh sách các đối tượng ThongKeTungNgayTrongThangDTO.
-     */
+
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTungNgayTrongThang(int thang, int nam) {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         Connection con = null;
@@ -265,11 +248,7 @@ public class ThongKeDAO {
         return result;
     }
 
-    /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí cho 7 ngày gần nhất. (ĐÃ SỬA)
-     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
-     * @return Danh sách các đối tượng ThongKeTungNgayTrongThangDTO.
-     */
+
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKe7NgayGanNhat() {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         Connection con = null;

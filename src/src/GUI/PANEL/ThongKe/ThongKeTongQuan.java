@@ -1,6 +1,6 @@
 package GUI.PANEL.ThongKe; // Đảm bảo package đúng
 
-// import BUS.ThongKeBUS; // Thay thế
+
 import BLL.ThongKeBLL;   // Import BLL
 import DAO.KhachHangDAO;
 import DAO.NhanVienDAO;
@@ -31,12 +31,7 @@ import javax.swing.table.DefaultTableModel;
 // import javax.swing.table.TableRowSorter; // Có thể cần nếu muốn tùy chỉnh sorter nhiều hơn
 // import javax.swing.table.TableModel;
 
-/**
- * Panel thống kê tổng quan.
- * Đã loại bỏ biểu đồ, itemTaskbar, TableSorter, Formater.
- * Sử dụng JLabel, JPanel tiêu chuẩn và NumberFormat.
- * @author GeminiAI Refactored
- */
+
 public class ThongKeTongQuan extends JPanel {
 
     // ThongKeBUS thongkebus; // Thay thế
@@ -64,23 +59,7 @@ public class ThongKeTongQuan extends JPanel {
         updateSummaryInfo(); // Cập nhật thông tin KH, NV ban đầu
     }
 
-    // Cập nhật thông tin tóm tắt (số KH, số NV)
-//    private void updateSummaryInfo() {
-//        try {
-//            int soKH = KhachHangDAO.getInstance().selectAll().size();
-//            lblSoKhachHang.setText(String.valueOf(soKH));
-//        } catch (Exception e) {
-//            lblSoKhachHang.setText("Lỗi");
-//            // Ghi log lỗi nếu cần
-//        }
-//        try {
-//            int soNV = NhanVienDAO.getInstance().selectAll().size(); // Chỉ tính NV hoạt động nếu cần
-//            lblSoNhanVien.setText(String.valueOf(soNV));
-//        } catch (Exception e) {
-//            lblSoNhanVien.setText("Lỗi");
-//            // Ghi log lỗi nếu cần
-//        }
-//    }
+
     // Cập nhật thông tin tóm tắt (số KH, số NV)
     private void updateSummaryInfo() {
         try {

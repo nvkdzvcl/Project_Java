@@ -1,6 +1,6 @@
 package GUI.PANEL.ThongKe; // Đảm bảo package đúng
 
-// import BUS.ThongKeBUS; // Thay thế
+
 import BLL.ThongKeBLL; // Import BLL
 import DTO.ThongKe.ThongKeTheoThangDTO;
 // import GUI.Component.TableSorter; // Bỏ
@@ -31,12 +31,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-/**
- * Panel thống kê doanh thu từng tháng trong một năm cụ thể.
- * Đã loại bỏ biểu đồ, TableSorter, Formater, JTableExporter.
- * Sử dụng NumberFormat.
- * @author GeminiAI Refactored
- */
+
 public final class ThongKeDoanhThuTungThang extends JPanel /* implements ActionListener bỏ nếu không còn nút nào */ {
 
     JPanel pnl_top;
@@ -149,7 +144,5 @@ public final class ThongKeDoanhThuTungThang extends JPanel /* implements ActionL
         }
     }
 
-    // Bỏ phương thức actionPerformed nếu không còn nút nào
-    // @Override
-    // public void actionPerformed(ActionEvent e) { ... }
+
 }
