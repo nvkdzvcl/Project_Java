@@ -9,10 +9,11 @@ public class NhanVienDTO {
     private String sdt;
     private String email;
     private String diachi;
+    private int TrangThai;
     public NhanVienDTO(){
 
     }
-    public NhanVienDTO(int maNV, String hoTen, String gioiTinh, String ngaySinh, String sdt,String email, String diachi) {
+    public NhanVienDTO(int maNV, String hoTen, String gioiTinh, String ngaySinh, String sdt,String email, String diachi,int TrangThai) {
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
@@ -20,6 +21,7 @@ public class NhanVienDTO {
         this.sdt = sdt;
         this.email = email;
         this.diachi=diachi;
+        this.TrangThai = TrangThai;
     }
 
     public int getMaNV() {
@@ -73,6 +75,12 @@ public class NhanVienDTO {
     public String getSdt() {
         return sdt;
     }
+    public void setTrangThai(int TrangThai) {
+        this.TrangThai = TrangThai;
+    }
+    public int getTrangThai() {
+        return TrangThai;
+    }
     @Override
     public String toString() {
         return "NhanVienDTO{" +
@@ -82,6 +90,7 @@ public class NhanVienDTO {
                 ", ngaySinh='" + ngaySinh + '\'' +
                 ", email='" + email + '\'' +
                 ", diachi='" + diachi + '\'' +
+                ", TrangThai=" + TrangThai +
                 '}';
     }
 }

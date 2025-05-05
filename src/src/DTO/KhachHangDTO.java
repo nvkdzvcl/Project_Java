@@ -5,14 +5,17 @@ public class KhachHangDTO {
     private String tenKhachHang;
     private String soDienThoai;
     private String diachi;
+    private int TrangThai;
+
 
     public KhachHangDTO() {}
 
-    public KhachHangDTO(int maKhachHang, String tenKhachHang,String diachi,String soDienThoai) {
+    public KhachHangDTO(int maKhachHang, String tenKhachHang,String diachi,String soDienThoai,int TrangThai) {
         this.maKhachHang = maKhachHang;
         this.tenKhachHang = tenKhachHang;
         this.diachi = diachi;
         this.soDienThoai = soDienThoai;
+        this.TrangThai = TrangThai;
     }
 
     public int getMaKhachHang() {
@@ -46,6 +49,14 @@ public class KhachHangDTO {
         this.diachi = diachi;
     }
 
+    public void setTrangThai(int trangThai) {
+        this.TrangThai = trangThai;
+    }
+
+    public  int getTrangThai() {
+        return TrangThai;
+    }
+
     @Override
     public String toString() {
         return "KhachHangDTO{" +
@@ -53,6 +64,7 @@ public class KhachHangDTO {
                 ", tenKhachHang='" + tenKhachHang + '\'' +
                 ", soDienThoai='" + soDienThoai + '\'' +
                 ", diachi='" + diachi + '\'' +
+                ", TrangThai=" + TrangThai +
                 '}';
     }
 }
