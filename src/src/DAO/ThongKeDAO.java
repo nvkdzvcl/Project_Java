@@ -12,8 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date; // Dùng java.sql.Date cho cột DATE
 import java.util.ArrayList;
-// import java.util.Calendar; // Không thấy dùng trực tiếp
-// import java.util.HashMap; // Không thấy dùng
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,25 +20,15 @@ public class ThongKeDAO {
     // Logger để ghi lỗi
     private static final Logger LOGGER = Logger.getLogger(ThongKeDAO.class.getName());
 
-    // Phương thức khởi tạo private nếu bạn muốn làm Singleton thực sự
-    // private ThongKeDAO() {}
-    // private static ThongKeDAO instance;
-    // public static synchronized ThongKeDAO getInstance() {
-    //     if (instance == null) {
-    //         instance = new ThongKeDAO();
-    //     }
-    //     return instance;
-    // }
-
-    // Hoặc giữ nguyên cách của bạn nếu đơn giản là đủ
+    // --- Singleton Pattern (Giữ nguyên cách của bạn) ---
     public static ThongKeDAO getInstance() {
         return new ThongKeDAO();
     }
-
+    // ---------------------------------------------------
 
     /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng năm.
-     * Đã sửa: Bỏ DISTINCT khỏi SUM. Thêm đóng tài nguyên.
+     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng năm. (ĐÃ SỬA)
+     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
      * @param year_start Năm bắt đầu.
      * @param year_end Năm kết thúc.
      * @return Danh sách các đối tượng ThongKeDoanhThuDTO.
@@ -51,6 +39,7 @@ public class ThongKeDAO {
         PreparedStatement pst = null;
         ResultSet rs = null;
 
+        // Câu SQL đã sửa đổi
         String sql = """
                     WITH RECURSIVE years(year) AS (
                       SELECT ? -- year_start
@@ -58,50 +47,67 @@ public class ThongKeDAO {
                       SELECT year + 1
                       FROM years
                       WHERE year < ? -- year_end
+                    ),
+                    YearlyCosts AS (
+                        SELECT
+                            YEAR(pn.THOIGIAN) AS Nam,
+                            SUM(pn.TONGTIEN) AS Von
+                        FROM PHIEUNHAP pn
+                        WHERE pn.TRANGTHAI != 3
+                        GROUP BY YEAR(pn.THOIGIAN)
+                    ),
+                    YearlyRevenue AS (
+                        SELECT
+                            YEAR(hd.THOIGIAN) AS Nam,
+                            SUM(hd.TONGTIEN) AS DoanhThu
+                        FROM HOADON hd
+                        WHERE hd.TRANGTHAI != 3
+                        GROUP BY YEAR(hd.THOIGIAN)
                     )
                     SELECT
                       yr.year AS Nam,
-                      COALESCE(SUM(pn.TONGTIEN), 0) AS Von, -- Đã bỏ DISTINCT
-                      COALESCE(SUM(hd.TONGTIEN), 0) AS DoanhThu -- Đã bỏ DISTINCT
+                      COALESCE(yc.Von, 0) AS Von,
+                      COALESCE(yrv.DoanhThu, 0) AS DoanhThu
                     FROM years yr
-                    LEFT JOIN PHIEUNHAP pn ON YEAR(pn.THOIGIAN) = yr.year AND pn.TRANGTHAI != 3
-                    LEFT JOIN HOADON hd ON YEAR(hd.THOIGIAN) = yr.year AND hd.TRANGTHAI != 3
-                    GROUP BY yr.year
+                    LEFT JOIN YearlyCosts yc ON yr.year = yc.Nam
+                    LEFT JOIN YearlyRevenue yrv ON yr.year = yrv.Nam
+                    WHERE yr.year BETWEEN ? AND ? -- Đảm bảo chỉ lấy năm trong khoảng
                     ORDER BY yr.year;
                    """;
 
         try {
-            con = JDBCUtil.startConnection(); // Giả sử hàm này trả về Connection
+            con = JDBCUtil.startConnection();
             pst = con.prepareStatement(sql);
             pst.setInt(1, year_start);
             pst.setInt(2, year_end);
+            pst.setInt(3, year_start); // Cho điều kiện WHERE cuối cùng
+            pst.setInt(4, year_end);  // Cho điều kiện WHERE cuối cùng
 
             rs = pst.executeQuery();
 
             while (rs.next()) {
                 int thoigian = rs.getInt("Nam");
-                long von = rs.getLong("Von"); // Dùng getLong
-                long doanhthu = rs.getLong("DoanhThu"); // Dùng getLong
+                long von = rs.getLong("Von");
+                long doanhthu = rs.getLong("DoanhThu");
                 long loinhuan = doanhthu - von;
                 ThongKeDoanhThuDTO x = new ThongKeDoanhThuDTO(thoigian, von, doanhthu, loinhuan);
                 result.add(x);
             }
-            // Đóng tài nguyên theo yêu cầu (trong try, trước catch) - Không phải cách tốt nhất
+            // Đóng tài nguyên (vẫn giữ cách cũ theo file gốc)
             if (rs != null) rs.close();
             if (pst != null) pst.close();
-            if (con != null) JDBCUtil.closeConnection(con); // Giả sử có hàm đóng trong JDBCUtil
+            if (con != null) JDBCUtil.closeConnection(con);
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "SQL Error in getDoanhThuTheoTungNam", e);
         }
-        // Không có finally theo yêu cầu
         return result;
     }
 
 
     /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng tháng trong năm.
-     * Đã sửa: Bỏ DISTINCT khỏi SUM. Dùng getLong. Thêm đóng tài nguyên.
+     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng tháng trong năm. (ĐÃ SỬA)
+     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
      * @param nam Năm cần thống kê.
      * @return Danh sách các đối tượng ThongKeTheoThangDTO.
      */
@@ -111,6 +117,7 @@ public class ThongKeDAO {
         PreparedStatement pst = null;
         ResultSet rs = null;
 
+        // Câu SQL đã sửa đổi
         String sql = """
                     WITH RECURSIVE months(month) AS (
                         SELECT 1
@@ -118,29 +125,44 @@ public class ThongKeDAO {
                         SELECT month + 1
                         FROM months
                         WHERE month < 12
+                    ),
+                    MonthlyCosts AS (
+                        SELECT
+                            MONTH(pn.THOIGIAN) AS Thang,
+                            SUM(pn.TONGTIEN) AS ChiPhiThang
+                        FROM PHIEUNHAP pn
+                        WHERE YEAR(pn.THOIGIAN) = ? AND pn.TRANGTHAI != 3
+                        GROUP BY MONTH(pn.THOIGIAN)
+                    ),
+                    MonthlyRevenue AS (
+                        SELECT
+                            MONTH(hd.THOIGIAN) AS Thang,
+                            SUM(hd.TONGTIEN) AS DoanhThuThang
+                        FROM HOADON hd
+                        WHERE YEAR(hd.THOIGIAN) = ? AND hd.TRANGTHAI != 3
+                        GROUP BY MONTH(hd.THOIGIAN)
                     )
                     SELECT
                         m.month AS Thang,
-                        COALESCE(SUM(pn.TONGTIEN), 0) AS ChiPhi, -- Đã bỏ DISTINCT
-                        COALESCE(SUM(hd.TONGTIEN), 0) AS DoanhThu -- Đã bỏ DISTINCT
+                        COALESCE(mc.ChiPhiThang, 0) AS ChiPhi,
+                        COALESCE(mr.DoanhThuThang, 0) AS DoanhThu
                     FROM months m
-                    LEFT JOIN PHIEUNHAP pn ON MONTH(pn.THOIGIAN) = m.month AND YEAR(pn.THOIGIAN) = ? AND pn.TRANGTHAI != 3
-                    LEFT JOIN HOADON hd ON MONTH(hd.THOIGIAN) = m.month AND YEAR(hd.THOIGIAN) = ? AND hd.TRANGTHAI != 3
-                    GROUP BY m.month
+                    LEFT JOIN MonthlyCosts mc ON m.month = mc.Thang
+                    LEFT JOIN MonthlyRevenue mr ON m.month = mr.Thang
                     ORDER BY m.month;
                     """;
 
         try {
             con = JDBCUtil.startConnection();
             pst = con.prepareStatement(sql);
-            pst.setInt(1, nam); // Năm cho PHIEUNHAP
-            pst.setInt(2, nam); // Năm cho HOADON
+            pst.setInt(1, nam); // Năm cho MonthlyCosts
+            pst.setInt(2, nam); // Năm cho MonthlyRevenue
 
             rs = pst.executeQuery();
             while (rs.next()) {
                 int thang = rs.getInt("Thang");
-                long chiphi = rs.getLong("ChiPhi"); // Dùng getLong
-                long doanhthu = rs.getLong("DoanhThu"); // Dùng getLong
+                long chiphi = rs.getLong("ChiPhi");
+                long doanhthu = rs.getLong("DoanhThu");
                 long loinhuan = doanhthu - chiphi;
                 ThongKeTheoThangDTO thongke = new ThongKeTheoThangDTO(thang, chiphi, doanhthu, loinhuan);
                 result.add(thongke);
@@ -157,8 +179,8 @@ public class ThongKeDAO {
     }
 
     /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng ngày trong tháng.
-     * Đã sửa: Sửa so sánh DATE(pn.THOIGIAN), bỏ DISTINCT, dùng getLong, thêm đóng tài nguyên.
+     * Lấy dữ liệu thống kê doanh thu và chi phí theo từng ngày trong tháng. (ĐÃ SỬA)
+     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
      * @param thang Tháng cần thống kê (1-12).
      * @param nam Năm cần thống kê.
      * @return Danh sách các đối tượng ThongKeTungNgayTrongThangDTO.
@@ -171,6 +193,7 @@ public class ThongKeDAO {
 
         String firstDayOfMonthStr = String.format("%d-%02d-01", nam, thang);
 
+        // Câu SQL đã sửa đổi
         String sql = """
                     WITH RECURSIVE DateSeries AS (
                       SELECT DATE(?) AS dt -- Ngày đầu tháng
@@ -178,31 +201,56 @@ public class ThongKeDAO {
                       SELECT DATE_ADD(dt, INTERVAL 1 DAY)
                       FROM DateSeries
                       WHERE dt < LAST_DAY(?) -- Ngày cuối tháng
+                    ),
+                    DailyCosts AS (
+                        SELECT
+                            DATE(pn.THOIGIAN) AS Ngay,
+                            SUM(pn.TONGTIEN) AS ChiPhiNgay
+                        FROM PHIEUNHAP pn
+                        WHERE pn.TRANGTHAI != 3
+                            -- Optional: Filter by month/year here if DB is very large
+                            -- AND YEAR(pn.THOIGIAN) = ? AND MONTH(pn.THOIGIAN) = ?
+                        GROUP BY DATE(pn.THOIGIAN)
+                    ),
+                    DailyRevenue AS (
+                        SELECT
+                            hd.THOIGIAN AS Ngay, -- Already DATE type
+                            SUM(hd.TONGTIEN) AS DoanhThuNgay
+                        FROM HOADON hd
+                        WHERE hd.TRANGTHAI != 3
+                            -- Optional: Filter by month/year here if DB is very large
+                            -- AND YEAR(hd.THOIGIAN) = ? AND MONTH(hd.THOIGIAN) = ?
+                        GROUP BY hd.THOIGIAN
                     )
                     SELECT
                       ds.dt AS Ngay,
-                      COALESCE(SUM(pn.TONGTIEN), 0) AS ChiPhi, -- Đã bỏ DISTINCT
-                      COALESCE(SUM(hd.TONGTIEN), 0) AS DoanhThu -- Đã bỏ DISTINCT
+                      COALESCE(dc.ChiPhiNgay, 0) AS ChiPhi,
+                      COALESCE(dr.DoanhThuNgay, 0) AS DoanhThu
                     FROM DateSeries ds
-                    LEFT JOIN PHIEUNHAP pn ON DATE(pn.THOIGIAN) = ds.dt AND pn.TRANGTHAI != 3 -- Sửa: Dùng DATE()
-                    LEFT JOIN HOADON hd ON hd.THOIGIAN = ds.dt AND hd.TRANGTHAI != 3 -- Giữ nguyên vì hd.THOIGIAN là DATE
-                    GROUP BY ds.dt
+                    LEFT JOIN DailyCosts dc ON ds.dt = dc.Ngay
+                    LEFT JOIN DailyRevenue dr ON ds.dt = dr.Ngay
                     ORDER BY ds.dt;
                   """;
 
         try {
             con = JDBCUtil.startConnection();
             pst = con.prepareStatement(sql);
-            pst.setString(1, firstDayOfMonthStr);
-            pst.setString(2, firstDayOfMonthStr); // Dùng cho LAST_DAY
+            pst.setString(1, firstDayOfMonthStr); // Cho DateSeries bắt đầu
+            pst.setString(2, firstDayOfMonthStr); // Cho LAST_DAY
+
+            // Nếu bạn thêm filter trong CTEs (Optional):
+            // pst.setInt(3, nam); // Cho DailyCosts YEAR
+            // pst.setInt(4, thang); // Cho DailyCosts MONTH
+            // pst.setInt(5, nam); // Cho DailyRevenue YEAR
+            // pst.setInt(6, thang); // Cho DailyRevenue MONTH
 
             rs = pst.executeQuery();
             while (rs.next()) {
                 java.sql.Date ngay = rs.getDate("Ngay");
-                long chiphi = rs.getLong("ChiPhi"); // Dùng getLong
-                long doanhthu = rs.getLong("DoanhThu"); // Dùng getLong
+                long chiphi = rs.getLong("ChiPhi");
+                long doanhthu = rs.getLong("DoanhThu");
                 long loinhuan = doanhthu - chiphi;
-                java.util.Date utilDate = new java.util.Date(ngay.getTime()); // Chuyển sang util.Date
+                java.util.Date utilDate = new java.util.Date(ngay.getTime());
                 ThongKeTungNgayTrongThangDTO tn = new ThongKeTungNgayTrongThangDTO(utilDate, chiphi, doanhthu, loinhuan);
                 result.add(tn);
             }
@@ -218,8 +266,8 @@ public class ThongKeDAO {
     }
 
     /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí cho 7 ngày gần nhất.
-     * Đã sửa: Sửa so sánh DATE(pn.THOIGIAN), bỏ DISTINCT, dùng getLong, thêm đóng tài nguyên.
+     * Lấy dữ liệu thống kê doanh thu và chi phí cho 7 ngày gần nhất. (ĐÃ SỬA)
+     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
      * @return Danh sách các đối tượng ThongKeTungNgayTrongThangDTO.
      */
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKe7NgayGanNhat() {
@@ -228,6 +276,7 @@ public class ThongKeDAO {
         PreparedStatement pst = null;
         ResultSet rs = null;
 
+        // Câu SQL đã sửa đổi
         String sql = """
                      WITH RECURSIVE DateSeries AS (
                        SELECT CURDATE() AS dt -- Ngày hiện tại
@@ -235,15 +284,30 @@ public class ThongKeDAO {
                        SELECT DATE_SUB(dt, INTERVAL 1 DAY)
                        FROM DateSeries
                        WHERE dt > DATE_SUB(CURDATE(), INTERVAL 6 DAY) -- Lùi lại 6 ngày nữa (tổng 7 ngày)
-                     )
+                     ),
+                    DailyCosts AS (
+                        SELECT
+                            DATE(pn.THOIGIAN) AS Ngay,
+                            SUM(pn.TONGTIEN) AS ChiPhiNgay
+                        FROM PHIEUNHAP pn
+                        WHERE pn.TRANGTHAI != 3 AND DATE(pn.THOIGIAN) >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) -- Filter for performance
+                        GROUP BY DATE(pn.THOIGIAN)
+                    ),
+                    DailyRevenue AS (
+                        SELECT
+                            hd.THOIGIAN AS Ngay, -- Already DATE type
+                            SUM(hd.TONGTIEN) AS DoanhThuNgay
+                        FROM HOADON hd
+                        WHERE hd.TRANGTHAI != 3 AND hd.THOIGIAN >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) -- Filter for performance
+                        GROUP BY hd.THOIGIAN
+                    )
                      SELECT
                        ds.dt AS Ngay,
-                       COALESCE(SUM(pn.TONGTIEN), 0) AS ChiPhi, -- Đã bỏ DISTINCT
-                       COALESCE(SUM(hd.TONGTIEN), 0) AS DoanhThu -- Đã bỏ DISTINCT
+                       COALESCE(dc.ChiPhiNgay, 0) AS ChiPhi,
+                       COALESCE(dr.DoanhThuNgay, 0) AS DoanhThu
                      FROM DateSeries ds
-                     LEFT JOIN PHIEUNHAP pn ON DATE(pn.THOIGIAN) = ds.dt AND pn.TRANGTHAI != 3 -- Sửa: Dùng DATE()
-                     LEFT JOIN HOADON hd ON hd.THOIGIAN = ds.dt AND hd.TRANGTHAI != 3
-                     GROUP BY ds.dt
+                     LEFT JOIN DailyCosts dc ON ds.dt = dc.Ngay
+                     LEFT JOIN DailyRevenue dr ON ds.dt = dr.Ngay
                      ORDER BY ds.dt; -- Sắp xếp từ cũ đến mới
                    """;
 
@@ -253,8 +317,8 @@ public class ThongKeDAO {
             rs = pst.executeQuery();
             while (rs.next()) {
                 java.sql.Date ngay = rs.getDate("Ngay");
-                long chiphi = rs.getLong("ChiPhi"); // Dùng getLong
-                long doanhthu = rs.getLong("DoanhThu"); // Dùng getLong
+                long chiphi = rs.getLong("ChiPhi");
+                long doanhthu = rs.getLong("DoanhThu");
                 long loinhuan = doanhthu - chiphi;
                 java.util.Date utilDate = new java.util.Date(ngay.getTime());
                 ThongKeTungNgayTrongThangDTO tn = new ThongKeTungNgayTrongThangDTO(utilDate, chiphi, doanhthu, loinhuan);
@@ -272,8 +336,8 @@ public class ThongKeDAO {
     }
 
     /**
-     * Lấy dữ liệu thống kê doanh thu và chi phí trong một khoảng ngày cụ thể.
-     * Đã sửa: Sửa so sánh DATE(pn.THOIGIAN), bỏ DISTINCT, dùng getLong, thêm đóng tài nguyên.
+     * Lấy dữ liệu thống kê doanh thu và chi phí trong một khoảng ngày cụ thể. (ĐÃ SỬA)
+     * Tính tổng chi phí và doanh thu riêng biệt trước khi join.
      * @param start Ngày bắt đầu (java.util.Date).
      * @param end Ngày kết thúc (java.util.Date).
      * @return Danh sách các đối tượng ThongKeTungNgayTrongThangDTO.
@@ -284,10 +348,10 @@ public class ThongKeDAO {
         PreparedStatement pst = null;
         ResultSet rs = null;
 
-        // Chuyển đổi java.util.Date sang java.sql.Date
         java.sql.Date sqlStartDate = new java.sql.Date(start.getTime());
         java.sql.Date sqlEndDate = new java.sql.Date(end.getTime());
 
+        // Câu SQL đã sửa đổi
         String sql = """
                      WITH RECURSIVE DateSeries AS (
                        SELECT ? AS dt -- Ngày bắt đầu (kiểu DATE)
@@ -295,29 +359,48 @@ public class ThongKeDAO {
                        SELECT DATE_ADD(dt, INTERVAL 1 DAY)
                        FROM DateSeries
                        WHERE dt < ? -- Ngày kết thúc (kiểu DATE)
-                     )
+                     ),
+                    DailyCosts AS (
+                        SELECT
+                            DATE(pn.THOIGIAN) AS Ngay,
+                            SUM(pn.TONGTIEN) AS ChiPhiNgay
+                        FROM PHIEUNHAP pn
+                        WHERE pn.TRANGTHAI != 3 AND DATE(pn.THOIGIAN) BETWEEN ? AND ? -- Filter for performance
+                        GROUP BY DATE(pn.THOIGIAN)
+                    ),
+                    DailyRevenue AS (
+                        SELECT
+                            hd.THOIGIAN AS Ngay, -- Already DATE type
+                            SUM(hd.TONGTIEN) AS DoanhThuNgay
+                        FROM HOADON hd
+                        WHERE hd.TRANGTHAI != 3 AND hd.THOIGIAN BETWEEN ? AND ? -- Filter for performance
+                        GROUP BY hd.THOIGIAN
+                    )
                      SELECT
                        ds.dt AS Ngay,
-                       COALESCE(SUM(pn.TONGTIEN), 0) AS ChiPhi, -- Đã bỏ DISTINCT
-                       COALESCE(SUM(hd.TONGTIEN), 0) AS DoanhThu -- Đã bỏ DISTINCT
+                       COALESCE(dc.ChiPhiNgay, 0) AS ChiPhi,
+                       COALESCE(dr.DoanhThuNgay, 0) AS DoanhThu
                      FROM DateSeries ds
-                     LEFT JOIN PHIEUNHAP pn ON DATE(pn.THOIGIAN) = ds.dt AND pn.TRANGTHAI != 3 -- Sửa: Dùng DATE()
-                     LEFT JOIN HOADON hd ON hd.THOIGIAN = ds.dt AND hd.TRANGTHAI != 3
-                     GROUP BY ds.dt
+                     LEFT JOIN DailyCosts dc ON ds.dt = dc.Ngay
+                     LEFT JOIN DailyRevenue dr ON ds.dt = dr.Ngay
                      ORDER BY ds.dt;
                    """;
 
         try {
             con = JDBCUtil.startConnection();
             pst = con.prepareStatement(sql);
-            pst.setDate(1, sqlStartDate);
-            pst.setDate(2, sqlEndDate);
+            pst.setDate(1, sqlStartDate); // Cho DateSeries start
+            pst.setDate(2, sqlEndDate);   // Cho DateSeries end condition
+            pst.setDate(3, sqlStartDate); // Cho DailyCosts BETWEEN
+            pst.setDate(4, sqlEndDate);   // Cho DailyCosts BETWEEN
+            pst.setDate(5, sqlStartDate); // Cho DailyRevenue BETWEEN
+            pst.setDate(6, sqlEndDate);   // Cho DailyRevenue BETWEEN
 
             rs = pst.executeQuery();
             while (rs.next()) {
                 java.sql.Date ngay = rs.getDate("Ngay");
-                long chiphi = rs.getLong("ChiPhi"); // Dùng getLong
-                long doanhthu = rs.getLong("DoanhThu"); // Dùng getLong
+                long chiphi = rs.getLong("ChiPhi");
+                long doanhthu = rs.getLong("DoanhThu");
                 long loinhuan = doanhthu - chiphi;
                 java.util.Date utilDate = new java.util.Date(ngay.getTime());
                 ThongKeTungNgayTrongThangDTO tn = new ThongKeTungNgayTrongThangDTO(utilDate, chiphi, doanhthu, loinhuan);
