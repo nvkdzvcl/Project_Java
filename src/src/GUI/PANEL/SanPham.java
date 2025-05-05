@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import BLL.SanPhamBLL;
 import DTO.SanPhamDTO;
+import GUI.DIALOG.ChiTietSanPhamDialog;
 import GUI.DIALOG.ThemSanPhamDialog;
 import GUI.DIALOG.SuaSanPhamDialog;
 
@@ -155,8 +156,24 @@ public class SanPham extends JPanel {
                 JOptionPane.showMessageDialog(this, "Chưa chọn sản phẩm nào để xoá");
             }
         });
+        btnChiTiet.addActionListener(e -> {
+            int row = bangsp.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa", "Thông báo",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int maSP = Integer.parseInt(model.getValueAt(row,0).toString());
+            SanPhamDTO dto = sanPhamBLL.getonesp(maSP);
+
+            Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+            ChiTietSanPhamDialog dlgCTSP = new ChiTietSanPhamDialog(parentFrame,this);
+            dlgCTSP.setSanPham(dto);
+            dlgCTSP.setVisible(true);
+        });
         setVisible(true);
     }
+
     public ImageIcon resizeimg(ImageIcon img)
     {
         Image tmp=img.getImage();
