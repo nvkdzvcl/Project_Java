@@ -8,6 +8,8 @@ import GUI.DIALOG.SuaKhachHangDialog;
 import GUI.DIALOG.ThemKhachHangDialog;
 import GUI.DIALOG.SuaKhachHangDialog;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
@@ -68,11 +70,11 @@ public class KhachHang extends JPanel {
         P1.add(btnsua);
         P1.add(btnxoa);
         P1.add(btnct);
-        P1.add(btnnhap);
-        P1.add(btnxuat);
+//        P1.add(btnnhap);
+//        P1.add(btnxuat);
 
 
-        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ"};
+        String[] cb={"Tất Cả","Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ","Trạng thái"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -84,7 +86,7 @@ public class KhachHang extends JPanel {
         P.add(P1, BorderLayout.WEST);
         P.add(P2,BorderLayout.EAST);
         add(P, BorderLayout.NORTH);
-        String[] collum={"Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ"};
+        String[] collum={"Mã khách hàng","Tên khách hàng","Số điện thoại","Địa chỉ","Trạng Thái"};
         JTable bangkh=new JTable();
         DefaultTableModel model=new DefaultTableModel(collum,0);
         bangkh.setModel(model);
@@ -153,9 +155,8 @@ public class KhachHang extends JPanel {
             }
         }
     });
-        tf.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
+        tf.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
                 String selectedCriteria = (String) pl.getSelectedItem();
                 String searchText = tf.getText().trim();
                 if (!searchText.isEmpty()) {
@@ -163,6 +164,30 @@ public class KhachHang extends JPanel {
                 } else {
                     loadtabledata(model);
                 }
+            }
+            public void removeUpdate(DocumentEvent e) {
+                String selectedCriteria = (String) pl.getSelectedItem();
+                String searchText = tf.getText().trim();
+                if (!searchText.isEmpty()) {
+                    searchTableData(model, selectedCriteria, searchText);
+                } else {
+                    loadtabledata(model);
+                }            }
+            public void changedUpdate(DocumentEvent e) {
+                String selectedCriteria = (String) pl.getSelectedItem();
+                String searchText = tf.getText().trim();
+                if (!searchText.isEmpty()) {
+                    searchTableData(model, selectedCriteria, searchText);
+                } else {
+                    loadtabledata(model);
+                }
+            }
+
+
+        });
+        btnlm.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                loadtabledata(model);
             }
         });
         setVisible(true);
@@ -204,8 +229,15 @@ public class KhachHang extends JPanel {
             String tenkh=dto.getTenKhachHang();
             String diachi=dto.getDiachi();
             String sdt=dto.getSoDienThoai();
-
-            Object[] row= new Object[]{makh,tenkh,sdt,diachi};
+            String TrangThai ="";
+            if(dto.getTrangThai()==1)
+            {
+                TrangThai="Hoạt Động";
+            }
+            else{
+                TrangThai="Ngừng Hoạt Động";
+            }
+            Object[] row= new Object[]{makh,tenkh,sdt,diachi,TrangThai};
             model.addRow(row);
         }
     }
@@ -216,12 +248,17 @@ public class KhachHang extends JPanel {
         if (list != null) {
             for (KhachHangDTO khachhang : list) {
                 boolean match = false;
+
                 switch (criteria) {
                     case "Tất Cả":
+                        String trangThaiStr = khachhang.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động";
+
                         match = String.valueOf(khachhang.getMaKhachHang()).contains(searchText) ||
                                 khachhang.getTenKhachHang().toLowerCase().contains(searchText.toLowerCase()) ||
                                 khachhang.getSoDienThoai().contains(searchText) ||
-                                khachhang.getDiachi().toLowerCase().contains(searchText.toLowerCase());
+                                khachhang.getDiachi().toLowerCase().contains(searchText.toLowerCase()) ||
+                                trangThaiStr.toLowerCase().contains(searchText.toLowerCase());
+
                         break;
                     case "Mã khách hàng":
                         match = String.valueOf(khachhang.getMaKhachHang()).contains(searchText);
@@ -236,14 +273,21 @@ public class KhachHang extends JPanel {
                     case "Địa chỉ":
                         match = khachhang.getDiachi().toLowerCase().contains(searchText.toLowerCase());
                         break;
+                    case "Trạng thái":
+                        String trangThaistr = khachhang.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động";
 
+                        match = trangThaistr.toLowerCase().contains(searchText.toLowerCase());
+                        break;
                 }
                 if (match) {
+                    String tt = khachhang.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động";
+
                     Object[] row = new Object[]{
                             khachhang.getMaKhachHang(),
                             khachhang.getTenKhachHang(),
                             khachhang.getSoDienThoai(),
                             khachhang.getDiachi(),
+                            tt
 
 
                     };

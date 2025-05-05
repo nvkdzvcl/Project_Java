@@ -1,6 +1,8 @@
 package GUI.PANEL;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
@@ -76,10 +78,10 @@ public class NhanVien extends JPanel {
         P1.add(btnxoa);
         P1.add(btnlm);
         P1.add(btnct);
-        P1.add(btnnhap);
-        P1.add(btnxuat);
+//        P1.add(btnnhap);
+//        P1.add(btnxuat);
 
-        String[] cb = {"Tất Cả", "Mã NV", "Họ Tên", "Giới Tính", "Ngày Sinh", "SĐT", "Email","Địa chỉ"};
+        String[] cb = {"Tất Cả", "Mã NV", "Họ Tên", "Giới Tính", "Ngày Sinh", "SĐT", "Email","Địa chỉ","Trạng thái"};
         JComboBox pl = new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100, 40));
         JTextField tf = new JTextField(20);
@@ -94,7 +96,7 @@ public class NhanVien extends JPanel {
         add(P, BorderLayout.NORTH);
 
 
-        String[] collum = {"Mã NV", "Họ Tên", "Giới Tính", "Ngày Sinh", "SĐT", "Email","Địa Chỉ"};
+        String[] collum = {"Mã NV", "Họ Tên", "Giới Tính", "Ngày Sinh", "SĐT", "Email","Địa Chỉ","Trạng Thái"};
         JTable bangnv = new JTable();
         DefaultTableModel model = new DefaultTableModel(collum, 0);
         bangnv.setModel(model);
@@ -173,9 +175,8 @@ public class NhanVien extends JPanel {
                 }
             }
         });
-        tf.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
+        tf.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
                 String selectedCriteria = (String) pl.getSelectedItem();
                 String searchText = tf.getText().trim();
                 if (!searchText.isEmpty()) {
@@ -183,6 +184,30 @@ public class NhanVien extends JPanel {
                 } else {
                     loadtabledata(model);
                 }
+            }
+            public void removeUpdate(DocumentEvent e) {
+                String selectedCriteria = (String) pl.getSelectedItem();
+                String searchText = tf.getText().trim();
+                if (!searchText.isEmpty()) {
+                    searchTableData(model, selectedCriteria, searchText);
+                } else {
+                    loadtabledata(model);
+                }            }
+            public void changedUpdate(DocumentEvent e) {
+                String selectedCriteria = (String) pl.getSelectedItem();
+                String searchText = tf.getText().trim();
+                if (!searchText.isEmpty()) {
+                    searchTableData(model, selectedCriteria, searchText);
+                } else {
+                    loadtabledata(model);
+                }
+            }
+
+
+        });
+        btnlm.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                loadtabledata(model);
             }
         });
     }
@@ -216,7 +241,15 @@ public class NhanVien extends JPanel {
             String sdt = dto.getSdt();
             String email = dto.getEmail();
             String diachi = dto.getDiachi();
-            Object[] row = new Object[]{manv, tenkh, gioitinh, ns, sdt, email, diachi};
+            String TrangThai ="";
+            if(dto.getTrangThai()==1)
+            {
+                TrangThai="Hoạt Động";
+            }
+            else{
+                TrangThai="Ngừng Hoạt Động";
+            }
+            Object[] row = new Object[]{manv, tenkh, gioitinh, ns, sdt, email, diachi,TrangThai};
             model.addRow(row);
 
         }
@@ -236,13 +269,17 @@ public class NhanVien extends JPanel {
 
                 switch (criteria) {
                     case "Tất Cả":
+                        String trangThaiStr = nhanvien.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động";
+
                         match = String.valueOf(nhanvien.getMaNV()).toLowerCase().contains(searchText)
                                 || nhanvien.getHoTen().toLowerCase().contains(searchText)
                                 || nhanvien.getGioiTinh().toLowerCase().contains(searchText)
                                 || nhanvien.getNgaySinh().toLowerCase().contains(searchText)
                                 || nhanvien.getSdt().toLowerCase().contains(searchText)
                                 || nhanvien.getEmail().toLowerCase().contains(searchText)
-                                || nhanvien.getDiachi().toLowerCase().contains(searchText);
+                                || nhanvien.getDiachi().toLowerCase().contains(searchText)
+                                || trangThaiStr.toLowerCase().contains(searchText);
+
                         break;
 
                     case "Mã nhân viên":
@@ -272,17 +309,26 @@ public class NhanVien extends JPanel {
                     case "Địa chỉ":
                         match = nhanvien.getDiachi().toLowerCase().contains(searchText);
                         break;
+                    case "Trạng thái":
+                        String trangThaistr = nhanvien.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động";
+
+                        match = trangThaistr.toLowerCase().contains(searchText.toLowerCase());
+                        break;
                 }
 
                 if (match) {
+                    String tt = nhanvien.getTrangThai() == 1 ? "Hoạt Động" : "Ngừng Hoạt Động";
+
                     Object[] row = new Object[]{
+
                             nhanvien.getMaNV(),
                             nhanvien.getHoTen(),
                             nhanvien.getGioiTinh(),
                             nhanvien.getNgaySinh(),
                             nhanvien.getSdt(),
                             nhanvien.getEmail(),
-                            nhanvien.getDiachi()
+                            nhanvien.getDiachi(),
+                            tt
                     };
                     model.addRow(row);
                 }
