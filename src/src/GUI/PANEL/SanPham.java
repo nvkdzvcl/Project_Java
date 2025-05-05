@@ -8,6 +8,8 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import BLL.SanPhamBLL;
@@ -77,7 +79,7 @@ public class SanPham extends JPanel {
         P1.add(btnChiTiet);
         P1.add(btnxoa);
 
-        String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc"};
+        String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc","Trạng Thái"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -124,8 +126,18 @@ public class SanPham extends JPanel {
         btnThem.addActionListener(e -> {
             Frame parent = (Frame) SwingUtilities.getWindowAncestor(this);
             ThemSanPhamDialog dlgThemSanPham = new ThemSanPhamDialog(parent, this);
+
             dlgThemSanPham.setVisible(true);
+            dlgThemSanPham.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    sanPhamBLL = new SanPhamBLL();
+                    loadDataToTable(sanPhamBLL.getlistsp());
+                }
+            });
+
         });
+
 
         btnSua.addActionListener(e -> {
             int row = bangsp.getSelectedRow();
@@ -140,7 +152,17 @@ public class SanPham extends JPanel {
             Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
             SuaSanPhamDialog dlgSuaSanPham = new SuaSanPhamDialog(parentFrame,this);
             dlgSuaSanPham.setSanPham(dto);
+            dlgSuaSanPham.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    sanPhamBLL = new SanPhamBLL();
+                    loadDataToTable(sanPhamBLL.getlistsp());
+                }
+            });
+
             dlgSuaSanPham.setVisible(true);
+
+
         });
 
         btnxoa.addActionListener(e -> {
