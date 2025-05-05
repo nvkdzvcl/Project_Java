@@ -37,7 +37,7 @@ public class ChitietNhanVienDialog extends JDialog {
         add(lbHoVaTen);
         txtHoVaTen = new JTextField();
         txtHoVaTen.setBounds(70,130,250,25);
-        txtHoVaTen.setEditable(false);
+        txtHoVaTen.setEnabled(false);
         add(txtHoVaTen);
 
         JLabel lbEmail = new JLabel("Email");
@@ -45,7 +45,7 @@ public class ChitietNhanVienDialog extends JDialog {
         add(lbEmail);
         txtEmail = new JTextField();
         txtEmail.setBounds(70,200,250,25);
-        txtEmail.setEditable(false);
+        txtEmail.setEnabled(false);
         add(txtEmail);
 
         JLabel lbSDT = new JLabel("Số Điện Thoại");
@@ -53,7 +53,7 @@ public class ChitietNhanVienDialog extends JDialog {
         add(lbSDT);
         txtSDT = new JTextField();
         txtSDT.setBounds(70,270,250,25);
-        txtSDT.setEditable(false);
+        txtSDT.setEnabled(false);
         add(txtSDT);
 
         JLabel lbGioiTinh = new JLabel("Giới tính");
