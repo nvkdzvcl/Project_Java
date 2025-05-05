@@ -107,7 +107,7 @@ public class NhanVien extends JPanel {
         JTableHeader header = bangnv.getTableHeader();
 
 
-        bangnv.setShowGrid(false);
+
 //       JButton them=new JButton("Thêm");
 //         add(them);
         loadtabledata(model);
