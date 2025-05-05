@@ -163,7 +163,7 @@ public class ChiTietSanPhamDialog extends JDialog {
 
 
         btnHuy = new JButton(("Hủy bỏ"));
-        btnHuy.setBounds(450,400,200,40);
+        btnHuy.setBounds(350,400,200,40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
         btnHuy.addActionListener(e -> {
