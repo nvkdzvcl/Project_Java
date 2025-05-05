@@ -18,7 +18,7 @@ public class NhanVienDAO {
     public ArrayList<NhanVienDTO> getallnhanvien() {
         ArrayList<NhanVienDTO> list = new ArrayList<>();
         try (Connection conn = JDBCUtil.startConnection()) {
-            String sql = "select * from NhanVien where TRANGTHAI =1 ";
+            String sql = "select * from NhanVien  ";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -30,6 +30,7 @@ public class NhanVienDAO {
                 dto.setSdt(rs.getString("SDT"));
                 dto.setEmail(rs.getString("EMAIL"));
                 dto.setDiachi(rs.getString("DIACHI"));
+                dto.setTrangThai(rs.getInt("TRANGTHAI"));
                 list.add(dto);
             }
 
@@ -78,7 +79,7 @@ public class NhanVienDAO {
     }
 
     public static boolean update(NhanVienDTO DTO) {
-        String sql = "Update NhanVien SET HOTENNV =? , GIOITINH =? , NGAYSINH =? , SDT =? ,EMAIL =? , DIACHI =? where MANV =?";
+        String sql = "Update NhanVien SET HOTENNV =? , GIOITINH =? , NGAYSINH =? , SDT =? ,EMAIL =? , DIACHI =? ,TRANGTHAI = ? where MANV =?";
         try (Connection conn = JDBCUtil.startConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, DTO.getHoTen());
@@ -87,7 +88,8 @@ public class NhanVienDAO {
             ps.setString(4, DTO.getSdt());
             ps.setString(5, DTO.getEmail());
             ps.setString(6, DTO.getDiachi());
-            ps.setInt(7,DTO.getMaNV());
+            ps.setInt(7,DTO.getTrangThai());
+            ps.setInt(8,DTO.getMaNV());
             return ps.executeUpdate() > 0;
 
 
@@ -124,6 +126,7 @@ public class NhanVienDAO {
                     DTO.setSdt(rs.getString("SDT"));
                     DTO.setEmail(rs.getString("EMAIL"));
                     DTO.setDiachi(rs.getString("DIACHI"));
+                    DTO.setTrangThai(rs.getInt("TRANGTHAI"));
                     return DTO;
                 }
             }

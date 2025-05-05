@@ -21,7 +21,7 @@ public class KhachHangDAO {
      */
     public ArrayList<KhachHangDTO> getallkhachhang() {
         ArrayList<KhachHangDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM khachhang WHERE TRANGTHAI = 1";
+        String sql = "SELECT * FROM khachhang ";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -32,6 +32,7 @@ public class KhachHangDAO {
                 dto.setTenKhachHang(rs.getString("TENKHACHHANG"));
                 dto.setDiachi(rs.getString("DIACHI"));
                 dto.setSoDienThoai(rs.getString("SDT"));
+                dto.setTrangThai(rs.getInt("TRANGTHAI"));
                 list.add(dto);
             }
 
@@ -45,7 +46,7 @@ public class KhachHangDAO {
      * Lấy 1 khách hàng theo ID
      */
     public KhachHangDTO selectById(int id) {
-        String sql = "SELECT * FROM khachhang WHERE MAKHACHHANG = ? AND TRANGTHAI = 1";
+        String sql = "SELECT * FROM khachhang WHERE MAKHACHHANG = ? ";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -57,6 +58,7 @@ public class KhachHangDAO {
                     dto.setTenKhachHang(rs.getString("TENKHACHHANG"));
                     dto.setDiachi(rs.getString("DIACHI"));
                     dto.setSoDienThoai(rs.getString("SDT"));
+                    dto.setTrangThai(rs.getInt("TRANGTHAI"));
                     return dto;
                 }
             }
@@ -98,14 +100,15 @@ public class KhachHangDAO {
      * Cập nhật thông tin khách hàng
      */
     public boolean updatekhachhang(KhachHangDTO dto) {
-        String sql = "UPDATE khachhang SET TENKHACHHANG = ?, DIACHI = ?, SDT = ? WHERE MAKHACHHANG = ?";
+        String sql = "UPDATE khachhang SET TENKHACHHANG = ?, DIACHI = ?, SDT = ? , TRANGTHAI = ? WHERE MAKHACHHANG = ?";
         try (Connection conn = JDBCUtil.startConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, dto.getTenKhachHang());
             ps.setString(2, dto.getDiachi());
             ps.setString(3, dto.getSoDienThoai());
-            ps.setInt(4, dto.getMaKhachHang());
+            ps.setInt(4,dto.getTrangThai());
+            ps.setInt(5, dto.getMaKhachHang());
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
