@@ -1,9 +1,10 @@
+// File: ThongKeDAO.java (Đã xóa phần liên quan đến Thống kê Tồn Kho và Khách Hàng)
 package DAO;
 
 import DTO.ThongKe.ThongKeDoanhThuDTO;
-import DTO.ThongKe.ThongKeKhachHangDTO;
 import DTO.ThongKe.ThongKeTheoThangDTO;
-import DTO.ThongKe.ThongKeTonKhoDTO;
+// import DTO.ThongKe.ThongKeKhachHangDTO; // Đã xóa
+// import DTO.ThongKe.ThongKeTonKhoDTO; // Đã xóa
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 import config.JDBCUtil;
 
@@ -25,121 +26,10 @@ public class ThongKeDAO {
         return new ThongKeDAO();
     }
 
-    /**
-     * Lấy dữ liệu thống kê tồn kho.
-     * Lưu ý: Tính toán tồn kho dựa trên tổng nhập và tổng xuất.
-     * @param text Văn bản tìm kiếm (tên hoặc mã sản phẩm).
-     * @param timeStart Thời gian bắt đầu (java.util.Date).
-     * @param timeEnd Thời gian kết thúc (java.util.Date).
-     * @return ArrayList các đối tượng ThongKeTonKhoDTO.
-     */
-    public static ArrayList<ThongKeTonKhoDTO> getThongKeTonKho(String text, java.util.Date timeStart, java.util.Date timeEnd) {
-        ArrayList<ThongKeTonKhoDTO> result = new ArrayList<>();
-        Connection con = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
+    // **********************************************************************
+    // ** Phần getThongKeTonKho đã được xóa hoàn toàn                      **
+    // **********************************************************************
 
-        // Chuyển đổi java.util.Date sang java.sql.Date
-        java.sql.Date sqlTimeStart = new java.sql.Date(timeStart.getTime());
-        java.sql.Date sqlTimeEnd = new java.sql.Date(timeEnd.getTime());
-
-
-        try {
-            con = JDBCUtil.startConnection();
-            // Câu SQL tính tồn kho
-            // Sử dụng CTE (Common Table Expressions) để làm rõ các bước tính toán
-            String sql = """
-                        WITH NhapTrongKy AS (
-                            SELECT ctpn.MASP, SUM(ctpn.SOLUONG) AS SoLuongNhap
-                            FROM CTPHIEUNHAP ctpn
-                            JOIN PHIEUNHAP pn ON ctpn.MAPHIEUNHAP = pn.MAPHIEUNHAP
-                            WHERE pn.THOIGIAN BETWEEN ? AND ? AND pn.TRANGTHAI != 3 -- Chỉ tính phiếu nhập không bị hủy
-                            GROUP BY ctpn.MASP
-                        ),
-                        XuatTrongKy AS (
-                            SELECT cthd.MASP, SUM(cthd.SOLUONG) AS SoLuongXuat
-                            FROM CTHOADON cthd
-                            JOIN HOADON hd ON cthd.MAHOADON = hd.MAHOADON
-                            WHERE hd.THOIGIAN BETWEEN ? AND ? AND hd.TRANGTHAI != 3 -- Chỉ tính hóa đơn không bị hủy
-                            GROUP BY cthd.MASP
-                        ),
-                        NhapDauKy AS (
-                            SELECT ctpn.MASP, SUM(ctpn.SOLUONG) AS SoLuongNhapDau
-                            FROM CTPHIEUNHAP ctpn
-                            JOIN PHIEUNHAP pn ON ctpn.MAPHIEUNHAP = pn.MAPHIEUNHAP
-                            WHERE pn.THOIGIAN < ? AND pn.TRANGTHAI != 3
-                            GROUP BY ctpn.MASP
-                        ),
-                        XuatDauKy AS (
-                            SELECT cthd.MASP, SUM(cthd.SOLUONG) AS SoLuongXuatDau
-                            FROM CTHOADON cthd
-                            JOIN HOADON hd ON cthd.MAHOADON = hd.MAHOADON
-                            WHERE hd.THOIGIAN < ? AND hd.TRANGTHAI != 3
-                            GROUP BY cthd.MASP
-                        )
-                        SELECT
-                            sp.MASP,
-                            sp.TENSP,
-                            sp.THUONGHIEU,
-                            sp.XUATXU,
-                            sp.MAUSAC,
-                            sp.KICHTHUOC,
-                            sp.SOLUONG AS SoLuongHienTai, -- Số lượng hiện tại trong bảng SANPHAM
-                            sp.TRANGTHAI,
-                            COALESCE(ndk.SoLuongNhapDau, 0) - COALESCE(xdk.SoLuongXuatDau, 0) AS TonDauKy,
-                            COALESCE(nk.SoLuongNhap, 0) AS NhapTrongKy,
-                            COALESCE(xk.SoLuongXuat, 0) AS XuatTrongKy,
-                            (COALESCE(ndk.SoLuongNhapDau, 0) - COALESCE(xdk.SoLuongXuatDau, 0)) + COALESCE(nk.SoLuongNhap, 0) - COALESCE(xk.SoLuongXuat, 0) AS TonCuoiKy
-                        FROM SANPHAM sp
-                        LEFT JOIN NhapTrongKy nk ON sp.MASP = nk.MASP
-                        LEFT JOIN XuatTrongKy xk ON sp.MASP = xk.MASP
-                        LEFT JOIN NhapDauKy ndk ON sp.MASP = ndk.MASP
-                        LEFT JOIN XuatDauKy xdk ON sp.MASP = xdk.MASP
-                        WHERE (sp.TENSP LIKE ? OR CAST(sp.MASP AS CHAR) LIKE ?) -- Tìm theo tên hoặc mã
-                        ORDER BY sp.MASP;
-                       """;
-            pst = con.prepareStatement(sql);
-
-            // Tham số cho NhapTrongKy và XuatTrongKy
-            pst.setDate(1, sqlTimeStart); // NhapTrongKy timeStart
-            pst.setDate(2, sqlTimeEnd);   // NhapTrongKy timeEnd
-            pst.setDate(3, sqlTimeStart); // XuatTrongKy timeStart
-            pst.setDate(4, sqlTimeEnd);   // XuatTrongKy timeEnd
-
-            // Tham số cho NhapDauKy và XuatDauKy
-            pst.setDate(5, sqlTimeStart); // NhapDauKy timeStart
-            pst.setDate(6, sqlTimeStart); // XuatDauKy timeStart
-
-            // Tham số cho điều kiện WHERE
-            String searchText = "%" + text + "%";
-            pst.setString(7, searchText); // TENSP LIKE ?
-            pst.setString(8, searchText); // MASP LIKE ?
-
-
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                ThongKeTonKhoDTO p = new ThongKeTonKhoDTO(
-                        rs.getInt("MASP"),
-                        rs.getString("TENSP"),
-                        rs.getString("THUONGHIEU"),
-                        rs.getString("XUATXU"),
-                        rs.getString("MAUSAC"),
-                        rs.getString("KICHTHUOC"),
-                        rs.getInt("SoLuongHienTai"), // Lấy số lượng hiện tại từ bảng SANPHAM
-                        rs.getInt("TRANGTHAI"),
-                        rs.getInt("TonDauKy"),
-                        rs.getInt("NhapTrongKy"),
-                        rs.getInt("XuatTrongKy"),
-                        rs.getInt("TonCuoiKy")
-                );
-                result.add(p); // Thêm vào danh sách kết quả
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, "SQL Error in getThongKeTonKho", e);
-        }
-        return result;
-    }
 
     /**
      * Lấy dữ liệu thống kê doanh thu và chi phí (tổng tiền nhập) theo từng năm.
@@ -194,64 +84,10 @@ public class ThongKeDAO {
         return result;
     }
 
-    /**
-     * Lấy dữ liệu thống kê khách hàng (số lượng hóa đơn, tổng tiền mua).
-     * @param text Văn bản tìm kiếm (tên hoặc mã khách hàng).
-     * @param timeStart Thời gian bắt đầu (java.util.Date).
-     * @param timeEnd Thời gian kết thúc (java.util.Date).
-     * @return Danh sách các đối tượng ThongKeKhachHangDTO.
-     */
-    public static ArrayList<ThongKeKhachHangDTO> getThongKeKhachHang(String text, java.util.Date timeStart, java.util.Date timeEnd) {
-        ArrayList<ThongKeKhachHangDTO> result = new ArrayList<>();
-        Connection con = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
+    // **********************************************************************
+    // ** Phần getThongKeKhachHang đã được xóa hoàn toàn                   **
+    // **********************************************************************
 
-        java.sql.Date sqlTimeStart = new java.sql.Date(timeStart.getTime());
-        java.sql.Date sqlTimeEnd = new java.sql.Date(timeEnd.getTime());
-
-        try {
-            con = JDBCUtil.startConnection();
-            // Thống kê số lượng hóa đơn và tổng tiền theo khách hàng
-            String sql = """
-                        SELECT
-                            kh.MAKHACHHANG,
-                            kh.TENKHACHHANG,
-                            COUNT(hd.MAHOADON) AS SoLuongHoaDon,
-                            COALESCE(SUM(hd.TONGTIEN), 0) AS TongTienMua
-                        FROM KHACHHANG kh
-                        LEFT JOIN HOADON hd ON kh.MAKHACHHANG = hd.MAKHACHHANG
-                                            AND hd.THOIGIAN BETWEEN ? AND ?
-                                            AND hd.TRANGTHAI != 3 -- Chỉ tính hóa đơn không bị hủy
-                        WHERE kh.TRANGTHAI = 1 -- Chỉ khách hàng đang hoạt động
-                          AND (kh.TENKHACHHANG LIKE ? OR CAST(kh.MAKHACHHANG AS CHAR) LIKE ?)
-                        GROUP BY kh.MAKHACHHANG, kh.TENKHACHHANG
-                        ORDER BY TongTienMua DESC, kh.TENKHACHHANG;
-                       """;
-            pst = con.prepareStatement(sql);
-
-            pst.setDate(1, sqlTimeStart);
-            pst.setDate(2, sqlTimeEnd);
-            String searchText = "%" + text + "%";
-            pst.setString(3, searchText); // TENKHACHHANG LIKE ?
-            pst.setString(4, searchText); // MAKHACHHANG LIKE ?
-
-
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                int makh = rs.getInt("MAKHACHHANG");
-                String tenkh = rs.getString("TENKHACHHANG");
-                int soluongphieu = rs.getInt("SoLuongHoaDon");
-                long tongtien = rs.getLong("TongTienMua");
-                ThongKeKhachHangDTO x = new ThongKeKhachHangDTO(makh, tenkh, soluongphieu, tongtien);
-                result.add(x);
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(ThongKeDAO.class.getName()).log(Level.SEVERE, "SQL Error in getThongKeKhachHang", e);
-        }
-        return result;
-    }
 
     /**
      * Lấy dữ liệu thống kê doanh thu và chi phí (tổng tiền nhập) theo từng tháng trong năm.

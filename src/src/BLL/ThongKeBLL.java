@@ -1,10 +1,11 @@
+// File: ThongKeBLL.java (Đã xóa phần liên quan đến Thống kê Tồn Kho và Khách Hàng)
 package BLL;
 
 import DAO.ThongKeDAO;
 import DTO.ThongKe.ThongKeDoanhThuDTO;
-import DTO.ThongKe.ThongKeKhachHangDTO;
+// import DTO.ThongKe.ThongKeKhachHangDTO; // Đã xóa
 import DTO.ThongKe.ThongKeTheoThangDTO;
-import DTO.ThongKe.ThongKeTonKhoDTO;
+// import DTO.ThongKe.ThongKeTonKhoDTO; // Đã xóa
 import DTO.ThongKe.ThongKeTungNgayTrongThangDTO;
 
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class ThongKeBLL {
     private final ThongKeDAO thongkeDAO;
 
     // Danh sách lưu trữ dữ liệu tạm thời (nếu cần)
-    private ArrayList<ThongKeKhachHangDTO> listKhachHang;
-    private ArrayList<ThongKeTonKhoDTO> listTonKho; // Đổi từ HashMap sang ArrayList
+    // private ArrayList<ThongKeKhachHangDTO> listKhachHang; // Đã xóa
+    // private ArrayList<ThongKeTonKhoDTO> listTonKho; // Đã xóa
 
     /**
      * Constructor khởi tạo đối tượng ThongKeDAO.
@@ -27,81 +28,17 @@ public class ThongKeBLL {
      */
     public ThongKeBLL() {
         thongkeDAO = new ThongKeDAO(); // Khởi tạo DAO
-        // Load dữ liệu tồn kho ban đầu (tất cả sản phẩm, từ trước đến nay)
-        // Lưu ý: new Date(0) là thời điểm epoch (1/1/1970), phù hợp để lấy từ đầu.
-        // listTonKho = ThongKeDAO.getThongKeTonKho("", new Date(0), new Date(System.currentTimeMillis()));
-        // Hoặc không load ở constructor mà load khi gọi hàm get lần đầu
+        // Các dòng load dữ liệu mặc định cho tồn kho và khách hàng đã được xóa
     }
 
     // ==================== Thống kê Khách hàng ====================
+    // ** Phần Thống kê Khách hàng đã được xóa hoàn toàn **
 
-    /**
-     * Lấy danh sách thống kê tất cả khách hàng từ trước đến nay.
-     * @return ArrayList<ThongKeKhachHangDTO>
-     */
-    public ArrayList<ThongKeKhachHangDTO> getAllKhachHangDefault() {
-        // Gọi phương thức DAO tĩnh, lấy từ trước đến nay
-        this.listKhachHang = ThongKeDAO.getThongKeKhachHang("", new Date(0), new Date(System.currentTimeMillis()));
-        return this.listKhachHang;
-    }
-
-    /**
-     * Lọc và lấy danh sách thống kê khách hàng theo tiêu chí.
-     * @param text Từ khóa tìm kiếm (tên hoặc mã khách hàng).
-     * @param start Ngày bắt đầu (java.util.Date).
-     * @param end Ngày kết thúc (java.util.Date).
-     * @return ArrayList<ThongKeKhachHangDTO>
-     */
-    public ArrayList<ThongKeKhachHangDTO> filterKhachHang(String text, Date start, Date end) {
-        // Gọi phương thức DAO tĩnh với các tham số lọc
-        this.listKhachHang = ThongKeDAO.getThongKeKhachHang(text, start, end);
-        return this.listKhachHang;
-    }
 
     // ==================== Thống kê Tồn Kho ====================
+    // ** Phần Thống kê Tồn kho đã được xóa hoàn toàn **
+    // ** Bao gồm cả phương thức getTongSoLuongTonKho **
 
-    /**
-     * Lấy danh sách thống kê tồn kho ban đầu (có thể là toàn bộ hoặc mặc định).
-     * @return ArrayList<ThongKeTonKhoDTO>
-     */
-    public ArrayList<ThongKeTonKhoDTO> getTonKhoDefault() {
-        if (this.listTonKho == null) { // Load lần đầu nếu chưa có
-            this.listTonKho = ThongKeDAO.getThongKeTonKho("", new Date(0), new Date(System.currentTimeMillis()));
-        }
-        return this.listTonKho;
-    }
-
-    /**
-     * Lọc và lấy danh sách thống kê tồn kho theo tiêu chí.
-     * @param text Từ khóa tìm kiếm (tên hoặc mã sản phẩm).
-     * @param time_start Ngày bắt đầu (java.util.Date).
-     * @param time_end Ngày kết thúc (java.util.Date).
-     * @return ArrayList<ThongKeTonKhoDTO>
-     */
-    public ArrayList<ThongKeTonKhoDTO> filterTonKho(String text, Date time_start, Date time_end) {
-        // Gọi phương thức DAO tĩnh và trả về kết quả trực tiếp
-        // Có thể lưu lại vào this.listTonKho nếu logic yêu cầu
-        return ThongKeDAO.getThongKeTonKho(text, time_start, time_end);
-    }
-
-    /**
-     * Tính tổng các cột số lượng từ danh sách ThongKeTonKhoDTO.
-     * @param list Danh sách ThongKeTonKhoDTO cần tính tổng.
-     * @return Mảng int gồm 4 phần tử: [Tổng tồn đầu kỳ, Tổng nhập trong kỳ, Tổng xuất trong kỳ, Tổng tồn cuối kỳ].
-     */
-    public int[] getTongSoLuongTonKho(ArrayList<ThongKeTonKhoDTO> list) {
-        int[] result = {0, 0, 0, 0};
-        if (list == null) {
-            return result; // Trả về mảng 0 nếu danh sách rỗng
-        }
-        for (ThongKeTonKhoDTO item : list) {
-            result[0] += item.getTondauky();
-            result[1] += item.getNhaptrongky();
-            result[2] += item.getXuattrongky();
-            result[3] += item.getToncuoiky();
-        }
-        return result;
-    }
 
     // ==================== Thống kê Doanh thu/Chi phí theo thời gian ====================
 
@@ -145,7 +82,6 @@ public class ThongKeBLL {
      */
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(Date start, Date end) {
         // Gọi phương thức non-static của instance DAO
-        // Đã thay đổi tham số từ String sang Date để khớp với DAO
         return thongkeDAO.getThongKeTuNgayDenNgay(start, end);
     }
 
