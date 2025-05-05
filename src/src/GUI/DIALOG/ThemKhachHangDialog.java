@@ -107,7 +107,7 @@ public class ThemKhachHangDialog extends JDialog {
                 txtDiaChi.requestFocusInWindow();
                 return;
             }
-            KhachHangDTO dto=new KhachHangDTO(0,hoVaTen,diaChi,sdt);
+            KhachHangDTO dto=new KhachHangDTO(0,hoVaTen,diaChi,sdt,1);
             KhachHangBLL khachHangBLL=new KhachHangBLL();
             khachHangBLL.insert(dto);
             loadtabledata();

@@ -140,7 +140,7 @@ public class ThemNhanVienDialog extends JDialog {
                 gioiTinh = "Nữ";
             }
             String diachi=txtdc.getText();
-            NhanVienDTO tmp= new NhanVienDTO(0,hoVaTen,gioiTinh,ngaysinh,sdt,email,diachi);
+            NhanVienDTO tmp= new NhanVienDTO(0,hoVaTen,gioiTinh,ngaysinh,sdt,email,diachi,1);
             NhanVienBLL bll= new NhanVienBLL();
             bll.insert(tmp);
             dispose();

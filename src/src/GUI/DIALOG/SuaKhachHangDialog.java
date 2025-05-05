@@ -14,6 +14,7 @@ public class SuaKhachHangDialog extends JDialog {
     private JTextField txtHoVaTen, txtEmail, txtSDT, txtDiaChi;
     private JButton btnSua, btnHuy;
     private int id;
+    private JComboBox<String> cbTrangThai;
     public SuaKhachHangDialog(Frame owner,int id) {
         super(owner);
         this.id=id;
@@ -59,6 +60,13 @@ public class SuaKhachHangDialog extends JDialog {
         txtDiaChi = new JTextField();
         txtDiaChi.setBounds(70,270,250,25);
         add(txtDiaChi);
+        JLabel lbTrangThai = new JLabel("Trạng Thái");
+        lbTrangThai.setBounds(70, 310, 250, 25);
+        add(lbTrangThai);
+        cbTrangThai = new JComboBox<>(new String[] {"Hoạt Động", "Ngừng Hoạt Động"});
+        cbTrangThai.setBounds(70,340, 250, 25);
+
+        add(cbTrangThai);
 
         //Nút thêm, hủy
         btnSua = new JButton("Sửa Khách Hàng");
@@ -111,12 +119,19 @@ public class SuaKhachHangDialog extends JDialog {
                 txtDiaChi.requestFocusInWindow();
                 return;
             }
+          int TrangThai;
+            if ("Hoạt Động".equals(cbTrangThai.getSelectedItem().toString())) {
+                TrangThai = 1;
+            } else {
+                TrangThai = 0;
+            }
             KhachHangDTO dto = new KhachHangDTO();
             KhachHangBLL khachHangBLL = new KhachHangBLL();
             dto.setMaKhachHang(id);
             dto.setTenKhachHang(hoVaTen);
             dto.setDiachi(diaChi);
             dto.setSoDienThoai(sdt);
+           dto.setTrangThai(TrangThai);
             khachHangBLL.update(dto);
             dispose();
         });
@@ -138,6 +153,11 @@ public class SuaKhachHangDialog extends JDialog {
         txtHoVaTen.setText(dto.getTenKhachHang());
         txtDiaChi.setText(dto.getDiachi());
         txtSDT.setText(dto.getSoDienThoai());
+        if(dto.getTrangThai()==1)
+        cbTrangThai.setSelectedItem("Hoạt Động");
+        else{
+            cbTrangThai.setSelectedItem("Ngừng Hoạt Động");
+        }
 
     }
 }

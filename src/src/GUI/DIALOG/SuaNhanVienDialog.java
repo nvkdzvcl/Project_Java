@@ -15,12 +15,13 @@ public class SuaNhanVienDialog extends JDialog {
     private JRadioButton btnNam, btnNu;
     private JDateChooser ngaySinh;
     private JButton btnSua, btnHuy;
+    private JComboBox<String> cbTrangThai;
     private int id;
     public SuaNhanVienDialog(Frame owner,int id) {
         super(owner);
         this.id=id;
         setTitle("Sửa Nhân Viên");
-        setSize(400, 650);
+        setSize(400, 700);
         setLocationRelativeTo(owner);
         setLayout(null);
 
@@ -78,11 +79,18 @@ public class SuaNhanVienDialog extends JDialog {
         txtdc = new JTextField();
         txtdc.setBounds(70,480,250,25);
         add(txtdc);
+        JLabel lbTrangThai = new JLabel("Trạng Thái");
+        lbTrangThai.setBounds(70, 520, 250, 25);
+        add(lbTrangThai);
+        cbTrangThai = new JComboBox<>(new String[] {"Hoạt Động", "Ngừng Hoạt Động"});
+        cbTrangThai.setBounds(70,550, 250, 25);
+
+        add(cbTrangThai);
 
         loadtabledata(id);
         //Nút thêm, hủy
         btnSua = new JButton("Sửa Nhân Viên");
-        btnSua.setBounds(50, 520, 150, 40);
+        btnSua.setBounds(50, 590, 150, 40);
         btnSua.setBackground(new Color(56,168,223));
         add(btnSua);
         btnSua.addActionListener(e -> {
@@ -141,15 +149,21 @@ public class SuaNhanVienDialog extends JDialog {
             } else if (btnNu.isSelected()) {
                 gioiTinh = "Nữ";
             }
+            int TrangThai;
+            if ("Hoạt Động".equals(cbTrangThai.getSelectedItem().toString())) {
+                TrangThai = 1;
+            } else {
+                TrangThai = 0;
+            }
             String diachi=txtdc.getText();
-            NhanVienDTO tmp= new NhanVienDTO(id,hoVaTen,gioiTinh,ngaysinh,sdt,email,diachi);
+            NhanVienDTO tmp= new NhanVienDTO(id,hoVaTen,gioiTinh,ngaysinh,sdt,email,diachi,TrangThai);
             NhanVienBLL bll= new NhanVienBLL();
             bll.update(tmp);
             dispose();
         });
 
         btnHuy = new JButton("Hủy");
-        btnHuy.setBounds(200, 520, 150, 40);
+        btnHuy.setBounds(200, 590, 150, 40);
         btnHuy.setBackground(new Color(216,92,99));
         add(btnHuy);
         btnHuy.addActionListener(e -> {
@@ -171,6 +185,11 @@ public class SuaNhanVienDialog extends JDialog {
         java.sql.Date sqlDate = java.sql.Date.valueOf(tmp.getNgaySinh());
         ngaySinh.setDate(sqlDate);
         txtdc.setText(tmp.getDiachi());
+        if(tmp.getTrangThai()==1)
+            cbTrangThai.setSelectedItem("Hoạt Động");
+        else{
+            cbTrangThai.setSelectedItem("Ngừng Hoạt Động");
+        }
 
     }
 }
