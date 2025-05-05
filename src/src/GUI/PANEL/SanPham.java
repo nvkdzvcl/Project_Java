@@ -79,7 +79,7 @@ public class SanPham extends JPanel {
         P1.add(btnChiTiet);
         P1.add(btnxoa);
 
-        String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc","Trạng Thái"};
+        String[] cb={"Tất Cả","Mã SP","Tên SP","Xuất Xứ","Thương Hiệu","Màu Sắc"};
         JComboBox pl=new JComboBox(cb);
         pl.setPreferredSize(new Dimension(100,40));
         JTextField tf=new JTextField(20);
@@ -192,6 +192,11 @@ public class SanPham extends JPanel {
             ChiTietSanPhamDialog dlgCTSP = new ChiTietSanPhamDialog(parentFrame,this);
             dlgCTSP.setSanPham(dto);
             dlgCTSP.setVisible(true);
+        });
+        btnlm.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadDataToTable(sanPhamBLL.getlistsp());
+            }
         });
         setVisible(true);
     }
