@@ -195,6 +195,7 @@ public class SanPham extends JPanel {
         });
         btnlm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                sanPhamBLL = new SanPhamBLL();
                 loadDataToTable(sanPhamBLL.getlistsp());
             }
         });
