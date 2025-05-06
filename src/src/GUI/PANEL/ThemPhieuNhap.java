@@ -524,6 +524,8 @@ public class ThemPhieuNhap extends JPanel {
     }
 
     public void resetForm() {
+        loadSanPhamToTable();
+
         modelChiTietNhapHang.setRowCount(0);
         txtMaSP.setText("");
         txtTenSP.setText("");

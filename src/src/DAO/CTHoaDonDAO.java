@@ -11,9 +11,8 @@ public class CTHoaDonDAO {
     private static final CTHoaDonDAO INSTANCE = new CTHoaDonDAO();
     public static CTHoaDonDAO getInstance() { return INSTANCE; }
 
-    /**
-     * Lấy tất cả chi tiết của hóa đơn maHD
-     */
+
+    //Lấy tất cả chi tiết của hóa đơn maHD
     public List<CTHoaDonDTO> getByMaHoaDon(int maHD) {
         List<CTHoaDonDTO> list = new ArrayList<>();
         String sql = "SELECT * FROM CTHOADON WHERE MAHOADON = ?";

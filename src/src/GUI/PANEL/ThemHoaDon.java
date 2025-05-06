@@ -582,6 +582,8 @@ public class ThemHoaDon extends JPanel {
     }
 
     public void resetForm() {
+        loadSanPhamToTable();
+
         modelChiTietDonHang.setRowCount(0);
         txtMaSP.setText("");
         txtTenSP.setText("");
