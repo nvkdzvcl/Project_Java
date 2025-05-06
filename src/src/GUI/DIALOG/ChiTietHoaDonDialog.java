@@ -3,11 +3,9 @@ package GUI.DIALOG;
 import BLL.HoaDonBLL;
 import BLL.KhachHangBLL;
 import BLL.NhanVienBLL;
+import BLL.SanPhamBLL;
 import DAO.CTHoaDonDAO;
-import DTO.CTHoaDonDTO;
-import DTO.HoaDonDTO;
-import DTO.KhachHangDTO;
-import DTO.NhanVienDTO;
+import DTO.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -125,12 +123,17 @@ public class ChiTietHoaDonDialog extends JDialog {
 
         // 3. Chi tiết
         detailModel.setRowCount(0);
+        SanPhamBLL sanPhamBLL = new SanPhamBLL();
         int stt = 1;
         for (CTHoaDonDTO ct : CTHoaDonDAO.getInstance().getByMaHoaDon(maHD)) {
+            SanPhamDTO sp = sanPhamBLL.getonesp(ct.getMaSP());
             detailModel.addRow(new Object[]{
                     stt++,
                     ct.getMaSP(),
-                    // (nếu DTO sản phẩm có lấy màu/sizes thì dùng BLL.SanPhamBLL)
+                    sp != null ? sp.getMauSac() : "",
+                    sp != null ? sp.getKichThuoc() : "",
+                    sp != null ? sp.getThuongHieu() : "",
+                    sp != null ? sp.getXuatXu() : "",
                     ct.getDonGia(),
                     ct.getSoLuong()
             });
