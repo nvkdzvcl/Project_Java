@@ -62,7 +62,7 @@ public class ThemTaiKhoanDialog extends JDialog {
         JLabel lbTrangThai = new JLabel("Trạng Thái");
         lbTrangThai.setBounds(70, 310, 250, 25);
         add(lbTrangThai);
-        cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động", "Hoạt động"});
+        cbTrangThai = new JComboBox<>(new String[] {"Hoạt động", "Ngừng hoạt động"});
         cbTrangThai.setBounds(70,340, 250, 25);
         add(cbTrangThai);
 

@@ -273,6 +273,19 @@ public class ThemHoaDon extends JPanel {
                 int giaBan = Integer.parseInt(txtGiaBan.getText().trim());
                 int soLuong = Integer.parseInt(txtSoLuong.getText().trim());
 
+                SanPhamDTO sp = sanPhamBLL.getonesp(Integer.parseInt(maSP));
+                if (sp == null) {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm!");
+                    return;
+                }
+                if (soLuong > sp.getSoLuong()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Số lượng nhập vượt quá tồn kho hiện có!\nTồn kho: " + sp.getSoLuong(),
+                            "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+
                 int stt = modelChiTietDonHang.getRowCount() + 1;
 
                 modelChiTietDonHang.addRow(new Object[] {stt,maSP,tenSP,thuong_Hieu,xuat_Xu,mauSac,kichThuoc,giaBan,soLuong});
