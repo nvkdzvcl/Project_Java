@@ -51,40 +51,40 @@ public class ThongKeDoanhThuDTO {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + this.thoigian;
-        hash = 97 * hash + Objects.hashCode(this.von);
-        hash = 97 * hash + Objects.hashCode(this.doanhthu);
-        hash = 97 * hash + Objects.hashCode(this.loinhuan);
-        return hash;
-    }
+//    public int hashCode() {
+//        int hash = 7;
+//        hash = 97 * hash + this.thoigian;
+//        hash = 97 * hash + Objects.hashCode(this.von);
+//        hash = 97 * hash + Objects.hashCode(this.doanhthu);
+//        hash = 97 * hash + Objects.hashCode(this.loinhuan);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        final ThongKeDoanhThuDTO other = (ThongKeDoanhThuDTO) obj;
+//        if (this.thoigian != other.thoigian) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.von, other.von)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.doanhthu, other.doanhthu)) {
+//            return false;
+//        }
+//        return Objects.equals(this.loinhuan, other.loinhuan);
+//    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ThongKeDoanhThuDTO other = (ThongKeDoanhThuDTO) obj;
-        if (this.thoigian != other.thoigian) {
-            return false;
-        }
-        if (!Objects.equals(this.von, other.von)) {
-            return false;
-        }
-        if (!Objects.equals(this.doanhthu, other.doanhthu)) {
-            return false;
-        }
-        return Objects.equals(this.loinhuan, other.loinhuan);
-    }
-
-    @Override
+//    @Override
     public String toString() {
         return "ThongKeDoanhThu{" + "thoigian=" + thoigian + ", von=" + von + ", doanhthu=" + doanhthu + ", loinhuan=" + loinhuan + '}';
     }

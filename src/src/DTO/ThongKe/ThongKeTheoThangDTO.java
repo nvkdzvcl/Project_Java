@@ -56,44 +56,44 @@ public class ThongKeTheoThangDTO {
 
     // Cập nhật hashCode và equals nếu cần thiết để xử lý kiểu long
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + this.thang;
-        hash = 59 * hash + Objects.hashCode(this.chiphi); // Dùng Objects.hashCode cho kiểu Wrapper nếu là Long, nhưng ở đây là long nguyên thủy
-        hash = 59 * hash + Objects.hashCode(this.doanhthu);
-        hash = 59 * hash + Objects.hashCode(this.loinhuan);
-        // Hoặc cách khác cho long nguyên thủy:
-        // hash = 59 * hash + (int) (this.chiphi ^ (this.chiphi >>> 32));
-        // hash = 59 * hash + (int) (this.doanhthu ^ (this.doanhthu >>> 32));
-        // hash = 59 * hash + (int) (this.loinhuan ^ (this.loinhuan >>> 32));
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ThongKeTheoThangDTO other = (ThongKeTheoThangDTO) obj;
-        if (this.thang != other.thang) {
-            return false;
-        }
-        if (this.chiphi != other.chiphi) {
-            return false;
-        }
-        if (this.doanhthu != other.doanhthu) {
-            return false;
-        }
-        return this.loinhuan == other.loinhuan;
-    }
-
-    @Override
+//    public int hashCode() {
+//        int hash = 7;
+//        hash = 59 * hash + this.thang;
+//        hash = 59 * hash + Objects.hashCode(this.chiphi); // Dùng Objects.hashCode cho kiểu Wrapper nếu là Long, nhưng ở đây là long nguyên thủy
+//        hash = 59 * hash + Objects.hashCode(this.doanhthu);
+//        hash = 59 * hash + Objects.hashCode(this.loinhuan);
+//        // Hoặc cách khác cho long nguyên thủy:
+//        // hash = 59 * hash + (int) (this.chiphi ^ (this.chiphi >>> 32));
+//        // hash = 59 * hash + (int) (this.doanhthu ^ (this.doanhthu >>> 32));
+//        // hash = 59 * hash + (int) (this.loinhuan ^ (this.loinhuan >>> 32));
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        final ThongKeTheoThangDTO other = (ThongKeTheoThangDTO) obj;
+//        if (this.thang != other.thang) {
+//            return false;
+//        }
+//        if (this.chiphi != other.chiphi) {
+//            return false;
+//        }
+//        if (this.doanhthu != other.doanhthu) {
+//            return false;
+//        }
+//        return this.loinhuan == other.loinhuan;
+//    }
+//
+//    @Override
     public String toString() {
         return "ThongKeTheoThangDTO{" + "thang=" + thang + ", chiphi=" + chiphi + ", doanhthu=" + doanhthu + ", loinhuan=" + loinhuan + '}';
     }
