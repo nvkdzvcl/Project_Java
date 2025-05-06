@@ -366,7 +366,7 @@ public class ThemPhieuNhap extends JPanel {
         btnThemPN.setBounds(750,365,330,40);
         add(btnThemPN);
         btnThemPN.addActionListener(e -> {
-            // 1. Kiểm tra xem có SP nào chưa
+            //Kiểm tra xem có SP nào chưa
             if (modelChiTietNhapHang.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -377,7 +377,7 @@ public class ThemPhieuNhap extends JPanel {
                 return;
             }
 
-            // 2. Xác nhận tạo phiếu
+            //Xác nhận tạo phiếu
             int confirm = JOptionPane.showConfirmDialog(
                     this,
                     "Bạn có chắc chắn muốn tạo phiếu nhập này?",
@@ -390,7 +390,7 @@ public class ThemPhieuNhap extends JPanel {
             }
 
             try {
-                // 3. Chuẩn bị DTO phiếu nhập
+                //Chuẩn bị DTO phiếu nhập
                 PhieuNhapDTO pn = new PhieuNhapDTO();
                 int idxNV = cbNhanVien_Nhap.getSelectedIndex();
                 pn.setNhanVienNhap(listNhanVien.get(idxNV).getMaNV());
@@ -401,7 +401,7 @@ public class ThemPhieuNhap extends JPanel {
                 int trangThai = cbTrangThai.getSelectedIndex() == 1 ? 2 : 1;
                 pn.setTrangThai(trangThai);
 
-                // 4. Gọi BLL để insert
+                //Gọi BLL để insert
                 int newId = bll.insertPhieuNhap(pn);
                 if (newId < 0) {
                     throw new RuntimeException("Lỗi khi thêm phiếu nhập");
@@ -410,7 +410,7 @@ public class ThemPhieuNhap extends JPanel {
                 //kiểm tra phiếu nhập nào hoàn thành thì tăng số lượng sản phẩm lên
                 boolean isCompleted = pn.getTrangThai() == 2;
 
-                // 5. Insert chi tiết
+                //Insert chi tiết
                 for (int i = 0; i < modelChiTietNhapHang.getRowCount(); i++) {
                     int maSP   = Integer.parseInt(modelChiTietNhapHang.getValueAt(i, 1).toString());
                     int donGia = (int) modelChiTietNhapHang.getValueAt(i, 7);
@@ -422,11 +422,11 @@ public class ThemPhieuNhap extends JPanel {
                     }
                 }
 
-                // 6. Thông báo và quay về panel Phiếu nhập
+                //Thông báo và quay về panel Phiếu nhập
                 JOptionPane.showMessageDialog(this, "Tạo phiếu nhập thành công");
                 parent.showPanel("phieunhap");
 
-                // 7. Làm mới dữ liệu bảng ở panel Phiếu nhập
+                //Làm mới dữ liệu bảng ở panel Phiếu nhập
                 PhieuNhap pnPanel = (PhieuNhap) parent.getPanel("phieunhap");
                 pnPanel.reloadTable();
 

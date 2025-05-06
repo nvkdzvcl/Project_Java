@@ -37,14 +37,14 @@ public class HoaDon extends JPanel {
 
     public HoaDon(Main parent) {
         this.parent = parent;
-        // Sử dụng BorderLayout với khoảng cách 10 pixel
+        //Sử dụng BorderLayout với khoảng cách 10 pixel
         setLayout(new BorderLayout(10, 10));
 
-        // --------- PHẦN NÚT CHỨC NĂNG (TOP) -----------
+        //PHẦN NÚT CHỨC NĂNG (TOP)
         JPanel P = new JPanel(new BorderLayout());
         JPanel P1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        // Nút Thêm
+        //Nút Thêm
         ImageIcon addIcon = resizeimg(new ImageIcon(getClass().getResource("/icon/them.png")));
         JButton btnthem = createIconButton("Thêm", addIcon);
         btnthem.setOpaque(false);
@@ -52,7 +52,7 @@ public class HoaDon extends JPanel {
         btnthem.setBorderPainted(false);
         P1.add(btnthem);
 
-        // Nút Chi tiết
+        //Nút Chi tiết
         ImageIcon chitieticon = resizeimg(new ImageIcon(getClass().getResource("/icon/chitiet.png")));
         JButton btnchitiet = createIconButton("Chi tiết", chitieticon);
         btnchitiet.setOpaque(false);
@@ -60,21 +60,13 @@ public class HoaDon extends JPanel {
         btnchitiet.setBorderPainted(false);
         P1.add(btnchitiet);
 
-        // Nút Hủy phiếu
+        //Nút Hủy phiếu
         ImageIcon huyphieuicon = resizeimg(new ImageIcon(getClass().getResource("/icon/huyphieu.png")));
         JButton btnhuyphieu = createIconButton("Hủy hóa đơn", huyphieuicon);
         btnhuyphieu.setOpaque(false);
         btnhuyphieu.setFocusPainted(false);
         btnhuyphieu.setBorderPainted(false);
         P1.add(btnhuyphieu);
-
-        // Nút Xuất Excel
-//        ImageIcon xuatexcelicon = resizeimg(new ImageIcon(getClass().getResource("/icon/xuatexcel.png")));
-//        JButton btnxuatexcel = createIconButton("Xuất Excel", xuatexcelicon);
-//        btnxuatexcel.setOpaque(false);
-//        btnxuatexcel.setFocusPainted(false);
-//        btnxuatexcel.setBorderPainted(false);
-//        P1.add(btnxuatexcel);
 
         // Nút Làm mới
         ImageIcon lmcon = resizeimg(new ImageIcon(getClass().getResource("/icon/lammoi.png")));
@@ -84,7 +76,7 @@ public class HoaDon extends JPanel {
         btnlm.setVerticalTextPosition(SwingConstants.CENTER);
         btnlm.setHorizontalTextPosition(SwingConstants.RIGHT);
 
-        // Panel chứa công cụ tìm kiếm (bên phải của thanh chức năng)
+        // Panel chứa công cụ tìm kiếm
         JPanel P2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         String[] cb = {"Tất Cả", "STT", "Mã HĐ"};
         JComboBox<String> pl = new JComboBox<>(cb);
@@ -102,7 +94,7 @@ public class HoaDon extends JPanel {
         // Thêm panel chứa các nút chức năng vào phần NORTH của giao diện
         add(P, BorderLayout.NORTH);
 
-        // --------- PHẦN GIAO DIỆN CHÍNH -----------
+        // PHẦN GIAO DIỆN CHÍNH
         // Tạo một panel trung tâm để chứa cả bộ lọc tìm kiếm và khu vực hiển thị nội dung
         JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
 
@@ -168,11 +160,8 @@ public class HoaDon extends JPanel {
             ((SanPham) parent.getPanel("sanpham")).reloadTable();
         });
 
-        // Khi gõ search hoặc chọn filter, bạn có thể gọi:
-        // List<PhieuNhapDTO> filtered = bll.filterPhieuNhap(...);
-        // loadDataToTable(filtered);
 
-        // ==== khởi tạo dữ liệu lên table lần đầu ====
+        //khởi tạo dữ liệu lên table lần đầu ====
         reloadTable();
 
         //Tìm kiếm
@@ -256,7 +245,7 @@ public class HoaDon extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 0;
 
-        // --- 1) Khách hàng ---
+        //Khách hàng
         gbc.gridy = 0;
         leftPanel.add(new JLabel("Khách hàng:"), gbc);
         gbc.gridy = 1;
@@ -270,7 +259,7 @@ public class HoaDon extends JPanel {
         leftPanel.add(cbKH, gbc);
         gbc.weightx = 0;
 
-        // --- 2) Nhân viên bán ---
+        //Nhân viên bán
         gbc.gridy = 2;
         leftPanel.add(new JLabel("Nhân viên bán:"), gbc);
         gbc.gridy = 3;
@@ -284,7 +273,7 @@ public class HoaDon extends JPanel {
         leftPanel.add(cbNV, gbc);
         gbc.weightx = 0;
 
-        // --- 3) Từ ngày / Đến ngày ---
+        //Từ ngày / Đến ngày
         gbc.gridy = 4;
         leftPanel.add(new JLabel("Từ ngày:"), gbc);
         gbc.gridy = 5;
@@ -303,7 +292,7 @@ public class HoaDon extends JPanel {
         leftPanel.add(dcTo, gbc);
         gbc.weightx = 0;
 
-        // --- 4) Từ tiền / Đến tiền ---
+        //Từ tiền / Đến tiền
         gbc.gridy = 8;
         leftPanel.add(new JLabel("Từ tiền (VNĐ):"), gbc);
         gbc.gridy = 9;
@@ -320,7 +309,7 @@ public class HoaDon extends JPanel {
         leftPanel.add(tfMax, gbc);
         gbc.weightx = 0;
 
-        // --- 5) Nút Áp dụng & Xóa ---
+        //Nút Áp dụng và Xóa
         gbc.gridy = 12;
         gbc.weightx = 1.0;
         JButton btnApply = new JButton("Áp dụng");
@@ -335,7 +324,7 @@ public class HoaDon extends JPanel {
         gbc.weighty = 1.0;
         leftPanel.add(new JLabel(), gbc);
 
-        // --- Logic cho 2 nút ---
+        //Logic cho 2 nút
         btnApply.addActionListener(e -> {
             // Lấy điều kiện
             Integer khId = null, nvId = null;

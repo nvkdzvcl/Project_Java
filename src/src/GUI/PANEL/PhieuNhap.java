@@ -33,14 +33,14 @@ public class PhieuNhap extends JPanel {
 
     public PhieuNhap(Main parent) {
         this.parent = parent;
-        // Sử dụng BorderLayout với khoảng cách 10 pixel
+
         setLayout(new BorderLayout(10, 10));
 
-        // --------- PHẦN NÚT CHỨC NĂNG (TOP) -----------
+
         JPanel P = new JPanel(new BorderLayout());
         JPanel P1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        // Nút Thêm
+        //Nút Thêm
         ImageIcon addIcon = resizeimg(new ImageIcon(getClass().getResource("/icon/them.png")));
         JButton btnthem = createIconButton("Thêm", addIcon);
         btnthem.setOpaque(false);
@@ -48,7 +48,7 @@ public class PhieuNhap extends JPanel {
         btnthem.setBorderPainted(false);
         P1.add(btnthem);
 
-        // Nút Chi tiết
+        //Nút Chi tiết
         ImageIcon chitieticon = resizeimg(new ImageIcon(getClass().getResource("/icon/chitiet.png")));
         JButton btnchitiet = createIconButton("Chi tiêt", chitieticon);
         btnchitiet.setOpaque(false);
@@ -56,7 +56,7 @@ public class PhieuNhap extends JPanel {
         btnchitiet.setBorderPainted(false);
         P1.add(btnchitiet);
 
-        // Nút Hủy phiếu
+        //Nút Hủy phiếu
         ImageIcon huyphieuicon = resizeimg(new ImageIcon(getClass().getResource("/icon/huyphieu.png")));
         JButton btnhuyphieu = createIconButton("Hủy phiếu", huyphieuicon);
         btnhuyphieu.setOpaque(false);
@@ -64,15 +64,7 @@ public class PhieuNhap extends JPanel {
         btnhuyphieu.setBorderPainted(false);
         P1.add(btnhuyphieu);
 
-        // Nút Xuất Excel
-//        ImageIcon xuatexcelicon = resizeimg(new ImageIcon(getClass().getResource("/icon/xuatexcel.png")));
-//        JButton btnxuatexcel = createIconButton("Xuất Excel", xuatexcelicon);
-//        btnxuatexcel.setOpaque(false);
-//        btnxuatexcel.setFocusPainted(false);
-//        btnxuatexcel.setBorderPainted(false);
-//        P1.add(btnxuatexcel);
-
-        // Nút Làm mới
+        //Nút Làm mới
         ImageIcon lmcon = resizeimg(new ImageIcon(getClass().getResource("/icon/lammoi.png")));
         JButton btnlm = createIconButton("Làm Mới", lmcon);
         btnlm.setOpaque(false);
@@ -80,7 +72,7 @@ public class PhieuNhap extends JPanel {
         btnlm.setVerticalTextPosition(SwingConstants.CENTER);
         btnlm.setHorizontalTextPosition(SwingConstants.RIGHT);
 
-        // Panel chứa công cụ tìm kiếm (bên phải của thanh chức năng)
+        //Panel chứa công cụ tìm kiếm (bên phải của thanh chức năng)
         JPanel P2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         String[] cb = {"Tất Cả", "STT", "Mã PN"};
         JComboBox<String> pl = new JComboBox<>(cb);
@@ -91,18 +83,18 @@ public class PhieuNhap extends JPanel {
         P2.add(tf);
         P2.add(btnlm);
 
-        // Ghép hai panel con vào panel P
+        //Ghép hai panel con vào panel P
         P.add(P1, BorderLayout.WEST);
         P.add(P2, BorderLayout.EAST);
 
-        // Thêm panel chứa các nút chức năng vào phần NORTH của giao diện
+        //Thêm panel chứa các nút chức năng vào phần NORTH của giao diện
         add(P, BorderLayout.NORTH);
 
-        // --------- PHẦN GIAO DIỆN CHÍNH -----------
-        // Tạo một panel trung tâm để chứa cả bộ lọc tìm kiếm và khu vực hiển thị nội dung
+        //PHẦN GIAO DIỆN CHÍNH
+        //Tạo một panel trung tâm để chứa cả bộ lọc tìm kiếm và khu vực hiển thị nội dung
         JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
 
-        // Thêm bộ lọc tìm kiếm vào phần WEST
+        //Thêm bộ lọc tìm kiếm vào phần WEST
         JPanel filterPanel = createLeftFilterPanel();
         centerPanel.add(filterPanel, BorderLayout.WEST);
 
@@ -124,7 +116,7 @@ public class PhieuNhap extends JPanel {
                         "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            // Nếu bạn kích hoạt sorting/filtering, convert index:
+
             int modelRow = table.convertRowIndexToModel(viewRow);
             int maPN = Integer.parseInt(
                     model.getValueAt(modelRow, 1).toString()
@@ -164,11 +156,6 @@ public class PhieuNhap extends JPanel {
             ((SanPham) parent.getPanel("sanpham")).reloadTable();
         });
 
-        // Khi gõ search hoặc chọn filter, bạn có thể gọi:
-        // List<PhieuNhapDTO> filtered = bll.filterPhieuNhap(...);
-        // loadDataToTable(filtered);
-
-        // ==== khởi tạo dữ liệu lên table lần đầu ====
         reloadTable();
 
         //Tìm kiếm
@@ -251,14 +238,14 @@ public class PhieuNhap extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 0;
 
-        // --- 1. Nhân viên nhập ---
+        //Nhân viên nhập
         gbc.gridy = 0;
         leftPanel.add(new JLabel("Nhân viên nhập:"), gbc);
         gbc.gridy = 1;
         gbc.weightx = 1.0;
         JComboBox<String> cbNhanVien = new JComboBox<>();
         cbNhanVien.addItem("Tất cả");
-        // load danh sách nhân viên từ BLL
+        //load danh sách nhân viên từ BLL
         ArrayList<NhanVienDTO> listNV = new NhanVienBLL().getlistnv();
         for (NhanVienDTO nv : listNV) {
             cbNhanVien.addItem(nv.getHoTen());
@@ -266,7 +253,7 @@ public class PhieuNhap extends JPanel {
         leftPanel.add(cbNhanVien, gbc);
         gbc.weightx = 0;
 
-        // --- 2. Từ ngày / Đến ngày ---
+        //Từ ngày / Đến ngày
         gbc.gridy = 2;
         leftPanel.add(new JLabel("Từ ngày:"), gbc);
         gbc.gridy = 3;
@@ -285,7 +272,7 @@ public class PhieuNhap extends JPanel {
         leftPanel.add(dateChooserDen, gbc);
         gbc.weightx = 0;
 
-        // --- 3. Từ số tiền / Đến số tiền ---
+        //Từ số tiền / Đến số tiền
         gbc.gridy = 6;
         leftPanel.add(new JLabel("Từ số tiền (VND):"), gbc);
         gbc.gridy = 7;
@@ -302,7 +289,7 @@ public class PhieuNhap extends JPanel {
         leftPanel.add(tfMaxTien, gbc);
         gbc.weightx = 0;
 
-        // --- 4. Nút Áp dụng và Xóa bộ lọc ---
+        //Nút Áp dụng và Xóa bộ lọc
         gbc.gridy = 10;
         gbc.weightx = 1.0;
         JButton btnApply = new JButton("Áp dụng");
@@ -312,7 +299,7 @@ public class PhieuNhap extends JPanel {
         JButton btnClear = new JButton("Xóa bộ lọc");
         leftPanel.add(btnClear, gbc);
 
-        // --- 5. Hành động cho 2 nút ---
+        //Hành động cho 2 nút
         btnApply.addActionListener(e -> {
             // Lấy điều kiện
             Integer nvId = null;
@@ -334,10 +321,10 @@ public class PhieuNhap extends JPanel {
                         "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            // Gọi BLL để lọc
+            //Gọi BLL để lọc
             java.util.List<PhieuNhapDTO> filtered =
                     bll.filterPhieuNhap(nvId, from, to, minTien, maxTien);
-            // Nạp lại table
+            //Nạp lại table
             loadDataToTable(filtered);
         });
 
@@ -350,7 +337,7 @@ public class PhieuNhap extends JPanel {
             reloadTable();
         });
 
-        // Để chiếm khoảng trống cuối
+        //Để chiếm khoảng trống cuối
         gbc.gridy = 12;
         gbc.weighty = 1.0;
         leftPanel.add(new JLabel(), gbc);
@@ -360,7 +347,7 @@ public class PhieuNhap extends JPanel {
     }
 
 
-    // Phương thức tải icon từ đường dẫn và thay đổi kích thước (20x20)
+    //Phương thức tải icon từ đường dẫn và thay đổi kích thước (20x20)
     private ImageIcon loadIcon(String path) {
         URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
@@ -379,7 +366,7 @@ public class PhieuNhap extends JPanel {
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         int stt = 1;
         for (PhieuNhapDTO pn : danhSach) {
-            // Lấy tên NV từ BLL hoặc DTO nếu đã có sẵn
+            //Lấy tên NV từ BLL hoặc DTO nếu đã có sẵn
             String tenNV = new NhanVienBLL()
                     .getonenv(pn.getNhanVienNhap())
                     .getHoTen();

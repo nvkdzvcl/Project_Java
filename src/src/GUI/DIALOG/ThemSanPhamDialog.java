@@ -99,8 +99,6 @@ public class ThemSanPhamDialog extends JDialog {
         String[] colorNames = {
                 "Đen", "Be", "Nâu", "Xám nhạt", "Hồng nhạt", "Xanh rêu", "Xanh biển đậm", "Trắng", "Đỏ", "Olive", "Xanh biển nhạt", "Navy", "Rượu vang", "Be đậm"
         };
-        //selectedColor = {null};
-        //final String[] selectedColorName = {null};
         for (int i = 0; i < palette.length; i++) {
             Color color = palette[i];
             String name = colorNames[i];
