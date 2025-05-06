@@ -116,14 +116,14 @@ public class ThongKeTongQuan extends JPanel {
         // jp_top.setPreferredSize(new Dimension(0, 80)); // Giảm chiều cao nếu cần
 
         // Tạo panel con cho Khách hàng
-        JPanel khPanel = createSummaryPanel("Khách hàng");
+        JPanel khPanel = createSummaryPanel("Khách hàng từ trước đến nay");
         lblSoKhachHang = new JLabel("0", JLabel.CENTER); // Label số lượng
         lblSoKhachHang.setFont(lblSoKhachHang.getFont().deriveFont(Font.BOLD, 18f)); // Font lớn hơn
         khPanel.add(lblSoKhachHang, BorderLayout.CENTER);
         jp_top.add(khPanel);
 
         // Tạo panel con cho Nhân viên
-        JPanel nvPanel = createSummaryPanel("Nhân viên");
+        JPanel nvPanel = createSummaryPanel("Nhân viên đang hoạt động");
         lblSoNhanVien = new JLabel("0", JLabel.CENTER); // Label số lượng
         lblSoNhanVien.setFont(lblSoNhanVien.getFont().deriveFont(Font.BOLD, 18f));
         nvPanel.add(lblSoNhanVien, BorderLayout.CENTER);
@@ -139,15 +139,7 @@ public class ThongKeTongQuan extends JPanel {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            // (Tùy chọn) Ghi đè getColumnClass để sorter biết kiểu dữ liệu gốc
-            // @Override
-            // public Class<?> getColumnClass(int columnIndex) {
-            //     switch (columnIndex) {
-            //         case 0: return String.class; // Hoặc Date.class nếu lưu Date
-            //         case 1: case 2: case 3: return String.class; // Hoặc Long.class nếu lưu Long
-            //         default: return Object.class;
-            //     }
-            // }
+
         };
         String[] header = new String[]{"Ngày", "Chi phí", "Doanh thu", "Lợi nhuận"};
         tblModel.setColumnIdentifiers(header);
