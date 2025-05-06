@@ -13,12 +13,9 @@ public class KhachHangDAO {
     }
 
     private KhachHangDAO() {
-        // Private constructor để đảm bảo singleton
     }
 
-    /**
-     * Lấy tất cả khách hàng còn hoạt động (TRANGTHAI=1)
-     */
+
     public ArrayList<KhachHangDTO> getallkhachhang() {
         ArrayList<KhachHangDTO> list = new ArrayList<>();
         String sql = "SELECT * FROM khachhang ";
@@ -42,9 +39,7 @@ public class KhachHangDAO {
         return list;
     }
 
-    /**
-     * Lấy 1 khách hàng theo ID
-     */
+
     public KhachHangDTO selectById(int id) {
         String sql = "SELECT * FROM khachhang WHERE MAKHACHHANG = ? ";
         try (Connection conn = JDBCUtil.startConnection();
@@ -69,9 +64,7 @@ public class KhachHangDAO {
         return null;
     }
 
-    /**
-     * Thêm mới khách hàng
-     */
+
     public boolean insertkhachhang(KhachHangDTO dto) {
         String sql = "INSERT INTO khachhang (TENKHACHHANG, DIACHI, SDT, TRANGTHAI) VALUES (?, ?, ?, 1)";
         try (Connection conn = JDBCUtil.startConnection();
@@ -96,9 +89,6 @@ public class KhachHangDAO {
         return false;
     }
 
-    /**
-     * Cập nhật thông tin khách hàng
-     */
     public boolean updatekhachhang(KhachHangDTO dto) {
         String sql = "UPDATE khachhang SET TENKHACHHANG = ?, DIACHI = ?, SDT = ? , TRANGTHAI = ? WHERE MAKHACHHANG = ?";
         try (Connection conn = JDBCUtil.startConnection();
@@ -117,9 +107,7 @@ public class KhachHangDAO {
         return false;
     }
 
-    /**
-     * Xóa mềm khách hàng (TRANGTHAI = 0)
-     */
+
     public boolean deletekhachhang(int id) {
         String sql = "UPDATE khachhang SET TRANGTHAI = 0 WHERE MAKHACHHANG = ?";
         try (Connection conn = JDBCUtil.startConnection();
